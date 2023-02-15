@@ -4,6 +4,7 @@ node_modules/
 # bundle
 packages/**/*.d.ts
 packages/**/*.js
+packages/**/*.js.map
 
 # IDE
 /.idea
