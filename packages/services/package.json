@@ -1,0 +1,12 @@
+{
+  "name": "@teslo/services",
+  "version": "1.0.0",
+  "description": "Services Teslo",
+  "author": "DarioCoding <darioflores170@gmail.com>",
+  "license": "MIT",
+  "main": "index.ts",
+  "dependencies": {
+    "@teslo/interfaces": "1.0.0",
+    "axios": "^1.3.2"
+  }
+}
