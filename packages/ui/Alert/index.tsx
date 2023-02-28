@@ -4,7 +4,7 @@ import { HiCheckCircle, HiInformationCircle, HiExclamation, HiXCircle } from 're
 import { motion } from 'framer-motion';
 import CloseButton from '../CloseButton';
 import RenderIf from '../RenderIf';
-import useTimeout from '../hooks/useTimeOut';
+import useTimeout from '../hooks/useTimeout';
 
 const TYPE_MAP = {
 	success: {
