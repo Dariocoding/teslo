@@ -17,7 +17,7 @@ interface IFormCreateUserProps {
 }
 
 const FormCreateUser: React.FunctionComponent<IFormCreateUserProps> = props => {
-	const { onSuccess, defaultValidRole } = props;
+	const { onSuccess, defaultValidRole = [ValidRoles.USER] } = props;
 	const [errorMessage, setErrorMessage] = useTimeOutMessage(5000);
 
 	const INITIAL_VALUES: UserDto = {
@@ -122,10 +122,6 @@ const FormCreateUser: React.FunctionComponent<IFormCreateUserProps> = props => {
 			</Form>
 		</Formik>
 	);
-};
-
-FormCreateUser.defaultProps = {
-	defaultValidRole: [ValidRoles.USER],
 };
 
 export default FormCreateUser;

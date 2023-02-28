@@ -19,7 +19,7 @@ interface IFileItemProps {
 }
 
 const FileItem: React.FunctionComponent<IFileItemProps> = props => {
-	const { file, children, baseUrlPreview } = props;
+	const { file, children, baseUrlPreview = '' } = props;
 	const isUrlFile = typeof file === 'string';
 	const name = isUrlFile ? file : file.name;
 	const size = isUrlFile ? null : file.size;
@@ -42,10 +42,6 @@ const FileItem: React.FunctionComponent<IFileItemProps> = props => {
 			{children}
 		</div>
 	);
-};
-
-FileItem.defaultProps = {
-	baseUrlPreview: '',
 };
 
 export default FileItem;

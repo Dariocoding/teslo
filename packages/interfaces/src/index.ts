@@ -2,6 +2,7 @@ import { StatusOrder } from './order';
 import { Gender, Size } from './product';
 
 export enum ValidSizes {
+	XXS = 'XXS',
 	XS = 'XS',
 	S = 'S',
 	M = 'M',
@@ -17,7 +18,7 @@ export enum ValidRoles {
 }
 
 export const ARRGENDERS: Gender[] = ['kid', 'men', 'unisex', 'women'];
-export const ARRSIZES: Size[] = ['L', 'M', 'S', 'XL', 'XS', 'XXL'];
+export const ARRSIZES: Size[] = ['L', 'M', 'S', 'XL', 'XS', 'XXS', 'XXL'];
 
 export enum ValidStatusOrder {
 	PENDING = 'pending',

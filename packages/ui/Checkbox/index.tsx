@@ -1,5 +1,4 @@
 import { FaCheck } from 'react-icons/fa';
-import useSound from 'use-sound';
 import { FunctionComponent } from 'react';
 import classNames from 'classnames';
 
@@ -11,17 +10,11 @@ interface ICheckboxProps {
 
 const Checkbox: FunctionComponent<ICheckboxProps> = props => {
 	const { isChecked, onChange } = props;
-	const [play] = useSound(['/sounds/checkbox.wav'], {
-		sprite: { in: [500, 1000], out: [1500, 2000] },
-	});
 
 	return (
 		<span
 			className="flex items-center cursor-pointer"
-			onClick={() => {
-				play({ id: isChecked ? 'in' : 'out' });
-				onChange(!isChecked);
-			}}
+			onClick={() => onChange(!isChecked)}
 		>
 			<div
 				className={classNames('rounded mr-2 w-4 h-4', {

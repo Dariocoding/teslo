@@ -1,10 +1,12 @@
 # dependencies
 node_modules/
+.env
 
 # bundle
 packages/**/*.d.ts
 packages/**/*.js
 packages/**/*.js.map
+dist/*
 
 # IDE
 /.idea

@@ -18,7 +18,6 @@ export class DashboardController {
 	constructor(private readonly dashboardService: DashboardService) {}
 
 	@Get('/counters')
-	@Auth(ValidRoles.ADMIN, ValidRoles.SUPER_USER)
 	@ApiResponse({ type: CounterDashboardDto, status: HttpStatus.OK })
 	async findAll() {
 		const [totalCategories, totalOrders, totalProducts, totalUsers] = await Promise.all(

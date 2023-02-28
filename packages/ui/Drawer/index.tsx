@@ -36,13 +36,13 @@ const Drawer: React.FunctionComponent<IDrawerProps> = props => {
 	const {
 		children,
 		className,
-		closable,
-		width,
-		height,
+		closable = true,
+		width = 250,
+		height = 250,
 		isOpen,
 		onClose,
-		closeTimeoutMS,
-		placement,
+		closeTimeoutMS = 300,
+		placement = 'right',
 		bodyOpenClassName,
 		portalClassName,
 		overlayClassName,
@@ -51,8 +51,8 @@ const Drawer: React.FunctionComponent<IDrawerProps> = props => {
 		headerClass,
 		footerClass,
 		bodyClass,
-		showBackdrop,
-		lockScroll,
+		showBackdrop = true,
+		lockScroll = true,
 	} = props;
 
 	const onCloseClick = () => onClose();
@@ -154,16 +154,6 @@ const Drawer: React.FunctionComponent<IDrawerProps> = props => {
 			</motion.div>
 		</Modal>
 	);
-};
-
-Drawer.defaultProps = {
-	closable: true,
-	width: 250,
-	height: 250,
-	closeTimeoutMS: 300,
-	placement: 'right',
-	showBackdrop: true,
-	lockScroll: true,
 };
 
 export default Drawer;

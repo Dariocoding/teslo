@@ -21,7 +21,7 @@ interface ITablePaymentMethodsProps {
 const ModalDeletePaymentMethod = React.lazy(() => import('./ModalDeletePaymentMethod'));
 
 const TablePaymentMethods: React.FunctionComponent<ITablePaymentMethodsProps> = props => {
-	const { heading, setSelected } = props;
+	const { heading = defaultHeadingPaymentMethods, setSelected } = props;
 	const [stateForm, setStateForm] = React.useState<'create' | 'update'>('create');
 	const [tempPaymentMethod, setTempPaymentMethod] = React.useState<PaymentMethod>(null);
 	const [showDeletePaymentMethod, setShowDeletePaymentMethod] = React.useState(false);
@@ -165,10 +165,6 @@ const TablePaymentMethods: React.FunctionComponent<ITablePaymentMethodsProps> = 
 			</RenderIf>
 		</div>
 	);
-};
-
-TablePaymentMethods.defaultProps = {
-	heading: defaultHeadingPaymentMethods,
 };
 
 export default TablePaymentMethods;

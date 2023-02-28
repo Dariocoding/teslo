@@ -16,6 +16,4 @@ const CloseButton: React.FunctionComponent<ICloseButtonProps> = props => {
 	);
 };
 
-CloseButton.defaultProps = {};
-
 export default CloseButton;

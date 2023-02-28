@@ -10,7 +10,7 @@ interface IDropdownProps {
 }
 
 const Dropdown: React.FunctionComponent<IDropdownProps> = props => {
-	const { displayButton, placement, showOnHover } = props;
+	const { displayButton, placement = 'bottom', showOnHover } = props;
 	const [isShowing, setIsShowing] = React.useState(false);
 	const placementClassName = classNames(
 		placement === 'bottom' && 'right-0 origin-top-right w-56',
@@ -53,10 +53,6 @@ const Dropdown: React.FunctionComponent<IDropdownProps> = props => {
 			)}
 		</Menu>
 	);
-};
-
-Dropdown.defaultProps = {
-	placement: 'bottom',
 };
 
 export default Dropdown;

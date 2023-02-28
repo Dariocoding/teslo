@@ -20,8 +20,8 @@ const ProfileLayout: React.FunctionComponent<IProfileLayoutProps> = props => {
 	const {
 		user,
 		onSubmitUpdateUser,
-		validRolesActions,
-		canUseActions,
+		validRolesActions = '*',
+		canUseActions = true,
 		extraInitialValuesFormUpdate,
 		extraInputsFormFormUpdate,
 	} = props;
@@ -119,11 +119,6 @@ const ProfileLayout: React.FunctionComponent<IProfileLayoutProps> = props => {
 			</section>
 		</div>
 	);
-};
-
-ProfileLayout.defaultProps = {
-	validRolesActions: '*',
-	canUseActions: true,
 };
 
 export default ProfileLayout;

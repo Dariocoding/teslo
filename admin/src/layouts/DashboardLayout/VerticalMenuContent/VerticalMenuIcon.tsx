@@ -8,7 +8,7 @@ export interface IVerticalMenuIconProps {
 }
 
 const VerticalMenuIcon: React.FunctionComponent<IVerticalMenuIconProps> = props => {
-	const { gutter, children } = props;
+	const { gutter = true, children } = props;
 	const isCollapsed = useDashboardStore(state => state.isCollapsed);
 	return (
 		<span
@@ -20,10 +20,6 @@ const VerticalMenuIcon: React.FunctionComponent<IVerticalMenuIconProps> = props 
 			{children}
 		</span>
 	);
-};
-
-VerticalMenuIcon.defaultProps = {
-	gutter: true,
 };
 
 export default VerticalMenuIcon;

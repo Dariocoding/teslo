@@ -12,7 +12,7 @@ interface IModalDeleteCategoryProps {
 
 const ModalDeleteCategory: React.FunctionComponent<IModalDeleteCategoryProps> = props => {
 	const {
-		category,
+		category = {},
 		showModalDeleteCategory,
 		onAcceptDeleteCategory,
 		onCloseModalDelete,
@@ -33,7 +33,5 @@ const ModalDeleteCategory: React.FunctionComponent<IModalDeleteCategoryProps> = 
 		/>
 	);
 };
-
-ModalDeleteCategory.defaultProps = { category: {} };
 
 export default ModalDeleteCategory;

@@ -1,8 +1,7 @@
 import Modal from './Modal';
-
 import * as React from 'react';
 import { FaCheck, FaTimes } from 'react-icons/fa';
-import RenderIf from '@teslo/react-ui/RenderIf';
+import RenderIf from '../RenderIf';
 import Spinner from '../Spinner';
 import classNames from 'classnames';
 

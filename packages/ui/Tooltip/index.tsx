@@ -11,7 +11,7 @@ interface Props {
 }
 
 const ToolTip: React.FunctionComponent<Props> = props => {
-	const { children, message, placement, className } = props;
+	const { children, message, placement = 'top', className } = props;
 	const id = useId();
 
 	return (
@@ -23,10 +23,6 @@ const ToolTip: React.FunctionComponent<Props> = props => {
 			<ReactTooltip anchorId={id} place={placement} content={message} />
 		</React.Fragment>
 	);
-};
-
-ToolTip.defaultProps = {
-	placement: 'top',
 };
 
 export default ToolTip;

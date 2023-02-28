@@ -19,7 +19,7 @@ interface IDataTableProps {
 const itemsPerPage = 10;
 
 const DataTable: React.FunctionComponent<IDataTableProps> = props => {
-	const { data, loading, showPagination, heading } = props;
+	const { data, loading, showPagination = true, heading } = props;
 
 	const [q, setQ] = React.useState('');
 	const [currentItems, setCurrentItems] = React.useState(data);
@@ -122,12 +122,6 @@ const DataTable: React.FunctionComponent<IDataTableProps> = props => {
 			</RenderIf>
 		</div>
 	);
-};
-
-DataTable.defaultProps = {
-	showPagination: true,
-	showSearch: true,
-	placeholder: null,
 };
 
 export default DataTable;

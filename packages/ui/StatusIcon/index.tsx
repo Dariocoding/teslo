@@ -29,7 +29,7 @@ interface IStatusIconProps {
 }
 
 const StatusIcon: React.FunctionComponent<IStatusIconProps> = props => {
-	const { type, custom, className } = props;
+	const { type = 'info', custom, className } = props;
 
 	const icon = ICONS[type];
 
@@ -38,15 +38,6 @@ const StatusIcon: React.FunctionComponent<IStatusIconProps> = props => {
 			{custom || icon.icon}
 		</span>
 	);
-};
-
-StatusIcon.defaultProps = {
-	type: 'info',
-};
-
-StatusIcon.propTypes = {
-	type: PropTypes.oneOf(['info', 'success', 'warning', 'danger']),
-	custom: PropTypes.node,
 };
 
 export default StatusIcon;

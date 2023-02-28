@@ -67,7 +67,7 @@ const SignInForm: React.FunctionComponent<ISignInFormProps> = props => {
 						className="mb-4"
 						title="Error authenticating"
 					>
-						Hola
+						{message}
 					</Alert>
 				</RenderIf>
 				<InputFormik

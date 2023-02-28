@@ -14,7 +14,15 @@ interface ILogoProps {
 	className?: string;
 }
 const Logo: React.FunctionComponent<ILogoProps> = props => {
-	const { type, mode, gutter, className, imgClass, style, logoWidth } = props;
+	const {
+		type = 'full',
+		mode = 'light',
+		gutter,
+		className,
+		imgClass,
+		style,
+		logoWidth = 'auto',
+	} = props;
 
 	return (
 		<div
@@ -31,12 +39,6 @@ const Logo: React.FunctionComponent<ILogoProps> = props => {
 			/>
 		</div>
 	);
-};
-
-Logo.defaultProps = {
-	mode: 'light',
-	type: 'full',
-	logoWidth: 'auto',
 };
 
 export default Logo;

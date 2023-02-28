@@ -24,8 +24,15 @@ interface TableOrdersProps {
 }
 
 const TableOrders: React.FunctionComponent<TableOrdersProps> = props => {
-	const { orders, isFetching, heading, setOrders, refetch, showPagination, showSearch } =
-		props;
+	const {
+		orders,
+		isFetching,
+		heading = defaultHeadingOrders,
+		setOrders,
+		refetch,
+		showPagination,
+		showSearch,
+	} = props;
 
 	const setModal = useModalStore(state => state.setModal);
 	const closeModal = useModalStore(state => state.closeModal);
@@ -99,10 +106,6 @@ const TableOrders: React.FunctionComponent<TableOrdersProps> = props => {
 			showSearch={showSearch}
 		/>
 	);
-};
-
-TableOrders.defaultProps = {
-	heading: defaultHeadingOrders,
 };
 
 export default TableOrders;

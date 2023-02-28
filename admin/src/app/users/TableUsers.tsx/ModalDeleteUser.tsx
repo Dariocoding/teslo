@@ -11,8 +11,13 @@ interface IModalDeleteUserProps {
 }
 
 const ModalDeleteUser: React.FunctionComponent<IModalDeleteUserProps> = props => {
-	const { user, showModalDeleteUser, onAcceptDeleteUser, onCloseModalDelete, isLoading } =
-		props;
+	const {
+		user = {},
+		showModalDeleteUser,
+		onAcceptDeleteUser,
+		onCloseModalDelete,
+		isLoading,
+	} = props;
 
 	return (
 		<ConfirmModal
@@ -28,7 +33,5 @@ const ModalDeleteUser: React.FunctionComponent<IModalDeleteUserProps> = props =>
 		/>
 	);
 };
-
-ModalDeleteUser.defaultProps = { user: {} };
 
 export default ModalDeleteUser;

@@ -2,7 +2,7 @@ import { Category } from './category';
 import { DetailOrder } from './order';
 import { User } from './user';
 
-export type Size = 'XS' | 'S' | 'M' | 'L' | 'XL' | 'XXL';
+export type Size = 'XS' | 'S' | 'M' | 'L' | 'XL' | 'XXL' | 'XXS';
 
 export type Gender = 'men' | 'women' | 'kid' | 'unisex';
 

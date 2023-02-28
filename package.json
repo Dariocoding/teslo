@@ -6,6 +6,7 @@
   "workspaces": [
     "api",
     "admin",
+    "site",
     "packages/*"
   ],
   "scripts": {
@@ -16,8 +17,11 @@
     "build:api": "npm run build --workspace=api",
     "start:api": "npm run start --workspace=api",
     "build:database": "cd api && docker-compose up -d",
-    "all:dev": "npm-run-all --parallel compile:packages dev:admin dev:api",
-    "compile:packages": "npm run compile:dev --workspace=packages/interfaces"
+    "dev:site": "npm run dev --workspace=site",
+    "all:dev": "npm-run-all --parallel compile:packages dev:admin dev:api dev:site",
+    "all:dev:site": "npm-run-all --parallel compile:packages dev:site",
+    "all:dev:site:api": "npm-run-all --parallel compile:packages dev:site dev:api",
+    "compile:packages": "npm run compile:dev --workspace=packages/interfaces && npm run compile:dev --workspace=packages/services && npm run compile:dev --workspace=packages/ui"
   },
   "devDependencies": {
     "@types/node": "^18.13.0",

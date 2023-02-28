@@ -12,7 +12,7 @@ interface IModalDeletePaymentMethodProps {
 
 const ModalDeletePaymentMethod: React.FunctionComponent<IModalDeletePaymentMethodProps> = props => {
 	const {
-		paymentMethod,
+		paymentMethod = {},
 		showModalDeletePaymentMethod,
 		onAcceptDeletePaymentMethod,
 		onCloseModalDelete,
@@ -33,7 +33,5 @@ const ModalDeletePaymentMethod: React.FunctionComponent<IModalDeletePaymentMetho
 		/>
 	);
 };
-
-ModalDeletePaymentMethod.defaultProps = { paymentMethod: {} };
 
 export default ModalDeletePaymentMethod;

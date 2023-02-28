@@ -12,7 +12,14 @@ interface ISpinnerProps {
 }
 
 const Spinner: React.FunctionComponent<ISpinnerProps> = props => {
-	const { className, indicator: Component, isSpining, size, style, ...rest } = props;
+	const {
+		className,
+		indicator: Component = CgSpinner,
+		isSpining = true,
+		size = 20,
+		style,
+		...rest
+	} = props;
 
 	const spinnerStyle = {
 		height: size,
@@ -23,12 +30,6 @@ const Spinner: React.FunctionComponent<ISpinnerProps> = props => {
 	const spinnerClass = classNames(isSpining && 'animate-spin', className);
 
 	return <Component style={spinnerStyle} className={spinnerClass} {...rest} />;
-};
-
-Spinner.defaultProps = {
-	indicator: CgSpinner,
-	isSpining: true,
-	size: 20,
 };
 
 export default Spinner;

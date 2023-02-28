@@ -6,6 +6,7 @@ export { default as Drawer } from './Drawer';
 export { default as Dropdown } from './Dropdown';
 export { default as DropdownItem } from './Dropdown/DropdownItem';
 export { default as Modal } from './Modal';
+export { default as ConfirmModal } from './Modal/ConfirmModal';
 export { default as RenderIf } from './RenderIf';
 export { default as StatusIcon } from './StatusIcon';
 export { default as Switch } from './Switch';

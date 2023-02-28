@@ -32,10 +32,10 @@ const TableUsers: React.FunctionComponent<ITableUsersProps> = props => {
 		isFetching,
 		setUsers,
 		users,
-		heading,
+		heading = defaultHeadingUsers,
 		refetch,
 		validRol,
-		showCreate,
+		showCreate = true,
 		showPagination,
 		showSearch,
 	} = props;
@@ -159,11 +159,6 @@ const TableUsers: React.FunctionComponent<ITableUsersProps> = props => {
 			</RenderIf>
 		</>
 	);
-};
-
-TableUsers.defaultProps = {
-	showCreate: true,
-	heading: defaultHeadingUsers,
 };
 
 export default TableUsers;

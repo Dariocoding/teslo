@@ -10,7 +10,7 @@ interface ISearchDataTableProps {
 }
 
 const SearchDataTable: FunctionComponent<ISearchDataTableProps> = props => {
-	const { setQ, q, showSearch, buttons } = props;
+	const { setQ, q, showSearch = true, buttons } = props;
 	return (
 		<RenderIf isTrue={showSearch || buttons}>
 			<div className="flex lg:justify-between justify-center lg:flex-row flex-col text-center mb-4">

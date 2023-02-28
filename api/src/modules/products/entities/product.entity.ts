@@ -14,7 +14,7 @@ import { User } from 'src/modules/users/entities/user.entity';
 import { stringToSlug } from 'src/common/utils/string-to-slug';
 import { Category } from 'src/modules/categories/entities/category.entity';
 import { DetailOrder } from 'src/modules/orders/entities/detail.order.entity';
-import { Gender, Size, Product as IProduct } from '@teslo/interfaces';
+import { Gender, Size, Product as IProduct, ARRSIZES } from '@teslo/interfaces';
 
 @Entity({ name: 'products' })
 export class Product implements IProduct {
@@ -72,12 +72,10 @@ export class Product implements IProduct {
 	stock?: number;
 
 	@ApiProperty({
-		example: ['M', 'XL', 'XXL'],
+		example: ARRSIZES,
 		description: 'Product sizes',
 	})
-	@Column('text', {
-		array: true,
-	})
+	@Column('text', { array: true })
 	sizes?: Size[];
 
 	@ApiProperty({

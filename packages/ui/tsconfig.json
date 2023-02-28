@@ -1,19 +1,18 @@
 {
 	"extends": "../../tsconfig.build.json",
 	"compilerOptions": {
-		"module": "commonjs",
+		"module": "ES2022",
 		"declaration": true,
 		"removeComments": true,
 		"emitDecoratorMetadata": true,
 		"experimentalDecorators": true,
 		"allowSyntheticDefaultImports": true,
 		"allowJs": false,
-		"esModuleInterop": true,
+		"esModuleInterop": false,
 		"strict": false,
 		"target": "es2021",
 		"sourceMap": true,
-		"outDir": ".",
-		"baseUrl": "./src",
+		"baseUrl": ".",
 		"incremental": true,
 		"skipLibCheck": true,
 		"strictNullChecks": false,
@@ -21,23 +20,10 @@
 		"strictBindCallApply": false,
 		"forceConsistentCasingInFileNames": false,
 		"noFallthroughCasesInSwitch": false,
-		"resolveJsonModule": true
+		"resolveJsonModule": false,
+		"moduleResolution": "node",
+		"jsx": "react-jsx"
 	},
-	"include": [
-		"./**/*",
-		"Upload",
-		"StatusIcon",
-		"Switch",
-		"Tabs",
-		"Tooltip",
-		"RenderIf",
-		"DataTable",
-		"Dropdown",
-		"Modal",
-		"Alert",
-		"Drawer",
-		"Checkbox",
-		"Spinner"
-	],
+	"include": ["./**/*"],
 	"exclude": []
 }

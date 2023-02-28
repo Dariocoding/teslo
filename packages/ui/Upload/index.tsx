@@ -28,11 +28,11 @@ interface IUploadProps {
 
 const Upload: React.FunctionComponent<IUploadProps> = props => {
 	const {
-		accept,
+		accept = 'image/gif, image/jpeg, image/png, image/webp, image/jpg',
 		beforeUpload,
 		disabled,
-		draggable,
-		fileList,
+		draggable = true,
+		fileList = [],
 		multiple,
 		onChange,
 		onFileRemove,
@@ -227,14 +227,6 @@ const Upload: React.FunctionComponent<IUploadProps> = props => {
 			</RenderIf>
 		</React.Fragment>
 	);
-};
-
-Upload.defaultProps = {
-	draggable: true,
-	showList: true,
-	disabled: false,
-	fileList: [],
-	accept: 'image/gif, image/jpeg, image/png, image/webp, image/jpg',
 };
 
 export default Upload;

@@ -52,7 +52,15 @@ interface IAlertProps {
 }
 
 const Alert: React.FunctionComponent<IAlertProps> = props => {
-	const { className, title, customIcon, closable, onClose, duration, type } = props;
+	const {
+		className,
+		title,
+		customIcon,
+		closable = false,
+		onClose,
+		duration = 3000,
+		type,
+	} = props;
 	const typeMap = TYPE_MAP[type];
 
 	const [display, setDisplay] = useState<Display>('show');
@@ -120,11 +128,6 @@ const Alert: React.FunctionComponent<IAlertProps> = props => {
 			</RenderIf>
 		</motion.div>
 	);
-};
-
-Alert.defaultProps = {
-	closable: false,
-	duration: 3000,
 };
 
 export default Alert;

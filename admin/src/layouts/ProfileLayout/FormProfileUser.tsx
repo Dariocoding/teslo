@@ -13,7 +13,7 @@ interface IFormProfileUserProps {
 }
 
 const FormProfileUser: React.FunctionComponent<IFormProfileUserProps> = props => {
-	const { user, onSubmitUpdateUser, extraInitialValues, extraInputsForm } = props;
+	const { user, onSubmitUpdateUser, extraInitialValues = {}, extraInputsForm } = props;
 
 	const initialValues: UserDto = {
 		lastName: user.lastName,
@@ -75,10 +75,6 @@ const FormProfileUser: React.FunctionComponent<IFormProfileUserProps> = props =>
 			</Form>
 		</Formik>
 	);
-};
-
-FormProfileUser.defaultProps = {
-	extraInitialValues: {},
 };
 
 export default FormProfileUser;
