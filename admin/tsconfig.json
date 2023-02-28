@@ -21,6 +21,6 @@
 			"@/*": ["./src/*"]
 		}
 	},
-	"include": ["src", "../packages/ui/Spinner"],
+	"include": ["src"],
 	"references": [{ "path": "./tsconfig.node.json" }]
 }

@@ -28,7 +28,8 @@
     "compile:packages:dev": "npm run compile:dev --workspace=packages/interfaces && npm run compile:dev --workspace=packages/services && npm run compile:dev --workspace=packages/ui",
     "compile:packages": "npm run compile --workspace=packages/interfaces && npm run compile --workspace=packages/services && npm run compile --workspace=packages/ui",
     "vercel:admin": "npm run compile:packages && npm run build:admin",
-    "vercel:site": "npm run compile:packages && npm run build:site"
+    "vercel:site": "npm run compile:packages && npm run build:site",
+    "all:dev:apps": "npm-run-all --parallel compile:packages dev:site dev:admin"
   },
   "engines": {
     "npm": "please-use-yarn",
