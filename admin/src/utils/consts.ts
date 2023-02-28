@@ -1,5 +1,6 @@
 import { ValidRol, ValidRoles } from '@teslo/interfaces';
 import React from 'react';
+
 export const APP_NAME = 'Teslo';
 export const APP_PHONE = '042105012';
 export const APP_EMAIL = 'teslo@teslo.com';
