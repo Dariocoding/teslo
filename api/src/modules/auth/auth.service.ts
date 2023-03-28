@@ -11,71 +11,71 @@ import { UsersService } from '../users/users.service';
 
 @Injectable()
 export class AuthService {
-  constructor(
-    @InjectRepository(User)
-    private readonly userRepository: Repository<User>,
-    private readonly usersService: UsersService,
-    private readonly jwtService: JwtService,
-  ) {}
+	constructor(
+		@InjectRepository(User)
+		private readonly userRepository: Repository<User>,
+		private readonly usersService: UsersService,
+		private readonly jwtService: JwtService
+	) {}
 
-  private selectUser: FindOptionsSelect<User> = {
-    email: true,
-    password: true,
-    iduser: true,
-    firstName: true,
-    lastName: true,
-    phone: true,
-    roles: true,
-    isActive: true,
-  };
+	private selectUser: FindOptionsSelect<User> = {
+		email: true,
+		password: true,
+		iduser: true,
+		firstName: true,
+		lastName: true,
+		phone: true,
+		roles: true,
+		isActive: true,
+		wishlist: true,
+	};
 
-  async localSignup(createUserDto: CreateUserDto) {
-    const user = await this.usersService.create(createUserDto);
-    return { user, token: this.getJwtToken(user) };
-  }
+	async localSignup(createUserDto: CreateUserDto) {
+		const user = await this.usersService.create(createUserDto);
+		return { user, token: this.getJwtToken(user) };
+	}
 
-  async localLogin(loginUserDto: LoginUserDto) {
-    const { password, username } = loginUserDto;
+	async localLogin(loginUserDto: LoginUserDto) {
+		const { password, username } = loginUserDto;
 
-    const user = await this.userRepository.findOne({
-      where: { email: username.trim().toLowerCase() },
-      select: this.selectUser,
-    });
+		const user = await this.userRepository.findOne({
+			where: { email: username.trim().toLowerCase() },
+			select: this.selectUser,
+		});
 
-    if (!user)
-      throw new UnauthorizedException('Credentials are not valid (username)');
+		if (!user) throw new UnauthorizedException('Credentials are not valid (username)');
 
-    if (!bcrypt.compareSync(password, user.password))
-      throw new UnauthorizedException('Credentials are not valid (password)');
+		if (!bcrypt.compareSync(password, user.password))
+			throw new UnauthorizedException('Credentials are not valid (password)');
 
-    if (!user.isActive)
-      throw new UnauthorizedException(
-        'Your account is not active please talk with an admin',
-      );
+		if (!user.isActive)
+			throw new UnauthorizedException(
+				'Your account is not active please talk with an admin'
+			);
 
-    delete user.password;
+		delete user.password;
 
-    return { user, token: this.getJwtToken(user) };
-  }
+		return { user, token: this.getJwtToken(user) };
+	}
 
-  async refresh(iduser: string) {
-    const user = await this.userRepository.findOne({
-      where: { iduser },
-      select: this.selectUser,
-    });
+	async refresh(iduser: string) {
+		const user = await this.userRepository.findOne({
+			where: { iduser },
+			select: this.selectUser,
+		});
 
-    return { user, token: this.getJwtToken(user) };
-  }
+		return { user, token: this.getJwtToken(user) };
+	}
 
-  private getJwtToken(user: User) {
-    const token = this.jwtService.sign(
-      {
-        iduser: user.iduser,
-        roles: user.roles,
-      } as JwtPayload,
-      { expiresIn: '999 years' },
-    );
+	private getJwtToken(user: User) {
+		const token = this.jwtService.sign(
+			{
+				iduser: user.iduser,
+				roles: user.roles,
+			} as JwtPayload,
+			{ expiresIn: '999 years' }
+		);
 
-    return token;
-  }
+		return token;
+	}
 }

@@ -93,7 +93,13 @@ export const useCartStore = create(
 			removeCartItem(cart: Cart) {
 				set(cartStore => ({
 					...cartStore,
-					cart: cartStore.cart.filter(c => c.id === cart.id),
+					cart: cartStore.cart.filter(c => {
+						const sameid = c.id === cart.id;
+						if (!sameid) return true;
+						const samesize = c.size === cart.size;
+						if (samesize) return false;
+						return true;
+					}),
 				}));
 			},
 			clean() {

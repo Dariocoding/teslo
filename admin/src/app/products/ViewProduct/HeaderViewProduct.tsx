@@ -73,11 +73,6 @@ const HeaderViewProduct: React.FunctionComponent<IHeaderViewProductProps> = prop
 						{product.sizes?.join(', ')}
 					</p>
 
-					<p>
-						<span className="font-bold">Tags:</span>{' '}
-						{product.tags?.join(', ')}
-					</p>
-
 					<RenderIf isTrue={product.description}>
 						<p>
 							<h6 className="font-bold block w-full text-center mb-2">

@@ -15,6 +15,7 @@ export interface User {
 	product?: Product;
 	dateCreated?: Date;
 	orders?: Order[];
+	wishlist?: string[];
 }
 
 export type ValidRol = 'admin' | 'super-user' | 'user';
@@ -27,4 +28,5 @@ export interface UserDto {
 	phone?: string;
 	isActive?: boolean;
 	roles?: ValidRol[];
+	wishlist?: string[];
 }

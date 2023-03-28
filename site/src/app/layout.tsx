@@ -39,12 +39,14 @@ const RootLayout: React.FunctionComponent<IRootLayoutProps> = props => {
 			<head />
 			<body>
 				<Init />
+				<div id="portal-modal"></div>
+
 				<div className="portal-loader hidden">
 					<Loader loading={true} />
 				</div>
 				<TopNav />
 				<main
-					className="bg-white text-base flex-grow text-slate-900 pt-20"
+					className="bg-white text-base flex-grow text-slate-900 pt-20 pb-8"
 					suppressHydrationWarning
 				>
 					{props.children}

@@ -14,10 +14,10 @@ import { User } from 'src/modules/users/entities/user.entity';
 import { stringToSlug } from 'src/common/utils/string-to-slug';
 import { Category } from 'src/modules/categories/entities/category.entity';
 import { DetailOrder } from 'src/modules/orders/entities/detail.order.entity';
-import { Gender, Size, Product as IProduct, ARRSIZES } from '@teslo/interfaces';
+import { Gender, Size, ARRSIZES, StatusProduct } from '@teslo/interfaces';
 
 @Entity({ name: 'products' })
-export class Product implements IProduct {
+export class Product {
 	@ApiProperty({
 		example: 'cd533345-f1f3-48c9-a62e-7dc2da50c8f8',
 		description: 'Product ID',
@@ -36,6 +36,7 @@ export class Product implements IProduct {
 	})
 	title?: string;
 
+	@ApiProperty({})
 	@Column('text', {
 		unique: true,
 	})
@@ -86,15 +87,7 @@ export class Product implements IProduct {
 	gender?: Gender;
 
 	@ApiProperty()
-	@Column('text', {
-		array: true,
-		default: [],
-	})
-	tags?: string[];
-
-	@ApiProperty()
 	@ManyToOne(() => Category, category => category.products, { eager: true })
-	//@ts-ignore
 	category?: Category;
 
 	// images
@@ -103,15 +96,16 @@ export class Product implements IProduct {
 		cascade: true,
 		eager: true,
 	})
-	//@ts-ignore
 	images?: string[] | ProductImage[];
 
+	@ApiProperty()
+	@Column({ nullable: true })
+	status?: StatusProduct;
+
 	@ManyToOne(() => User, user => user.product)
-	//@ts-ignore
 	user?: User;
 
 	@OneToMany(() => DetailOrder, detail => detail.product)
-	//@ts-ignore
 	detail?: DetailOrder;
 
 	@CreateDateColumn({

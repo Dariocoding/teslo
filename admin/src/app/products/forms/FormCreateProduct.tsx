@@ -11,7 +11,7 @@ import { toast } from 'react-toastify';
 import CategoriesProduct from './CategoriesProduct';
 import GenderProduct from './GenderProduct';
 import SizesProduct from './SizesProduct';
-import TagsProduct from './TagsProduct';
+import FormStatusProduct from './StatusProduct';
 import UploadImagesProduct from './UploadImagesProduct';
 import { validationSchemaFormProduct } from './validationSchemaFormProduct';
 
@@ -24,7 +24,6 @@ const FormCreateProduct: React.FunctionComponent<IFormCreateProductProps> = prop
 	const { onSuccess, categories } = props;
 
 	const initialValues: ProductDto = {
-		tags: [],
 		title: '',
 		//@ts-ignore
 		images: [] as File[],
@@ -34,6 +33,7 @@ const FormCreateProduct: React.FunctionComponent<IFormCreateProductProps> = prop
 		description: '',
 		price: 0,
 		category: categories[0].idcategory,
+		status: null,
 	};
 
 	async function onSubmit(values: ProductDto) {
@@ -120,9 +120,9 @@ const FormCreateProduct: React.FunctionComponent<IFormCreateProductProps> = prop
 
 						<GenderProduct />
 
-						<TagsProduct />
-
 						<CategoriesProduct categories={categories} />
+
+						<FormStatusProduct />
 					</div>
 				</div>
 

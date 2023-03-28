@@ -36,7 +36,7 @@ const Upload: React.FunctionComponent<IUploadProps> = props => {
 		multiple,
 		onChange,
 		onFileRemove,
-		showList,
+		showList = true,
 		tip,
 		uploadLimit,
 		children,

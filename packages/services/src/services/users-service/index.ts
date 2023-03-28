@@ -1,4 +1,4 @@
-import { RecoverPasswordDto, SendRequestPasswordRecoverDto } from './interfaces';
+import { OptionsQueryUser, RecoverPasswordDto, SendRequestPasswordRecoverDto } from './interfaces';
 import { User, UserDto } from '@teslo/interfaces';
 import { axiosClient } from '../../config';
 import { MessageResponse } from '../../services/interfaces.api';
@@ -12,7 +12,8 @@ export const usersService = {
 	createUser: (userDto: UserDto) => axiosClient.post<User>('/users', userDto),
 	updateUser: (id: string, userDto: UserDto) =>
 		axiosClient.put<User>(`/users/${id}`, userDto),
-	updateProfileUser: (user: UserDto) => axiosClient.patch<User>('/users/profile/user', user),
+	updateProfileUser: (user: UserDto, params?: OptionsQueryUser) =>
+		axiosClient.patch<User>('/users/profile/user', user, { params }),
 
 	// RECOVER USER
 	sendRequestPassword: (data: SendRequestPasswordRecoverDto) =>

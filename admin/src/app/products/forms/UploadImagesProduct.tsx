@@ -42,6 +42,7 @@ const UploadImagesProduct: React.FunctionComponent<IUploadImagesProductProps> = 
 				onChange={onChange}
 				onFileRemove={onDelete}
 				baseUrlPreview={PF + '/product'}
+				showList
 			>
 				<div className="my-8 text-center">
 					<div className="text-6xl mb-4 flex justify-center">

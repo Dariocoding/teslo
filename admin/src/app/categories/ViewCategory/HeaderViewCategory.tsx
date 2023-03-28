@@ -17,17 +17,9 @@ const HeaderViewCategory: React.FunctionComponent<IHeaderViewCategoryProps> = pr
 		<div className="grid lg:grid-cols-12 lg:gap-8 gap-4">
 			<div className="tile lg:col-span-4">
 				<div className="flex items-center justify-center mb-4">
-					<img
-						src={
-							category.image
-								? PF + '/category/' + category.image
-								: '/img/others/box.png'
-						}
-						className={'w-32'}
-						alt=""
-					/>
+					<h6>{category.title}</h6>
 				</div>
-				<div className="flex flex-col justify-center items-center">
+				<div className="flex flex-col justify-end w-full h-full items-end">
 					<button
 						onClick={onUpdateCategory}
 						className="mx-auto w-full btn btn-primary btn-sm"

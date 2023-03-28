@@ -8,6 +8,7 @@ const defaultHeadingProducts: HeaderDataTable[] = [
 	{ title: 'Price', field: 'priceFormatted', center: true },
 	{ title: 'Stock', field: 'stock', center: true },
 	{ title: 'Category', field: 'category.title', center: true },
+	{ title: 'Status', field: 'status', center: true },
 	{ title: 'Date Created', field: 'dateFormatted', center: true },
 	{ title: 'Actions', field: 'actions', center: true },
 ];

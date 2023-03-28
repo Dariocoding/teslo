@@ -1,12 +1,14 @@
 import * as React from 'react';
 
 const useIsCSR = () => {
-	const [csr, setCSR] = React.useState(false);
+	const isMountRef = React.useRef(false);
+	const [isCSR, setISCSR] = React.useState(false);
 	React.useEffect(() => {
-		setCSR(true);
+		setISCSR(true);
+		isMountRef.current = true;
 	}, []);
 
-	return csr;
+	return isMountRef.current || isCSR;
 };
 
 export default useIsCSR;

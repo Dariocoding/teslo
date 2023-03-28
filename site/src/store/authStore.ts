@@ -10,6 +10,7 @@ interface AuthStoreValues {
 	loading?: boolean;
 	initAuthenticate?(data?: ReturnValuesLogin): Promise<void>;
 	logOut?(): void;
+	setUser(user: User): void;
 }
 
 export const useAuthStore = create<AuthStoreValues>(set => ({
@@ -67,5 +68,8 @@ export const useAuthStore = create<AuthStoreValues>(set => ({
 		} finally {
 			hideLoader();
 		}
+	},
+	setUser(data) {
+		set(state => ({ user: { ...state.user, ...data } }));
 	},
 }));

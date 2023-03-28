@@ -9,3 +9,7 @@ export interface RecoverPasswordDto {
 	token: string;
 	iduser: string;
 }
+
+export interface OptionsQueryUser {
+	returnUser: boolean;
+}

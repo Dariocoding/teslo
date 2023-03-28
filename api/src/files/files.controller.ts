@@ -30,12 +30,6 @@ export class FilesController {
 		res.sendFile(path);
 	}
 
-	@Get('category/:imageName')
-	findCategoryImage(@Res() res: Response, @Param('imageName') imageName: string) {
-		const path = this.filesService.getStaticCategoryImage(imageName);
-		res.sendFile(path);
-	}
-
 	@Post('product')
 	@ApiConsumes('multipart/form-data')
 	@ApiBody({
@@ -64,39 +58,6 @@ export class FilesController {
 		if (!file) {
 			throw new BadRequestException('Make sure that the file is an image');
 		}
-		const secureUrl = file.filename;
-		return { secureUrl };
-	}
-
-	@Post('category')
-	@ApiConsumes('multipart/form-data')
-	@ApiBody({
-		schema: {
-			type: 'object',
-			properties: {
-				file: {
-					type: 'string',
-					format: 'binary',
-				},
-			},
-		},
-	})
-	@UseInterceptors(
-		FileInterceptor('file', {
-			fileFilter: fileFilter,
-			// limits: { fileSize: 1000 }
-			storage: diskStorage({
-				destination: './static/categories',
-				filename: fileNamer,
-			}),
-		})
-	)
-	@Auth(ValidRoles.ADMIN, ValidRoles.SUPER_USER)
-	uploadCategoryImage(@UploadedFile() file: Express.Multer.File) {
-		if (!file) {
-			throw new BadRequestException('Make sure that the file is an image');
-		}
-
 		const secureUrl = file.filename;
 		return { secureUrl };
 	}

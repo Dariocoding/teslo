@@ -1,7 +1,6 @@
 'use client';
 import { useAuthStore } from '@/store';
 import { viewPaths } from '@/utils';
-import useIsCSR from '@/utils/hooks/useIsCSR';
 import RenderIf from '@teslo/react-ui/RenderIf';
 import { useRouter } from 'next/navigation';
 import * as React from 'react';

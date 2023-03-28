@@ -51,4 +51,9 @@ export class CreateUserDto {
 	@IsString()
 	@IsOptional()
 	token?: string;
+
+	@ApiProperty({})
+	@IsString({ each: true })
+	@IsOptional()
+	wishlist: string[];
 }

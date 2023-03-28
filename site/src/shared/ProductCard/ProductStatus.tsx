@@ -3,9 +3,10 @@ import { CiClock1, CiDiscount1 } from 'react-icons/ci';
 import { MdOutlineDoNotDisturb } from 'react-icons/md';
 import { HiOutlineSparkles } from 'react-icons/hi';
 import React from 'react';
+import { StatusProduct } from '@teslo/interfaces';
 
 interface Props {
-	status: string;
+	status: StatusProduct;
 	className?: string;
 }
 
@@ -14,10 +15,8 @@ const ProductStatus: React.FunctionComponent<Props> = props => {
 		status,
 		className = 'absolute top-3 left-3 px-2.5 py-1.5 text-xs bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300',
 	} = props;
+	if (!status) return null;
 
-	if (!status) {
-		return null;
-	}
 	const CLASSES = classNames('rounded-full flex items-center justify-center', className);
 
 	if (status === 'New in') {
@@ -45,7 +44,7 @@ const ProductStatus: React.FunctionComponent<Props> = props => {
 		);
 	}
 
-	if (status === 'limited edition') {
+	if (status === 'Limited Edition') {
 		return (
 			<div className={CLASSES}>
 				<CiClock1 className="w-3.5 h-3.5" />

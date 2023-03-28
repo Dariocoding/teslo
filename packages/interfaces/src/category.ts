@@ -4,7 +4,6 @@ export interface Category {
 	idcategory?: string;
 	title?: string;
 	slug?: string;
-	image?: string;
 	products?: Product[];
 	dateCreated?: Date;
 }

@@ -55,6 +55,10 @@ export class User implements IUser {
 	@Column('text', { array: true, default: [ValidRoles.USER] })
 	roles?: ValidRol[];
 
+	@ApiProperty({})
+	@Column('text', { array: true, default: [] })
+	wishlist?: string[];
+
 	@OneToMany(() => Product, product => product.user)
 	//@ts-ignore
 	product?: Product;

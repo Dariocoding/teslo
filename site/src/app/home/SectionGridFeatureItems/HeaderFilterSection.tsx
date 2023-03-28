@@ -1,6 +1,6 @@
 'use client';
 import React from 'react';
-import { icons } from '@/utils';
+import { filtersGenders, icons } from '@/utils';
 import { HiOutlineChevronDown } from 'react-icons/hi';
 import { Transition } from '@headlessui/react';
 import classNames from 'classnames';
@@ -8,19 +8,30 @@ import Heading from '@/shared/Heading';
 import Nav from '@/shared/Nav';
 import NavItem from '@/shared/Nav/NavItem';
 import TabFilters from './TabFilters';
-import { Category } from '@teslo/interfaces';
+import { Category, Size } from '@teslo/interfaces';
+import { FilterProductsState } from './hooks/useFiltersProduct';
 
 export interface HeaderFilterSectionProps {
 	className?: string;
 	categories: Category[];
+	filters: FilterProductsState;
 }
 
 const HeaderFilterSection: React.FunctionComponent<HeaderFilterSectionProps> = props => {
-	const { className, categories } = props;
-	const [isOpen, setIsOpen] = React.useState(true);
-	const [tabActive, setTabActive] = React.useState('All items');
-
+	const { className, categories, filters } = props;
 	const toggleFilter = () => setIsOpen(!isOpen);
+	const [isOpen, setIsOpen] = React.useState(true);
+	const {
+		tabActive,
+		setCategoriesState,
+		setSizesState,
+		sizesState,
+		setTabActive,
+		categoriesState,
+	} = filters;
+
+	React.useEffect(() => {}, []);
+
 	return (
 		<div className={classNames('flex flex-col relative mb-6', className)}>
 			<Heading>What's trending now</Heading>
@@ -29,17 +40,15 @@ const HeaderFilterSection: React.FunctionComponent<HeaderFilterSectionProps> = p
 					className="sm:space-x-2"
 					containerClassName="relative flex w-full overflow-x-auto text-sm md:text-base hiddenScrollbar"
 				>
-					{['All items', 'Women', 'Mans', 'Kids', 'jewels'].map(
-						(item, index) => (
-							<NavItem
-								key={index}
-								isActive={tabActive === item}
-								onClick={() => setTabActive(item)}
-							>
-								{item}
-							</NavItem>
-						)
-					)}
+					{filtersGenders.map((item, index) => (
+						<NavItem
+							key={index}
+							isActive={tabActive === item}
+							onClick={() => setTabActive(item)}
+						>
+							{item}
+						</NavItem>
+					))}
 				</Nav>
 				<span className="block flex-shrink-0 relative">
 					<button
@@ -72,7 +81,7 @@ const HeaderFilterSection: React.FunctionComponent<HeaderFilterSectionProps> = p
 				leaveTo="opacity-0"
 			>
 				<div className="w-full border-b border-neutral-200 dark:border-neutral-700 my-4"></div>
-				<TabFilters categories={categories} />
+				<TabFilters categories={categories} {...filters} />
 			</Transition>
 		</div>
 	);

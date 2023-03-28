@@ -74,9 +74,11 @@ export class UsersService {
 		return user;
 	}
 
-	async update(iduser: string, updateUserDto: UpdateUserDto) {
+	async update(iduser: string, updateUserDto: UpdateUserDto, returnUser = true) {
 		try {
-			await this.findOne(iduser);
+			if (returnUser) {
+				await this.findOne(iduser);
+			}
 
 			if (updateUserDto.password) {
 				updateUserDto.password = this.hashPassword(updateUserDto.password);
@@ -89,7 +91,10 @@ export class UsersService {
 			}
 
 			await this.userRepository.update({ iduser }, updateUserDto);
-			return this.findOne(iduser);
+
+			if (returnUser) {
+				return this.findOne(iduser);
+			}
 		} catch (error) {
 			handleDBErrors(error);
 		}

@@ -9,12 +9,19 @@ import {
 	HttpStatus,
 	Put,
 	Patch,
+	Query,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { Auth, GetUser } from '../auth/common/decorators';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { User } from './entities/user.entity';
-import { CreateUserDto, RecoverPasswordDto, RequestPasswordEmailDto, UpdateUserDto } from './dto';
+import {
+	CreateUserDto,
+	OptionsQueryUser,
+	RecoverPasswordDto,
+	RequestPasswordEmailDto,
+	UpdateUserDto,
+} from './dto';
 import { ValidRoles } from '@teslo/interfaces';
 
 @Controller('users')
@@ -83,7 +90,15 @@ export class UsersController {
 	@Patch('/profile/user')
 	@Auth()
 	@ApiResponse({ isArray: false, type: User, status: HttpStatus.OK })
-	async updateProfile(@GetUser() currentUser: User, @Body() updateUserDto: UpdateUserDto) {
-		return this.usersService.update(currentUser.iduser, updateUserDto);
+	async updateProfile(
+		@GetUser() currentUser: User,
+		@Body() updateUserDto: UpdateUserDto,
+		@Query() query: OptionsQueryUser
+	) {
+		return this.usersService.update(
+			currentUser.iduser,
+			updateUserDto,
+			query.returnUser
+		);
 	}
 }

@@ -25,7 +25,7 @@ const PrivatePublicRoute: React.FunctionComponent<IPrivatePublicRouteProps> = pr
 
 	return (
 		<React.Fragment>
-			<RenderIf isTrue={loading || !rendered || authenticated}>
+			<RenderIf isTrue={loading || !rendered}>
 				<Loader loading={true} />
 			</RenderIf>
 			<RenderIf isTrue={variantRender && rendered}>{props.children}</RenderIf>

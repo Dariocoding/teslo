@@ -18,8 +18,8 @@ const SizesProduct: React.FunctionComponent<ISizesProductProps> = props => {
 			multiple={true}
 			name="sizes"
 			options={options}
-			onChange={(items: OptionReactSelect[], lastState) => {
-				if (!items) return lastState;
+			onChange={(items: OptionReactSelect[]) => {
+				if (!items) return [];
 				const copyItems = [...items];
 				return copyItems.map(item => item.value);
 			}}

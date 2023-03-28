@@ -32,13 +32,11 @@ export class Category implements ICategory {
 	})
 	title?: string;
 
+	@ApiProperty()
 	@Column('text', {
 		unique: true,
 	})
 	slug?: string;
-
-	@Column('text', { nullable: true })
-	image?: string;
 
 	@OneToMany(() => Product, category => category.category, { cascade: true })
 	//@ts-ignore

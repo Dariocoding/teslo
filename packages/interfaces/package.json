@@ -4,6 +4,8 @@
   "description": "Interfaces Entities Teslo",
   "author": "DarioCoding <darioflores170@gmail.com>",
   "license": "MIT",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "scripts": {
     "compile:dev": "tsc -p tsconfig.json --watch",
     "compile": "tsc -p tsconfig.json"

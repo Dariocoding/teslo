@@ -6,6 +6,8 @@ export type Size = 'XS' | 'S' | 'M' | 'L' | 'XL' | 'XXL' | 'XXS';
 
 export type Gender = 'men' | 'women' | 'kid' | 'unisex';
 
+export type StatusProduct = 'New in' | '50% Discount' | 'Sold Out' | 'Limited Edition';
+
 export interface Product {
 	id?: string;
 	title?: string;
@@ -15,12 +17,12 @@ export interface Product {
 	stock?: number;
 	sizes?: Size[];
 	gender?: Gender;
-	tags?: string[];
 	category?: Category;
 	images?: string[];
 	user?: User;
 	dateCreated?: Date;
 	detail?: DetailOrder;
+	status?: StatusProduct;
 }
 
 export interface ProductDto {
@@ -30,8 +32,8 @@ export interface ProductDto {
 	slug?: string;
 	stock?: number;
 	gender?: Gender;
-	tags?: string[];
 	images?: string[] | File[];
 	sizes?: Size[];
 	category?: Category | string;
+	status?: StatusProduct;
 }

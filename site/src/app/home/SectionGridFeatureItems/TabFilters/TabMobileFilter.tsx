@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { Transition, Dialog } from '@headlessui/react';
 import { CgOptions } from 'react-icons/cg';
-import XClear from './XClear';
 import ButtonClose from '@/shared/ButtonClose';
 import Checkbox from '@teslo/react-ui/Checkbox';
 import { ARRSIZES, Category, Size } from '@teslo/interfaces';
@@ -42,7 +41,6 @@ const TabMobileFilter: React.FunctionComponent<ITabMobileFilterProps> = props =>
 				<CgOptions className={'w-4 h-4'} />
 
 				<span className="ml-2">Products filters</span>
-				<XClear />
 			</div>
 
 			<Transition appear show={isOpenMoreFilter} as={React.Fragment}>

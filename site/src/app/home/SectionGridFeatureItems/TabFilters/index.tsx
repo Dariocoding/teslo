@@ -1,18 +1,26 @@
 import React from 'react';
 import TabsSize from './TabsSize';
-import { Category, Size } from '@teslo/interfaces';
+import { Category, Size, StatusProduct } from '@teslo/interfaces';
 import TabsCategories from './TabsCategories';
 import TabMobileFilter from './TabMobileFilter';
+import { FilterProductsState } from '../hooks/useFiltersProduct';
+import TabStatus from './TabStatus';
 
-interface ITabFiltersProps {
+interface ITabFiltersProps extends FilterProductsState {
 	categories: Category[];
 }
 
 const TabFilters: React.FunctionComponent<ITabFiltersProps> = props => {
-	const { categories = [] } = props;
+	const {
+		categories = [],
+		categoriesState,
+		setCategoriesState,
+		setSizesState,
+		sizesState,
+		setStatusState,
+		statusState,
+	} = props;
 	const [isOpenMoreFilter, setisOpenMoreFilter] = React.useState(false);
-	const [categoriesState, setCategoriesState] = React.useState<Category[]>([]);
-	const [sizesState, setSizesState] = React.useState<Size[]>([]);
 	const closeModalMoreFilter = () => setisOpenMoreFilter(false);
 	const openModalMoreFilter = () => setisOpenMoreFilter(true);
 
@@ -31,6 +39,8 @@ const TabFilters: React.FunctionComponent<ITabFiltersProps> = props => {
 			);
 	};
 
+	const handleChangeStatus = (status: StatusProduct) => setStatusState(status);
+
 	return (
 		<div className="flex lg:space-x-4">
 			{/* FOR DESKTOP */}
@@ -45,6 +55,11 @@ const TabFilters: React.FunctionComponent<ITabFiltersProps> = props => {
 					handleChangeSizes={handleChangeSizes}
 					sizesState={sizesState}
 					setSizesState={setSizesState}
+				/>
+				<TabStatus
+					setStatusState={setStatusState}
+					statusState={statusState}
+					handleChangeStatus={handleChangeStatus}
 				/>
 				{/* 	<div className="!ml-auto">{renderTabsSortOrder()} </div> */}
 			</div>

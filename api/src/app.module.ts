@@ -33,6 +33,7 @@ import { PaymentMethodsModule } from './modules/payment-methods/payment-methods.
 			password: process.env.DB_PASSWORD,
 			autoLoadEntities: true,
 			synchronize: true,
+			logging: process.env.STATE !== 'prod',
 		}),
 
 		ProductsModule,

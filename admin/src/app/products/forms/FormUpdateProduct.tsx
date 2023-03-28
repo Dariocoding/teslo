@@ -11,7 +11,7 @@ import { toast } from 'react-toastify';
 import CategoriesProduct from './CategoriesProduct';
 import GenderProduct from './GenderProduct';
 import SizesProduct from './SizesProduct';
-import TagsProduct from './TagsProduct';
+import FormStatusProduct from './StatusProduct';
 import UploadImagesProduct from './UploadImagesProduct';
 import { validationSchemaFormProduct } from './validationSchemaFormProduct';
 
@@ -25,7 +25,6 @@ const FormUpudateProduct: React.FunctionComponent<IFormUpudateProductProps> = pr
 	const { onSuccess, categories, product } = props;
 
 	const initialValues: ProductDto = {
-		tags: product.tags,
 		title: product.title,
 		//@ts-ignore
 		images: product.images as File[],
@@ -35,6 +34,7 @@ const FormUpudateProduct: React.FunctionComponent<IFormUpudateProductProps> = pr
 		description: product.description,
 		price: product.price,
 		category: product.category.idcategory,
+		status: product.status,
 	};
 
 	async function onSubmit(values: ProductDto) {
@@ -135,9 +135,9 @@ const FormUpudateProduct: React.FunctionComponent<IFormUpudateProductProps> = pr
 
 						<GenderProduct />
 
-						<TagsProduct />
-
 						<CategoriesProduct categories={categories} />
+
+						<FormStatusProduct />
 					</div>
 				</div>
 				<ButtonFormik className="btn btn-primary btn-sm mt-6" full>

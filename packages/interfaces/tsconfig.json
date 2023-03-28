@@ -12,7 +12,7 @@
 		"strict": false,
 		"target": "es2021",
 		"sourceMap": true,
-		"outDir": ".",
+		"outDir": "./dist",
 		"baseUrl": "./src",
 		"incremental": true,
 		"skipLibCheck": true,

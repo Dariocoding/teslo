@@ -3,7 +3,6 @@ import classNames from 'classnames';
 import { HiOutlineChevronDown } from 'react-icons/hi';
 import { ARRSIZES, Size } from '@teslo/interfaces';
 import { Popover, Transition } from '@headlessui/react';
-import XClear from './XClear';
 import { Checkbox } from '@teslo/react-ui';
 import { BsArrowsAngleExpand } from 'react-icons/bs';
 
@@ -32,13 +31,7 @@ const TabsSize: React.FunctionComponent<ITabsSizeProps> = props => {
 						<BsArrowsAngleExpand className="w-4 h-4" />
 
 						<span className="ml-2">Sizes</span>
-						{!sizesState.length ? (
-							<HiOutlineChevronDown className="w-4 h-4 ml-3" />
-						) : (
-							<span onClick={() => setSizesState([])}>
-								<XClear />
-							</span>
-						)}
+						<HiOutlineChevronDown className="w-4 h-4 ml-3" />
 					</Popover.Button>
 					<Transition
 						as={React.Fragment}

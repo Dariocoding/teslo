@@ -15,17 +15,7 @@ const mapCategories = (props: IMapCategoriesProps): CategoryDataTable[] => {
 	return categories.map(category => ({
 		...category,
 		dateFormatted: dayjs(category.dateCreated).format('DD/MM/YYYY HH:mm:ss'),
-		imgTable: (
-			<img
-				src={
-					category.image
-						? PF + '/category/' + category.image
-						: '/img/others/box.png'
-				}
-				className={'w-16 mx-auto'}
-				alt={'Box default Image'}
-			/>
-		),
+
 		actions: (
 			<ActionsCategory
 				category={category}

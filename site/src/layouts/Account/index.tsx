@@ -1,6 +1,7 @@
 'use client';
 import PrivateRoute from '@/shared/routes/PrivateRoute';
 import { useAuthStore } from '@/store';
+import { viewPaths } from '@/utils';
 import RenderIf from '@teslo/react-ui/RenderIf';
 import classNames from 'classnames';
 import Link from 'next/link';
@@ -14,15 +15,19 @@ interface IAccountLayoutProps {
 const accountPages = [
 	{
 		name: 'Account info',
-		link: '/account',
+		link: viewPaths.account,
 	},
 	{
 		name: 'Save lists',
-		link: '/account-savelists',
+		link: viewPaths.savelist,
 	},
 	{
 		name: 'Change password',
-		link: '/account-change-password',
+		link: viewPaths.account_change_password,
+	},
+	{
+		name: 'Orders',
+		link: viewPaths.orders,
 	},
 ];
 

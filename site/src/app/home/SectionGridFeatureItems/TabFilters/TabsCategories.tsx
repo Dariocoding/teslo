@@ -32,17 +32,7 @@ const TabsCategories: React.FunctionComponent<ITabsCategoriesProps> = props => {
 						<BsArrowsAngleExpand className="w-4 h-4" />
 
 						<span className="ml-2">Categories</span>
-						{!categoriesState.length ? (
-							<HiOutlineChevronDown className="w-4 h-4 ml-3" />
-						) : (
-							<span
-								onClick={() =>
-									setCategoriesState([])
-								}
-							>
-								<XClear />
-							</span>
-						)}
+						<HiOutlineChevronDown className="w-4 h-4 ml-3" />
 					</Popover.Button>
 					<Transition
 						as={React.Fragment}

@@ -1,3 +1,5 @@
+import { ARRGENDERS } from '@teslo/interfaces';
+
 export const envs = {
 	API_URL: process.env.API_URL,
 };
@@ -9,12 +11,15 @@ export const PF = {
 export const INITIAL_VALUES_PRODUCT_HOME = 8;
 export const viewPaths = {
 	viewProduct: (slug: string) => '/product/' + slug,
+	search: (search: string) => '/search?q=' + search,
 	cart: '/cart',
 	login: '/auth/login',
 	signup: '/auth/signup',
 	home: '/',
 	account: '/account',
 	savelist: '/account-savelist',
+	orders: '/account-orders',
+	account_change_password: '/account-change-password',
 };
 
 export const formatter = new Intl.NumberFormat('en-US', {
@@ -30,3 +35,5 @@ export const breakpoints = {
 	xl: 1280,
 	'2xl': 1536,
 };
+
+export const filtersGenders = ['All items', ...ARRGENDERS];

@@ -1,14 +1,16 @@
 'use client';
 import * as React from 'react';
 import { BsSearch } from 'react-icons/bs';
+import { useRouter } from 'next/navigation';
+import { viewPaths } from '@/utils';
 
 interface ISearchFormProps {}
 
 const SearchForm: React.FunctionComponent<ISearchFormProps> = props => {
 	const {} = props;
-
+	const router = useRouter();
 	const onSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-		console.log(e.target.value);
+		router.push(viewPaths.search(e.target.value));
 	};
 
 	return (

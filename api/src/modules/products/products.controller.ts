@@ -11,15 +11,15 @@ import {
 	Put,
 } from '@nestjs/common';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
-
 import { Product } from './entities/product.entity';
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
-import { PaginationDto } from 'src/common/dtos/pagination.dto';
 import { User } from '../users/entities/user.entity';
 import { Auth, GetUser } from '../auth/common/decorators';
-import { ValidRoles } from '@teslo/interfaces';
+import { Gender, ValidRoles, StatusProduct } from '@teslo/interfaces';
+import { FindOperator, ILike, In } from 'typeorm';
+import { PaginationProductsDto } from './dto/pagination.products.dto';
 
 @ApiTags('3 - Products')
 @Controller('products')
@@ -36,7 +36,7 @@ export class ProductsController {
 
 	@Get()
 	@ApiResponse({ status: HttpStatus.OK, type: Product, isArray: true })
-	findByPagination(@Query() paginationDto: PaginationDto) {
+	findByPagination(@Query() paginationDto: PaginationProductsDto) {
 		return this.productsService.findByPagination(paginationDto);
 	}
 
@@ -50,6 +50,26 @@ export class ProductsController {
 	@ApiResponse({ status: HttpStatus.OK, type: Product, isArray: true })
 	findAllByCategory(@Param('idcategory', ParseUUIDPipe) idcategory: string) {
 		return this.productsService.findAllByCategory(idcategory);
+	}
+
+	@Get('/select/:idproducts')
+	@ApiResponse({ status: HttpStatus.OK, type: Product, isArray: true })
+	findAllByIdProducts(@Param('idproducts') idproducts: string) {
+		return this.productsService.findAll({ id: In(idproducts.split(',')) });
+	}
+
+	@Get('/search/:term')
+	@ApiResponse({ status: HttpStatus.OK, type: Product, isArray: true })
+	searchProducts(@Param('term') term: string) {
+		const like = ILike('%' + term + '%');
+		return this.productsService.findAll([
+			{ title: like },
+			{ slug: like },
+			{ category: { title: like } },
+			{ category: { slug: like } },
+			{ gender: like as FindOperator<Gender> },
+			{ status: like as FindOperator<StatusProduct> },
+		]);
 	}
 
 	@Get(':term')

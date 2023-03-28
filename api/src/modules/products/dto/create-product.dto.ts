@@ -10,7 +10,7 @@ import {
 	Min,
 	MinLength,
 } from 'class-validator';
-import { Gender, ProductDto, Size } from '@teslo/interfaces';
+import { Gender, ProductDto, Size, StatusProduct } from '@teslo/interfaces';
 import { Category } from 'src/modules/categories/entities/category.entity';
 
 export class CreateProductDto {
@@ -58,15 +58,14 @@ export class CreateProductDto {
 	@IsString({ each: true })
 	@IsArray()
 	@IsOptional()
-	tags: string[];
-
-	@ApiProperty()
-	@IsString({ each: true })
-	@IsArray()
-	@IsOptional()
 	images?: string[];
 
 	@ApiProperty()
 	@IsObject()
 	category?: Category;
+
+	@ApiProperty()
+	@IsString()
+	@IsOptional()
+	status?: StatusProduct;
 }

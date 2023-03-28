@@ -79,10 +79,10 @@ export class SeedService {
 		});
 
 		const dbCategories = await this.categoryRepository.save(insertPromises);
-		return dbCategories[0];
+		return dbCategories;
 	}
 
-	private async insertNewProducts(user: User, category: Category): Promise<Product[]> {
+	private async insertNewProducts(user: User, categories: Category[]): Promise<Product[]> {
 		await this.productsService.deleteAllProducts();
 
 		const products = initialData.products;
@@ -91,7 +91,17 @@ export class SeedService {
 
 		products.forEach(product => {
 			insertPromises.push(
-				this.productsService.create({ ...product, category }, user)
+				this.productsService.create(
+					{
+						...product,
+						category: categories[
+							Math.floor(
+								Math.random() * categories.length
+							)
+						],
+					},
+					user
+				)
 			);
 		});
 

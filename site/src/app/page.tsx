@@ -17,6 +17,7 @@ async function fetchProducts() {
 		});
 		return products.data;
 	} catch (error) {
+		console.log(error);
 		return [];
 	}
 }
@@ -26,13 +27,13 @@ async function fetchCategories() {
 		const categories = await categoriesService.getCategories();
 		return categories.data;
 	} catch (error) {
+		console.log(error);
 		return [];
 	}
 }
 
 export default async function Home() {
 	const [products, categories] = await Promise.all([fetchProducts(), fetchCategories()]);
-
 	const productsSection = products.filter((_, idx) => idx <= 2);
 
 	return (
