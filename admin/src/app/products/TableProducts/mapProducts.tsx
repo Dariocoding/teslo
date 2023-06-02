@@ -25,11 +25,11 @@ const mapProducts = (props: IMapProductsProps): ProductTable[] => {
 						  product.images[product.images.length - 1]
 						: '/img/others/box.png'
 				}
-				className={'w-24 mx-auto'}
+				className={'w-14 rounded-md mx-auto'}
 				loading={'lazy'}
 			/>
 		),
-		dateFormatted: dayjs(product.dateCreated).format('DD/MM/YYYY HH:mm:ss'),
+		dateFormatted: dayjs(product.dateCreated).format('DD/MM/YYYY'),
 		gender: capitalize(product.gender) as Gender,
 		actions: (
 			<ActionsProducts
@@ -37,6 +37,26 @@ const mapProducts = (props: IMapProductsProps): ProductTable[] => {
 				onUpdateProduct={onUpdateProduct}
 				product={product}
 			/>
+		),
+		categoriesFormatted: product.categories?.length ? (
+			<ul className="text-xs">
+				{product.categories.map(c => (
+					<li key={c.idcategory}>{c.title}</li>
+				))}
+			</ul>
+		) : null,
+		providersFormatted: product.providers?.length ? (
+			<ul className="text-xs">
+				{product.providers.map(p => (
+					<li key={p.idprovider}>{p.name}</li>
+				))}
+			</ul>
+		) : null,
+		titleFormatted: (
+			<div className="flex flex-col max-w-[110px] whitespace-pre-wrap">
+				<div className="text-sm mb-1">{product.title}</div>
+				<div className="text-xs">{product.code}</div>
+			</div>
 		),
 	}));
 };

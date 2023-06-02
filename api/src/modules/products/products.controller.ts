@@ -13,13 +13,14 @@ import {
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Product } from './entities/product.entity';
 import { ProductsService } from './products.service';
-import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { User } from '../users/entities/user.entity';
 import { Auth, GetUser } from '../auth/common/decorators';
 import { Gender, ValidRoles, StatusProduct } from '@teslo/interfaces';
 import { FindOperator, ILike, In } from 'typeorm';
 import { PaginationProductsDto } from './dto/pagination.products.dto';
+import { CreateProductDto } from './dto/create-product.dto';
+import { FiltersProductDto } from './dto/filters.product.dto';
 
 @ApiTags('3 - Products')
 @Controller('products')
@@ -46,10 +47,28 @@ export class ProductsController {
 		return this.productsService.findAll();
 	}
 
-	@Get('/all/:idcategory')
+	@Get('/all/category/:idcategory')
 	@ApiResponse({ status: HttpStatus.OK, type: Product, isArray: true })
 	findAllByCategory(@Param('idcategory', ParseUUIDPipe) idcategory: string) {
 		return this.productsService.findAllByCategory(idcategory);
+	}
+
+	@Get('/all/brand/:idbrand')
+	@ApiResponse({ status: HttpStatus.OK, type: Product, isArray: true })
+	findAllByBrand(@Param('idbrand', ParseUUIDPipe) idbrand: string) {
+		return this.productsService.findAllByBrand(idbrand);
+	}
+
+	@Get('/all/provider/:idprovider')
+	@ApiResponse({ status: HttpStatus.OK, type: Product, isArray: true })
+	findAllByProvider(@Param('idprovider', ParseUUIDPipe) idprovider: string) {
+		return this.productsService.findAllByProvider(idprovider);
+	}
+
+	@Get('/all/filters')
+	@ApiResponse({ status: HttpStatus.OK, type: Product, isArray: true })
+	findAllByFilter(@Query() query: FiltersProductDto) {
+		return this.productsService.findAllByFilters(query);
 	}
 
 	@Get('/select/:idproducts')
@@ -65,10 +84,11 @@ export class ProductsController {
 		return this.productsService.findAll([
 			{ title: like },
 			{ slug: like },
-			{ category: { title: like } },
-			{ category: { slug: like } },
+			{ categories: { title: like } },
+			{ categories: { slug: like } },
 			{ gender: like as FindOperator<Gender> },
 			{ status: like as FindOperator<StatusProduct> },
+			+term ? { code: +term } : {},
 		]);
 	}
 

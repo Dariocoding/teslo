@@ -4,6 +4,9 @@ import {
 	Column,
 	CreateDateColumn,
 	Entity,
+	Generated,
+	JoinTable,
+	ManyToMany,
 	ManyToOne,
 	OneToMany,
 	PrimaryGeneratedColumn,
@@ -15,6 +18,9 @@ import { stringToSlug } from 'src/common/utils/string-to-slug';
 import { Category } from 'src/modules/categories/entities/category.entity';
 import { DetailOrder } from 'src/modules/orders/entities/detail.order.entity';
 import { Gender, Size, ARRSIZES, StatusProduct } from '@teslo/interfaces';
+import { Brand } from 'src/modules/brands/entities/brand.entity';
+import { Provider } from 'src/modules/providers/entities/provider.entity';
+import { DetailBill } from 'src/modules/bills/entities';
 
 @Entity({ name: 'products' })
 export class Product {
@@ -25,6 +31,11 @@ export class Product {
 	})
 	@PrimaryGeneratedColumn('uuid')
 	id?: string;
+
+	@ApiProperty()
+	@Column()
+	@Generated('increment')
+	code: number;
 
 	@ApiProperty({
 		example: 'T-Shirt Teslo',
@@ -87,8 +98,22 @@ export class Product {
 	gender?: Gender;
 
 	@ApiProperty()
-	@ManyToOne(() => Category, category => category.products, { eager: true })
-	category?: Category;
+	@ManyToMany(() => Category, category => category.products, {
+		eager: true,
+		onDelete: 'CASCADE',
+	})
+	categories: Category[];
+
+	@ApiProperty()
+	@ManyToOne(() => Brand, brand => brand.products, { eager: true })
+	brand?: Brand;
+
+	@ApiProperty()
+	@ManyToMany(() => Provider, provider => provider.products, {
+		eager: true,
+		onDelete: 'CASCADE',
+	})
+	providers: Provider[];
 
 	// images
 	@ApiProperty()
@@ -99,14 +124,17 @@ export class Product {
 	images?: string[] | ProductImage[];
 
 	@ApiProperty()
-	@Column({ nullable: true })
+	@Column({ nullable: true, default: '' })
 	status?: StatusProduct;
 
 	@ManyToOne(() => User, user => user.product)
 	user?: User;
 
 	@OneToMany(() => DetailOrder, detail => detail.product)
-	detail?: DetailOrder;
+	detailOrders?: DetailOrder;
+
+	@OneToMany(() => DetailBill, detail => detail.product)
+	detailBills?: DetailBill;
 
 	@CreateDateColumn({
 		name: 'date_created',

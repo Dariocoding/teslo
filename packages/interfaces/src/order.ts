@@ -35,7 +35,7 @@ export interface DetailOrder {
 	order?: Order;
 }
 
-export type StatusOrder = 'pending' | 'completed' | 'cancelled';
+export type StatusOrder = 'pending' | 'completed' | 'cancelled' | 'paid';
 
 export interface PaymentMethod {
 	idpaymentmethod?: number;

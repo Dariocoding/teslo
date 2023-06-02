@@ -8,8 +8,8 @@ import { useDashboardStore } from '../store/dashboardStore';
 import { Link } from 'react-router-dom';
 import Dropdown from '@teslo/react-ui/Dropdown';
 import DropdownItem from '@teslo/react-ui/Dropdown/DropdownItem';
-import { IS_THEMED, THEMED_SIDEBAR_CLASSNAMES } from '@/utils';
 import useResponsive from '@/utils/hooks/useResponsive';
+import { useConfigApp } from '@/store';
 
 interface IDefaultItemProps {
 	item: IMenuItem;
@@ -23,15 +23,13 @@ const DefaultItem: React.FunctionComponent<IDefaultItemProps> = props => {
 	const { desktop } = useResponsive();
 	const isExpanded = expanded === item.title;
 	const toggleExpand = () => setExpanded(isExpanded ? null : item.title);
-
+	const { colors } = useConfigApp();
 	return (
 		<React.Fragment>
 			<div
 				className={classNames(
 					'side-nav-item',
-					IS_THEMED &&
-						desktop &&
-						THEMED_SIDEBAR_CLASSNAMES.sidebarItemHover
+					colors.isThemed && desktop && colors.sidebarItemHover
 				)}
 				onClick={toggleExpand}
 			>
@@ -50,9 +48,9 @@ const DefaultItem: React.FunctionComponent<IDefaultItemProps> = props => {
 			<div
 				className={classNames(
 					'side-nav-item-collapsed-container',
-					IS_THEMED &&
+					colors.isThemed &&
 						desktop &&
-						THEMED_SIDEBAR_CLASSNAMES.sidebarDropdownCollapsedContainer,
+						colors.sidebarDropdownCollapsedContainer,
 					!isCollapsed && 'hidden'
 				)}
 			>
@@ -63,9 +61,9 @@ const DefaultItem: React.FunctionComponent<IDefaultItemProps> = props => {
 								to={nav.path}
 								className={classNames(
 									'side-nav-item-collapsed',
-									IS_THEMED &&
+									colors.isThemed &&
 										desktop &&
-										THEMED_SIDEBAR_CLASSNAMES.sidebarItemDropdown
+										colors.sidebarItemDropdown
 								)}
 								key={nav.path}
 							>
@@ -86,19 +84,27 @@ interface ICollapsedItemProps {
 
 const CollapsedItem: React.FunctionComponent<ICollapsedItemProps> = props => {
 	const { item } = props;
+	const { colors } = useConfigApp();
 	return (
 		<Dropdown
 			placement="right"
 			showOnHover
 			displayButton={
-				<span className="px-3 py-2.5 flex items-center justify-center hover:bg-gray-200 transition rounded-xl">
+				<span
+					className={classNames(
+						'px-3 py-2.5 flex items-center justify-center transition rounded-xl pr-8',
+						!colors.isThemed
+							? 'hover:bg-gray-200'
+							: colors.sidebarItemHover
+					)}
+				>
 					<item.Icon />
 				</span>
 			}
 		>
 			{item.subNav.map(subNavItem => (
 				<DropdownItem
-					className="flex items-center pr-12 hover:text-black"
+					className="flex items-center pr-12 hover:text-black whitespace-nowrap"
 					key={subNavItem.title}
 				>
 					<FaCircleNotch className="mr-1 text-xs" />{' '}

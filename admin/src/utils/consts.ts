@@ -1,6 +1,8 @@
 import { ValidRol, ValidRoles } from '@teslo/interfaces';
 import React from 'react';
-
+import { settingsPages } from '@/app/config/config';
+import { providerPages } from '@/app/providers/config';
+import { billsPages } from '@/app/bills/config';
 export const APP_NAME = 'Teslo';
 export const APP_PHONE = '042105012';
 export const APP_EMAIL = 'teslo@teslo.com';
@@ -27,86 +29,113 @@ export const formatter = new Intl.NumberFormat('en', {
 export interface PageProps {
 	path: string;
 	authoritys: ValidRol[] | '*';
-	component: React.LazyExoticComponent<React.FunctionComponent<any>>;
+	component: React.MemoExoticComponent<
+		React.LazyExoticComponent<React.FunctionComponent<any>>
+	>;
 	fnPath?(query: string | number): string;
 }
 
 export const protectedRoutes = {
 	dashboard: {
 		path: '/dashboard',
-		component: React.lazy(() => import('@/app/dashboard')),
+		component: React.memo(React.lazy(() => import('@/app/dashboard'))),
 		authoritys: '*',
 	} as PageProps,
 	users: {
 		path: '/users',
-		component: React.lazy(() => import('@/app/users')),
+		component: React.memo(React.lazy(() => import('@/app/users'))),
 		authoritys: [ValidRoles.ADMIN, ValidRoles.SUPER_USER],
 	} as PageProps,
 	viewUser: {
 		path: '/users/:id',
-		component: React.lazy(() => import('@/app/users/ViewUser')),
+		component: React.memo(React.lazy(() => import('@/app/users/ViewUser'))),
 		fnPath: (id: string) => `/users/${id}`,
 		authoritys: [ValidRoles.ADMIN, ValidRoles.SUPER_USER],
 	} as PageProps,
 	products: {
 		path: '/products',
-		component: React.lazy(() => import('@/app/products')),
+		component: React.memo(React.lazy(() => import('@/app/products'))),
 		authoritys: '*',
+	} as PageProps,
+	newProduct: {
+		path: '/products/new',
+		component: React.memo(React.lazy(() => import('@/app/products/new'))),
+		authoritys: '*',
+	} as PageProps,
+	editProduct: {
+		path: '/products/edit/:id',
+		component: React.memo(React.lazy(() => import('@/app/products/edit'))),
+		authoritys: '*',
+		fnPath: (id: string) => `/products/edit/${id}`,
 	} as PageProps,
 	viewProduct: {
 		path: '/products/:id',
-		component: React.lazy(() => import('@/app/products/ViewProduct')),
+		component: React.memo(React.lazy(() => import('@/app/products/ViewProduct'))),
 		fnPath: (query: string) => `/products/${query}`,
 		authoritys: '*',
 	} as PageProps,
 	categories: {
 		path: '/categories',
-		component: React.lazy(() => import('@/app/categories')),
+		component: React.memo(React.lazy(() => import('@/app/categories'))),
+		authoritys: '*',
+	} as PageProps,
+	brands: {
+		path: '/brands',
+		component: React.memo(React.lazy(() => import('@/app/brands'))),
+		authoritys: '*',
+	} as PageProps,
+	viewBrand: {
+		fnPath: (query: string | number) => `/brands/${query}`,
+		path: '/brands/:id',
+		component: React.memo(React.lazy(() => import('@/app/brands/ViewBrand'))),
 		authoritys: '*',
 	} as PageProps,
 	viewCategory: {
 		fnPath: (query: string | number) => `/categories/${query}`,
 		path: '/categories/:id',
-		component: React.lazy(() => import('@/app/categories/ViewCategory')),
+		component: React.memo(React.lazy(() => import('@/app/categories/ViewCategory'))),
 		authoritys: '*',
 	} as PageProps,
 	profile: {
 		path: '/profile',
-		component: React.lazy(() => import('@/app/profile')),
+		component: React.memo(React.lazy(() => import('@/app/profile'))),
 		authoritys: '*',
 	} as PageProps,
 	orders: {
 		path: '/orders',
-		component: React.lazy(() => import('@/app/orders')),
+		component: React.memo(React.lazy(() => import('@/app/orders'))),
+		authoritys: '*',
+	} as PageProps,
+	newOrder: {
+		path: '/orders/new',
+		component: React.memo(React.lazy(() => import('@/app/orders-new'))),
 		authoritys: '*',
 	} as PageProps,
 	invoiceOrder: {
 		path: '/orders/:id',
-		component: React.lazy(() => import('@/app/orders/Invoice')),
+		component: React.memo(React.lazy(() => import('@/app/orders/Invoice'))),
 		authoritys: '*',
 		fnPath: id => `/orders/${id}`,
 	} as PageProps,
-	settings: {
-		path: '/settings',
-		component: React.lazy(() => import('@/app/config')),
-		authoritys: [ValidRoles.ADMIN, ValidRoles.SUPER_USER],
-	} as PageProps,
-	paymentMethods: {
-		path: '/settings/payment-methods',
-		component: React.lazy(() => import('@/app/config/PaymenMethods')),
-		authoritys: [ValidRoles.ADMIN, ValidRoles.SUPER_USER],
-	} as PageProps,
+	...providerPages,
+	...settingsPages,
+	...billsPages,
 };
 
 export const publicRoutes = {
 	home: {
 		path: '/',
-		component: React.lazy(() => import('@/app/login')),
+		component: React.memo(React.lazy(() => import('@/app/login'))),
 		authoritys: '*',
 	} as PageProps,
 	recoverPassword: {
-		path: '/recover/password/:token/:email',
-		component: React.lazy(() => import('@/app/recover/password')),
+		path: '/recover/password/:token/:iduser',
+		component: React.memo(React.lazy(() => import('@/app/recover/password'))),
+		authoritys: '*',
+	} as PageProps,
+	verifyEmailSent: {
+		path: '/verify/email',
+		component: React.memo(React.lazy(() => import('@/app/verify/emailSent'))),
 		authoritys: '*',
 	} as PageProps,
 };

@@ -10,8 +10,10 @@ import {
 	Min,
 	MinLength,
 } from 'class-validator';
-import { Gender, ProductDto, Size, StatusProduct } from '@teslo/interfaces';
+import { Gender, Size, StatusProduct, ARRGENDERS } from '@teslo/interfaces';
 import { Category } from 'src/modules/categories/entities/category.entity';
+import { Provider } from 'src/modules/providers/entities/provider.entity';
+import { Brand } from 'src/modules/brands/entities/brand.entity';
 
 export class CreateProductDto {
 	@ApiProperty({
@@ -51,7 +53,8 @@ export class CreateProductDto {
 	sizes: Size[];
 
 	@ApiProperty()
-	@IsIn(['men', 'women', 'kid', 'unisex'])
+	@IsIn([...ARRGENDERS, ''])
+	@IsOptional()
 	gender: Gender;
 
 	@ApiProperty()
@@ -61,11 +64,19 @@ export class CreateProductDto {
 	images?: string[];
 
 	@ApiProperty()
-	@IsObject()
-	category?: Category;
+	@IsArray()
+	categories?: Category[];
 
 	@ApiProperty()
 	@IsString()
 	@IsOptional()
 	status?: StatusProduct;
+
+	@ApiProperty()
+	@IsArray()
+	providers: Provider[];
+
+	@ApiProperty()
+	@IsObject()
+	brand: Brand;
 }

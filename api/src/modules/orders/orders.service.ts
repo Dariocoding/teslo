@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ValidRoles } from '@teslo/interfaces';
-import { FindOptionsWhere, Repository } from 'typeorm';
+import { Between, FindOptionsWhere, Repository } from 'typeorm';
 import { JwtPayload } from '../auth/interfaces';
 import { ProductImage } from '../products/entities';
 import { User } from '../users/entities/user.entity';
@@ -9,6 +9,7 @@ import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { DetailOrder } from './entities/detail.order.entity';
 import { Order } from './entities/order.entity';
+import { FindOrdersByDateDto } from './dto/find-orders-by-date.dto';
 
 @Injectable()
 export class OrdersService {
@@ -38,13 +39,24 @@ export class OrdersService {
 		return this.orderRepository.save(order);
 	}
 
-	findAll(userJWT: JwtPayload) {
+	findAll(userJWT: JwtPayload, findOrdersByDateDto: FindOrdersByDateDto) {
+		const { from, to } = findOrdersByDateDto || {};
 		const user: FindOptionsWhere<User> = userJWT.roles.includes(ValidRoles.USER)
 			? { iduser: userJWT.iduser }
 			: null;
 
+		if (from && to) {
+			from.setHours(0, 0, 0, 0);
+			to.setHours(23, 59, 59, 999);
+		}
+
+		let where: FindOptionsWhere<Order> | FindOptionsWhere<Order>[] = {
+			...(user ? { user } : {}),
+			...(from && to ? { dateCreated: Between(from, to) } : {}),
+		};
+
 		return this.orderRepository.find({
-			where: user ? { user } : {},
+			where,
 			order: { idorder: 'DESC' },
 			relations: { user: true },
 		});

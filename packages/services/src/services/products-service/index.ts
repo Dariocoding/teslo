@@ -1,11 +1,17 @@
 import { Product, ProductDto } from '@teslo/interfaces';
 import { axiosClient } from '../../config/axios';
-import { PaginationProductsDto } from './interfaces';
+import { FiltersAllProductDto, PaginationProductsDto } from './interfaces';
 
 export const productsService = {
 	getAllProducts: () => axiosClient.get<Product[]>('/products/all'),
 	getAllProductsByCategory: (idcategory: string) =>
-		axiosClient.get<Product[]>(`/products/all/${idcategory}`),
+		axiosClient.get<Product[]>(`/products/all/category/${idcategory}`),
+	getAllProductsByBrand: (idbrand: string) =>
+		axiosClient.get<Product[]>(`/products/all/brand/${idbrand}`),
+	getAllProductsByProvider: (idprovider: string) =>
+		axiosClient.get<Product[]>(`/products/all/provider/${idprovider}`),
+	getAllByFilters: (filters: FiltersAllProductDto) =>
+		axiosClient.get<Product[]>('/products/all/filters', { params: filters }),
 	getProducts: (pagination: PaginationProductsDto) =>
 		axiosClient.get<Product[]>('/products', { params: pagination }),
 	getProduct: (term: string) => axiosClient.get<Product>(`/products/${term}`),

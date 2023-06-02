@@ -1,13 +1,13 @@
 import AuthorityCheck from '@/components/AuthorityCheck';
 import RenderIf from '@teslo/react-ui/RenderIf';
 import ToolTip from '@teslo/react-ui/Tooltip';
-import { IS_THEMED, THEMED_SIDEBAR_CLASSNAMES } from '@/utils';
 import useResponsive from '@/utils/hooks/useResponsive';
 import classNames from 'classnames';
 import * as React from 'react';
 import { Link } from 'react-router-dom';
 import { IMenuItem } from '../data/data-menu';
 import { useDashboardStore } from '../store/dashboardStore';
+import { useConfigApp } from '@/store';
 
 interface ICollpasedItemProps {
 	title: string;
@@ -31,12 +31,14 @@ const DefaultItem: React.FunctionComponent<IDefaultItemProps> = props => {
 	const { item } = props;
 	const { isCollapsed } = useDashboardStore();
 	const { desktop } = useResponsive();
+	const { colors } = useConfigApp();
+
 	return (
 		<Link
 			to={item.path}
 			className={classNames(
 				'side-nav-item justify-start',
-				IS_THEMED && desktop && THEMED_SIDEBAR_CLASSNAMES.sidebarItemHover
+				colors.isThemed && desktop && colors.sidebarItemHover
 			)}
 		>
 			<item.Icon /> {isCollapsed ? item.title : null}

@@ -6,7 +6,7 @@ import classNames from 'classnames';
 import * as React from 'react';
 import { AiOutlineReload } from 'react-icons/ai';
 import { FaPlus } from 'react-icons/fa';
-import { toast } from 'react-toastify';
+import toast from 'react-hot-toast';
 import FormPaymentMethod from '../Forms/FormPaymentMethod';
 import { useFetchPaymentMethods } from '../hooks/useFetchPaymentMethods';
 import defaultHeadingPaymentMethods from './heading';

@@ -3,15 +3,16 @@ import { useModalStore } from '@/store';
 import * as React from 'react';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import { useFetchCategory } from '../hooks/useFetchCategory';
-import { toast } from 'react-toastify';
-import { protectedRoutes } from '@/utils';
+import toast from 'react-hot-toast';
+import { protectedRoutes, validPaths } from '@/utils';
 import HeaderViewCategory from './HeaderViewCategory';
 import TableProductsByCategoryId from './TableProductsByCategoryId';
 import HeaderDashboard from '@/layouts/HeaderDashboardLayout';
 import { Category } from '@teslo/interfaces';
+import { FaClipboardList } from 'react-icons/fa';
 import { categoriesService } from '@teslo/services';
 
-const FormUpdateCategory = React.lazy(() => import('../forms/FormUpdateCategory'));
+const FormCategory = React.lazy(() => import('../forms/FormCategory'));
 const ModalDeleteCategory = React.lazy(() => import('../TableCategories/ModalDeleteCategory'));
 
 interface IViewCategoryPageProps {}
@@ -36,10 +37,7 @@ const ViewCategoryPage: React.FunctionComponent<IViewCategoryPageProps> = props 
 			title: 'Update Category',
 			children: (
 				<React.Suspense fallback={<></>}>
-					<FormUpdateCategory
-						category={category}
-						onSuccess={onSuccess}
-					/>
+					<FormCategory category={category} onSuccess={onSuccess} />
 				</React.Suspense>
 			),
 			size: 'md',
@@ -77,16 +75,22 @@ const ViewCategoryPage: React.FunctionComponent<IViewCategoryPageProps> = props 
 	if (!category) return <Navigate replace to={protectedRoutes.categories.path} />;
 
 	return (
-		<React.Fragment>
-			<HeaderDashboard to="/categories">Categories</HeaderDashboard>
+		<HeaderDashboard
+			breadcrumbs={[
+				{ label: 'Dashboard', to: validPaths.home.path },
+				{ label: 'Categories', to: validPaths.categories.path },
+				{ label: category.title || 'Category' },
+			]}
+			icon={<FaClipboardList />}
+			title={'Category'}
+			to={validPaths.categories.path}
+		>
 			<HeaderViewCategory
 				category={category}
 				onDeleteCategory={onDeleteCategory}
 				onUpdateCategory={onUpdateCategory}
 			/>
-
 			<TableProductsByCategoryId category={category} />
-
 			<ModalDeleteCategory
 				onAcceptDeleteCategory={onAcceptDeleteCategory}
 				onCloseModalDelete={onCloseModalDelete}
@@ -94,7 +98,7 @@ const ViewCategoryPage: React.FunctionComponent<IViewCategoryPageProps> = props 
 				category={category}
 				isLoading={isLoadingDeleteCategory}
 			/>
-		</React.Fragment>
+		</HeaderDashboard>
 	);
 };
 

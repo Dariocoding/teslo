@@ -16,7 +16,7 @@ const DashboardLayout: React.FC<IDashboardLayoutProps> = props => {
 				<div className=" flex flex-col flex-auto min-h-screen min-w-0 relative w-full">
 					<HeaderDashboard />
 
-					<div className="h-full flex flex-auto flex-col bg-gray-100 p-4">
+					<div className="h-full flex flex-auto flex-col bg-gray-100">
 						{props.children}
 					</div>
 				</div>

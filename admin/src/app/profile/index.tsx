@@ -3,7 +3,7 @@ import { useAuthStore } from '@/store';
 import { UserDto } from '@teslo/interfaces';
 import { usersService } from '@teslo/services';
 import * as React from 'react';
-import { toast } from 'react-toastify';
+import toast from 'react-hot-toast';
 
 interface IProfilePageProps {}
 
@@ -25,7 +25,11 @@ const ProfilePage: React.FunctionComponent<IProfilePageProps> = props => {
 		}
 	}
 
-	return <ProfileLayout user={user} onSubmitUpdateUser={onSubmitUpdateUser} />;
+	return (
+		<div className="p-4">
+			<ProfileLayout user={user} onSubmitUpdateUser={onSubmitUpdateUser} />
+		</div>
+	);
 };
 
 export default React.memo(ProfilePage);

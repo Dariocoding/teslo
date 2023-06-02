@@ -11,6 +11,8 @@ import {
 	FindPaymentMethodsByYearMonth,
 	TotalCountersResponse,
 } from '@teslo/services';
+import HeaderDashboard from '@/layouts/HeaderDashboardLayout';
+import { FaHome } from 'react-icons/fa';
 
 const BarChartYearOrders = React.lazy(() => import('./charts/BarChartYearOrders'));
 const LineChartOrders = React.lazy(() => import('./charts/LineChartOrders'));
@@ -96,78 +98,87 @@ const DashboardPage: React.FunctionComponent<IDashboardPageProps> = props => {
 	if (loading) return <Loader loading={true} />;
 
 	return (
-		<div>
-			<div className="grid lg:grid-cols-2 gap-4">
-				<div>
-					<div className="grid lg:grid-cols-2 gap-4">
-						<WidgetsDashboardAdmin totales={totales} />
+		<HeaderDashboard icon={<FaHome />} title={'Dashboard'}>
+			<div>
+				<div className="grid lg:grid-cols-2 gap-4">
+					<div>
+						<div className="grid lg:grid-cols-2 gap-4">
+							<WidgetsDashboardAdmin totales={totales} />
+						</div>
+					</div>
+					<div>
+						<div className="tile">
+							<h6 className="mb-3">
+								Total Payment Methods (
+								{paymentMethodsByYearMonth.month} -{' '}
+								{paymentMethodsByYearMonth.year})
+							</h6>
+							<ChartPiePaymentMethods
+								paymentMethods={
+									paymentMethodsByYearMonth
+								}
+								setPaymentMethods={
+									setPaymentMethodsByYearMonth
+								}
+							/>
+						</div>
 					</div>
 				</div>
-				<div>
+
+				<div className="grid lg:grid-cols-12 gap-4 mt-6">
+					<div className="lg:col-span-5 xl:col-span-4">
+						<div className="tile">
+							<h6 className="mb-3">Users</h6>
+							<TableUserDashboard
+								users={tenLastUser}
+								setUsers={setTenLastUser}
+							/>
+						</div>
+					</div>
+
+					<div className="lg:col-span-7 xl:col-span-8">
+						<div className="tile">
+							<h6 className="mb-3">Orders</h6>
+							<TableOrdersDashboard
+								orders={tenOrders}
+								setOrders={setTenOrders}
+							/>
+						</div>
+					</div>
+				</div>
+
+				<div className="grid lg:grid-cols-2 gap-4 mt-6">
 					<div className="tile">
 						<h6 className="mb-3">
-							Total Payment Methods (
-							{paymentMethodsByYearMonth.month} -{' '}
-							{paymentMethodsByYearMonth.year})
+							Total orders by month ({ordersByYear.year})
 						</h6>
-						<ChartPiePaymentMethods
-							paymentMethods={paymentMethodsByYearMonth}
-							setPaymentMethods={
-								setPaymentMethodsByYearMonth
-							}
-						/>
+						<React.Suspense
+							fallback={<Loader loading={true} />}
+						>
+							<BarChartYearOrders
+								orders={ordersByYear}
+								setOrders={setOrdersByYear}
+							/>
+						</React.Suspense>
 					</div>
-				</div>
-			</div>
-
-			<div className="grid lg:grid-cols-12 gap-4 mt-6">
-				<div className="lg:col-span-5 xl:col-span-4">
 					<div className="tile">
-						<h6 className="mb-3">Users</h6>
-						<TableUserDashboard
-							users={tenLastUser}
-							setUsers={setTenLastUser}
-						/>
-					</div>
-				</div>
-
-				<div className="lg:col-span-7 xl:col-span-8">
-					<div className="tile">
-						<h6 className="mb-3">Orders</h6>
-						<TableOrdersDashboard
-							orders={tenOrders}
-							setOrders={setTenOrders}
-						/>
+						<h6 className="mb-3">
+							Total orders by day (
+							{ordersByYearMonth.month} -{' '}
+							{ordersByYearMonth.year})
+						</h6>
+						<React.Suspense
+							fallback={<Loader loading={true} />}
+						>
+							<LineChartOrders
+								orders={ordersByYearMonth}
+								setOrders={setOrdersByYearMonth}
+							/>
+						</React.Suspense>
 					</div>
 				</div>
 			</div>
-
-			<div className="grid lg:grid-cols-2 gap-4 mt-6">
-				<div className="tile">
-					<h6 className="mb-3">
-						Total orders by month ({ordersByYear.year})
-					</h6>
-					<React.Suspense fallback={<Loader loading={true} />}>
-						<BarChartYearOrders
-							orders={ordersByYear}
-							setOrders={setOrdersByYear}
-						/>
-					</React.Suspense>
-				</div>
-				<div className="tile">
-					<h6 className="mb-3">
-						Total orders by day ({ordersByYearMonth.month} -{' '}
-						{ordersByYearMonth.year})
-					</h6>
-					<React.Suspense fallback={<Loader loading={true} />}>
-						<LineChartOrders
-							orders={ordersByYearMonth}
-							setOrders={setOrdersByYearMonth}
-						/>
-					</React.Suspense>
-				</div>
-			</div>
-		</div>
+		</HeaderDashboard>
 	);
 };
 

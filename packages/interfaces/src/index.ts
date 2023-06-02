@@ -30,15 +30,22 @@ export enum ValidStatusOrder {
 	PENDING = 'pending',
 	COMPLETED = 'completed',
 	CANCELED = 'cancelled',
+	PAID = 'paid',
 }
 
 export const ARRSTATUSORDER: StatusOrder[] = [
 	ValidStatusOrder.CANCELED,
 	ValidStatusOrder.COMPLETED,
 	ValidStatusOrder.PENDING,
+	ValidStatusOrder.PAID,
 ];
 
 export * from './category';
 export * from './order';
 export * from './product';
 export * from './user';
+export * from './brands';
+export * from './providers';
+export * from './configEnterprise';
+export * from './configApp';
+export * from './bills';

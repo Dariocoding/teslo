@@ -7,3 +7,8 @@ export * from './paymentMethod-service';
 export * from './products-service';
 export * from './users-service';
 export * from './interfaces.api';
+export * from './brands-service';
+export * from './providers-service';
+export * from './config-enterprise-service';
+export * from './config-app-service';
+export * from './bill-service';

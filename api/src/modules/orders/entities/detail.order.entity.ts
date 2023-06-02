@@ -2,10 +2,9 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Product } from 'src/modules/products/entities';
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Order } from './order.entity';
-import { DetailOrder as IDetailOrder } from '@teslo/interfaces';
 
 @Entity('detail-order')
-export class DetailOrder implements IDetailOrder {
+export class DetailOrder {
 	@PrimaryGeneratedColumn()
 	@ApiProperty()
 	id?: number;
@@ -22,13 +21,11 @@ export class DetailOrder implements IDetailOrder {
 	@ApiProperty()
 	title?: string;
 
-	@ManyToOne(() => Product, product => product.detail, { eager: true })
+	@ManyToOne(() => Product, product => product.detailOrders, { eager: true })
 	@ApiProperty({ type: () => Product })
-	//@ts-ignore
 	product: Product;
 
 	@ManyToOne(() => Order, order => order.detail)
 	@ApiProperty()
-	//@ts-ignore
 	order?: Order;
 }

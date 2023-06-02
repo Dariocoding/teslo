@@ -10,3 +10,11 @@ export interface PaginationProductsDto extends Pagination {
 
 	status?: StatusProduct;
 }
+
+export interface FiltersAllProductDto {
+	categoryID?: string;
+
+	providerID?: string;
+
+	brandID?: string;
+}

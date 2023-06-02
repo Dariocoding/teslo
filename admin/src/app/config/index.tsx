@@ -1,21 +1,70 @@
 import HeaderDashboard from '@/layouts/HeaderDashboardLayout';
 import * as React from 'react';
 import Card from './Card';
-import dataOptions from './data/data-options';
+import dataOptions, { DataOption } from './data/data-options';
+import { validPaths } from '@/utils';
+import { FaCogs } from 'react-icons/fa';
+import EnterpriseForm from './forms/EnterpriseForm';
+import { useModalStore } from '@/store';
+
+const UserPrefixesForm = React.lazy(() => import('./forms/UserPrefixesForm'));
 
 interface IConfigPageProps {}
 
 const ConfigPage: React.FunctionComponent<IConfigPageProps> = props => {
 	const {} = props;
+	const { setModal } = useModalStore();
+
+	function openModalUserPrefixes() {
+		setModal({
+			title: 'User prefixes',
+			children: (
+				<React.Suspense fallback={<></>}>
+					<UserPrefixesForm />
+				</React.Suspense>
+			),
+		});
+	}
+
+	const onClickOption = (id: DataOption['id']) => {
+		if (id === 'user-prefixes') return openModalUserPrefixes;
+		return null;
+	};
+
 	return (
-		<React.Fragment>
-			<HeaderDashboard to="/dashboard">Dashboard</HeaderDashboard>
+		<HeaderDashboard
+			title={'Options'}
+			breadcrumbs={[
+				{ label: 'Dashboard', to: validPaths.home.path },
+				{ label: 'Options' },
+			]}
+			to={validPaths.home.path}
+			icon={<FaCogs />}
+		>
 			<div className="grid lg:grid-cols-3 gap-4">
-				{dataOptions.map(option => (
-					<Card {...option} key={option.to} />
-				))}
+				<div>
+					<div className="tile">
+						<h2 className="text-2xl font-bold text-center mb-2">
+							Enterprise data
+						</h2>
+
+						<EnterpriseForm />
+					</div>
+				</div>
+				<div className="lg:col-span-2">
+					<div className="grid lg:grid-cols-2 gap-4">
+						{dataOptions.map((option, idx) => (
+							<Card
+								{...option}
+								key={idx}
+								onClick={(() =>
+									onClickOption(option.id))()}
+							/>
+						))}
+					</div>
+				</div>
 			</div>
-		</React.Fragment>
+		</HeaderDashboard>
 	);
 };
 

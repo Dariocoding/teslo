@@ -6,10 +6,11 @@ interface ICheckboxProps {
 	isChecked: boolean;
 	onChange(isChecked?: boolean): void;
 	children?: React.ReactNode;
+	classNamesCheck?: string;
 }
 
 const Checkbox: FunctionComponent<ICheckboxProps> = props => {
-	const { isChecked, onChange } = props;
+	const { isChecked, onChange, classNamesCheck } = props;
 
 	return (
 		<span
@@ -17,9 +18,11 @@ const Checkbox: FunctionComponent<ICheckboxProps> = props => {
 			onClick={() => onChange(!isChecked)}
 		>
 			<div
-				className={classNames('rounded mr-2 w-4 h-4', {
-					'border border-black': !isChecked,
-				})}
+				className={classNames(
+					'rounded mr-2 w-4 h-4',
+					{ 'border border-black': !isChecked },
+					classNamesCheck
+				)}
 			>
 				<div
 					className={classNames(

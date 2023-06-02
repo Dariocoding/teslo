@@ -1,7 +1,5 @@
 import * as React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-
-import LoginPage from '@/app/login';
 import ProtectedRoute from './ProtectedRoute';
 import { PageProps, protectedRoutes, validPaths, publicRoutes } from '@/utils';
 import Loader from '../ui/Loader';

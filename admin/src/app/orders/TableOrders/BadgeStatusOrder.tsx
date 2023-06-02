@@ -5,17 +5,22 @@ import * as React from 'react';
 
 interface IBadgeStatusOrderProps {
 	status: StatusOrder;
+	className?: string;
+	full?: boolean;
 }
 
 const BadgeStatusOrder: React.FunctionComponent<IBadgeStatusOrderProps> = props => {
-	const { status } = props;
+	const { status, className = 'px-4', full = true } = props;
 	return (
 		<span
 			className={classNames(
-				'btn btn-xs cursor-default btn-pill px-4',
+				'btn btn-xs cursor-default btn-pill select-none',
 				status === 'cancelled' && 'btn-danger',
 				status === 'completed' && 'btn-success',
-				status === 'pending' && 'btn-warning'
+				status === 'pending' && 'btn-warning',
+				status === 'paid' && 'btn-info',
+				full && 'w-full max-w-[110px]',
+				className
 			)}
 		>
 			{capitalize(status)}

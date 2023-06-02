@@ -9,6 +9,7 @@ import { User } from '../users/entities/user.entity';
 import { handleDBErrors } from 'src/common/utils/handleDBErros';
 import { stringToSlug } from 'src/common/utils/string-to-slug';
 import { PaginationProductsDto } from './dto/pagination.products.dto';
+import { FiltersProductDto } from './dto/filters.product.dto';
 
 @Injectable()
 export class ProductsService {
@@ -58,7 +59,7 @@ export class ProductsService {
 			where: {
 				gender,
 				sizes: sizes ? ArrayContains(sizes) : null,
-				category: categories ? { idcategory: In(categories) } : null,
+				categories: categories ? { idcategory: In(categories) } : null,
 				status,
 			},
 			order: { dateCreated: 'DESC' },
@@ -84,7 +85,48 @@ export class ProductsService {
 
 	async findAllByCategory(idcategory: string) {
 		const products = await this.productRepository.find({
-			where: { category: { idcategory } },
+			where: { categories: { idcategory } },
+			order: { dateCreated: 'DESC' },
+		});
+
+		return products.map(product => ({
+			...product,
+			images: product.images.map(img => img.url),
+		}));
+	}
+
+	async findAllByBrand(idbrand: string) {
+		const products = await this.productRepository.find({
+			where: { brand: { idbrand } },
+			order: { dateCreated: 'DESC' },
+		});
+
+		return products.map(product => ({
+			...product,
+			images: product.images.map(img => img.url),
+		}));
+	}
+
+	async findAllByFilters(filters: FiltersProductDto) {
+		const { categoryID, brandID, providerID } = filters;
+		const products = await this.productRepository.find({
+			where: {
+				categories: categoryID && { idcategory: categoryID },
+				brand: brandID && { idbrand: brandID },
+				providers: providerID && { idprovider: providerID },
+			},
+			order: { dateCreated: 'DESC' },
+		});
+
+		return products.map(product => ({
+			...product,
+			images: product.images.map(img => img.url),
+		}));
+	}
+
+	async findAllByProvider(idprovider: string) {
+		const products = await this.productRepository.find({
+			where: { providers: { idprovider } },
 			order: { dateCreated: 'DESC' },
 		});
 

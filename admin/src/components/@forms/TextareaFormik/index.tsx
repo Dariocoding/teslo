@@ -37,7 +37,8 @@ const TextareaFormik: React.FunctionComponent<ITextareaFormikProps> = props => {
 		cols = 5,
 	} = props;
 
-	const { errors, touched, handleBlur, handleChange } = useFormikContext();
+	const { errors, touched, handleBlur, handleChange, values } = useFormikContext();
+	const value = getIn(values, name);
 	const error = getIn(errors, name);
 	const isTouched = getIn(touched, name);
 	const validateError = (error && isTouched && showError) || Boolean(forceErrorMessage);
@@ -66,6 +67,7 @@ const TextareaFormik: React.FunctionComponent<ITextareaFormikProps> = props => {
 				onChange={handleChange}
 				rows={rows}
 				cols={cols}
+				value={value}
 			/>
 
 			<RenderIf isTrue={validateError}>

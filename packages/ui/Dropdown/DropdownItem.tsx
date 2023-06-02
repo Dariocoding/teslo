@@ -1,33 +1,30 @@
-import { Menu } from "@headlessui/react";
-import classNames from "classnames";
-import * as React from "react";
+import { Menu } from '@headlessui/react';
+import classNames from 'classnames';
+import * as React from 'react';
 
 interface IDropdownItemProps {
-  children?: React.ReactNode;
-  className?: string;
-  classNameIsActive?: string;
-  onClick?(): void;
+	children?: React.ReactNode;
+	className?: string;
+	onClick?(): void;
+	sm?: boolean;
 }
 
-const DropdownItem: React.FunctionComponent<IDropdownItemProps> = (props) => {
-  const { className, classNameIsActive, onClick } = props;
-  const spanClassName = (active: boolean) => {
-    return classNames(
-      "block px-4 py-2 text-sm cursor-pointer",
-      { "bg-gray-100": active, "text-gray-700": !active },
-      classNameIsActive && active ? classNameIsActive : "",
-      className
-    );
-  };
-  return (
-    <Menu.Item>
-      {({ active }) => (
-        <span className={spanClassName(active)} onClick={onClick}>
-          {props.children}
-        </span>
-      )}
-    </Menu.Item>
-  );
+const DropdownItem: React.FunctionComponent<IDropdownItemProps> = props => {
+	const { className, onClick, sm } = props;
+
+	const spanClassName = classNames(
+		'block px-3 py-2 pr-4 cursor-pointer hover:bg-gray-100 hover:text-gray-900 text-gray-700',
+		sm ? 'text-xs' : 'text-sm',
+		className
+	);
+
+	return (
+		<Menu.Item>
+			<span className={spanClassName} onClick={onClick}>
+				{props.children}
+			</span>
+		</Menu.Item>
+	);
 };
 
 export default DropdownItem;

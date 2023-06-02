@@ -4,31 +4,42 @@ import Logo from '../Logo';
 import BackgroundAuth from './backgroundAuth';
 import classNames from 'classnames';
 import './_card.css';
-import { IS_THEMED, THEMED_SIDEBAR_CLASSNAMES } from '@/utils';
+import { useConfigApp } from '@/store';
+import { RenderIf } from 'react-rainbow-components';
 
 interface IAuthLayoutProps {
 	children?: React.ReactNode;
+	showLogo?: boolean;
+	showCard?: boolean;
 }
 
 const AuthLayout: React.FunctionComponent<IAuthLayoutProps> = props => {
+	const { showLogo, showCard = true } = props;
+	const { colors } = useConfigApp();
 	return (
 		<div className="min-h-screen">
-			<Material
-				className={classNames(
-					IS_THEMED && THEMED_SIDEBAR_CLASSNAMES.headerTop
-				)}
-			>
+			<Material className={classNames(colors.isThemed && colors.backgroundHome)}>
 				<BackgroundAuth />
 			</Material>
 			<div className="flex flex-col flex-auto items-center justify-center min-w-0 min-h-screen">
-				<div
-					className="min-w-[320px] bg-white rounded-lg md:min-w-[450px] shadow-xl p-8" /* bodyClass="md:p-10" */
-				>
-					<div className="text-center">
-						<Logo type="streamline" imgClass="mx-auto mb-1" />
+				<RenderIf isTrue={showCard}>
+					<div
+						className="max-w-[340px] backdrop-filter backdrop-blur-[9px] bg-opacity-5 w-full bg-gray-400 rounded-md shadow-2xl px-4 py-8" /* bodyClass="md:p-10" */
+					>
+						<RenderIf isTrue={showLogo}>
+							<div className="text-center">
+								<Logo
+									type="streamline"
+									imgClass="mx-auto mb-1"
+								/>
+							</div>
+						</RenderIf>
+						<div>{props.children}</div>
 					</div>
-					<div>{props.children}</div>
-				</div>
+				</RenderIf>
+				<RenderIf isTrue={!showCard}>
+					<div className="max-w-[600px] w-full">{props.children}</div>
+				</RenderIf>
 			</div>
 		</div>
 	);
@@ -42,10 +53,3 @@ const Material = styled.div`
 	position: fixed;
 	z-index: -1;
 `;
-
-/* SOME COLORS 
-#dff9fb
-#00d2d3
-#48dbfb
-#222f3e
-*/

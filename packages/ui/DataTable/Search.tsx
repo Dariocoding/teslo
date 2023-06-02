@@ -14,7 +14,7 @@ const SearchDataTable: FunctionComponent<ISearchDataTableProps> = props => {
 	return (
 		<RenderIf isTrue={showSearch || buttons}>
 			<div className="flex lg:justify-between justify-center lg:flex-row flex-col text-center mb-4">
-				<div>{buttons}</div>
+				<div className="w-full">{buttons}</div>
 
 				<RenderIf isTrue={showSearch}>
 					<div className="relative">

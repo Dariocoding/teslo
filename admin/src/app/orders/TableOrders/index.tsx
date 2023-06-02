@@ -9,6 +9,8 @@ import { AiOutlineReload } from 'react-icons/ai';
 import defaultHeadingOrders from './heading';
 import mapOrders from './MapOrders';
 import { TablePlaceholder } from '@/components/placeholders';
+import ButtonsTableOrders from './ButtonsTable';
+import { FindOrdersByDateDto } from '@teslo/services/dist/services/orders-service/interfaces';
 
 const FormUpdateOrder = React.lazy(() => import('../forms/FormUpdateOrder'));
 const ModalViewUser = React.lazy(() => import('./ModalViewUser'));
@@ -21,6 +23,8 @@ interface TableOrdersProps {
 	setOrders(orders: Order[]): void;
 	showPagination?: boolean;
 	showSearch?: boolean;
+	buttons?: React.ReactNode;
+	showSelects?: boolean;
 }
 
 const TableOrders: React.FunctionComponent<TableOrdersProps> = props => {
@@ -32,8 +36,10 @@ const TableOrders: React.FunctionComponent<TableOrdersProps> = props => {
 		refetch,
 		showPagination,
 		showSearch,
+		buttons,
+		showSelects,
 	} = props;
-
+	const [isLoading, setIsLoading] = React.useState(false);
 	const setModal = useModalStore(state => state.setModal);
 	const closeModal = useModalStore(state => state.closeModal);
 
@@ -88,22 +94,20 @@ const TableOrders: React.FunctionComponent<TableOrdersProps> = props => {
 		<DataTable
 			placeholder={<TablePlaceholder />}
 			buttons={
-				<>
-					<RenderIf isTrue={refetch}>
-						<button
-							className="btn btn-alternative btn-xs"
-							onClick={refetch}
-						>
-							<AiOutlineReload />
-						</button>
-					</RenderIf>
-				</>
+				<ButtonsTableOrders
+					setOrders={setOrders}
+					buttons={buttons}
+					refetch={refetch}
+					setIsLoadingTable={setIsLoading}
+					showSelects={showSelects}
+				/>
 			}
 			data={mapOrders({ orders, onClickUpdateOrder, onClickViewUser })}
-			loading={isFetching}
+			loading={isFetching || isLoading}
 			heading={heading}
 			showPagination={showPagination}
 			showSearch={showSearch}
+			showResponsive={false}
 		/>
 	);
 };

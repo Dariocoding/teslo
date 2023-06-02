@@ -1,10 +1,10 @@
 import React from 'react';
 import classNames from 'classnames';
-import { APP_NAME } from '@/utils';
+import { APP_NAME, PF } from '@/utils';
 
-const LOGO_SRC_PATH = '/img/logo/';
+const LOGO_SRC_PATH = PF + '/logo_enterprise';
 
-interface ILogoProps {
+export interface ILogoProps {
 	mode?: 'light' | 'dark';
 	type?: 'full' | 'streamline';
 	gutter?: string;
@@ -12,6 +12,7 @@ interface ILogoProps {
 	logoWidth?: string | number;
 	style?: React.CSSProperties;
 	className?: string;
+	logoHeight?: string | number;
 }
 const Logo: React.FunctionComponent<ILogoProps> = props => {
 	const {
@@ -22,6 +23,7 @@ const Logo: React.FunctionComponent<ILogoProps> = props => {
 		imgClass,
 		style,
 		logoWidth = 'auto',
+		logoHeight = '34px',
 	} = props;
 
 	return (
@@ -29,13 +31,16 @@ const Logo: React.FunctionComponent<ILogoProps> = props => {
 			className={classNames('logo', className, gutter)}
 			style={{
 				...style,
-				...{ width: logoWidth },
 			}}
 		>
 			<img
 				className={imgClass}
-				src={`${LOGO_SRC_PATH}logo-${mode}-${type}.png`}
+				src={`${LOGO_SRC_PATH}/${mode}/${type}`}
 				alt={`${APP_NAME} logo`}
+				style={{
+					...{ width: logoWidth },
+					...{ height: logoHeight, objectFit: 'cover' },
+				}}
 			/>
 		</div>
 	);

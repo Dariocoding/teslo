@@ -1,8 +1,13 @@
+import { useModalStore } from '@/store';
 import { protectedRoutes } from '@/utils';
 import { Product } from '@teslo/interfaces';
+import Dropdown from '@teslo/react-ui/Dropdown';
+import DropdownItem from '@teslo/react-ui/Dropdown/DropdownItem';
 import * as React from 'react';
-import { FaEye, FaPen, FaTrash } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import { FaCog, FaEye, FaPen, FaShoppingCart, FaTrash } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
+import { BsFillCartPlusFill } from 'react-icons/bs';
+import { useNotificationAddToCart } from '@/components/ui/NotificationAddToCart/useNotificationAddToCart';
 
 interface IActionsProductsProps {
 	product: Product;
@@ -10,33 +15,68 @@ interface IActionsProductsProps {
 	onUpdateProduct(product: Product): void;
 }
 
+const FormAddProductCart = React.lazy(() => import('@/app/products/forms/FormAddProductCart'));
+
 const ActionsProducts: React.FunctionComponent<IActionsProductsProps> = props => {
 	const { product, onDeleteProduct, onUpdateProduct } = props;
-
+	const { setModal, closeModal } = useModalStore();
+	const notifyCart = useNotificationAddToCart();
+	const navigate = useNavigate();
+	const handleClickViewProduct = () =>
+		navigate(protectedRoutes.viewProduct.fnPath(product.id));
 	const handleClickUpdateProduct = () => onUpdateProduct(product);
 	const handleClickDeleteProduct = () => onDeleteProduct(product);
 
+	const handleClickAddProductCart = () => {
+		setModal({
+			title: 'Add Product to Cart',
+			children: (
+				<React.Suspense fallback={<></>}>
+					<FormAddProductCart
+						product={product}
+						onSuccess={() => closeModal()}
+					/>
+				</React.Suspense>
+			),
+		});
+	};
+
 	return (
-		<div>
-			<Link
-				to={protectedRoutes.viewProduct.fnPath(product.id)}
-				className="btn btn-success btn-xs"
-			>
-				<FaEye />
-			</Link>
+		<React.Fragment>
 			<button
-				className="btn btn-primary btn-xs"
-				onClick={handleClickUpdateProduct}
+				type="button"
+				className="btn btn-warning btn-xs"
+				onClick={handleClickAddProductCart}
 			>
-				<FaPen />
+				<FaShoppingCart className="t" />
 			</button>
-			<button
-				className="btn btn-danger btn-xs"
-				onClick={handleClickDeleteProduct}
+			<Dropdown
+				displayButton={
+					<button type="button" className="btn btn-dark btn-xs">
+						<FaCog />
+					</button>
+				}
 			>
-				<FaTrash />
-			</button>
-		</div>
+				<DropdownItem
+					className="flex items-center justify-start gap-1 text-sm"
+					onClick={handleClickViewProduct}
+				>
+					<FaEye className="text-green-700" /> View Product
+				</DropdownItem>
+				<DropdownItem
+					className="flex items-center justify-start gap-1 text-sm"
+					onClick={handleClickUpdateProduct}
+				>
+					<FaPen className="text-blue-500" /> Edit Product
+				</DropdownItem>
+				<DropdownItem
+					className="flex items-center justify-start gap-1 text-sm"
+					onClick={handleClickDeleteProduct}
+				>
+					<FaTrash className="text-red-700" /> Delete Product
+				</DropdownItem>
+			</Dropdown>
+		</React.Fragment>
 	);
 };
 

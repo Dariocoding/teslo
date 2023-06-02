@@ -1,4 +1,14 @@
-import { Controller, Get, Post, Body, Put, Param, HttpStatus, ParseIntPipe } from '@nestjs/common';
+import {
+	Controller,
+	Get,
+	Post,
+	Body,
+	Put,
+	Param,
+	HttpStatus,
+	ParseIntPipe,
+	Query,
+} from '@nestjs/common';
 import { OrdersService } from './orders.service';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
@@ -7,6 +17,7 @@ import { JwtPayload } from '../auth/interfaces';
 import { ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Order } from './entities/order.entity';
 import { ValidRoles } from '@teslo/interfaces';
+import { FindOrdersByDateDto } from './dto/find-orders-by-date.dto';
 
 @Controller('orders')
 @ApiTags('5 - Orders')
@@ -23,8 +34,8 @@ export class OrdersController {
 	@Get()
 	@Auth()
 	@ApiResponse({ type: () => Order, status: HttpStatus.OK, isArray: true })
-	findAll(@GetUser() user: JwtPayload) {
-		return this.ordersService.findAll(user);
+	findAll(@GetUser() user: JwtPayload, @Query() findOrdersByDateDto: FindOrdersByDateDto) {
+		return this.ordersService.findAll(user, findOrdersByDateDto);
 	}
 
 	@Get('/all/:userid')

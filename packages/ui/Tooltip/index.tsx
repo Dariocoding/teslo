@@ -8,15 +8,20 @@ interface Props {
 	message?: string;
 	placement?: PlacesType;
 	className?: string;
+	onClick?(): void;
 }
 
 const ToolTip: React.FunctionComponent<Props> = props => {
-	const { children, message, placement = 'top', className } = props;
+	const { children, message, placement = 'top', className, onClick } = props;
 	const id = useId();
 
 	return (
 		<React.Fragment>
-			<span id={id} className={classNames('inline-block', className)}>
+			<span
+				id={id}
+				className={classNames('inline-block', className)}
+				onClick={onClick}
+			>
 				{children}
 			</span>
 

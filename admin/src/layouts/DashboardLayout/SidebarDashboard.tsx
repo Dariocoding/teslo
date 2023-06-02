@@ -5,16 +5,16 @@ import RenderIf from '@teslo/react-ui/RenderIf';
 import './styles/_side-nav.css';
 import Logo from '../Logo';
 import {
-	IS_THEMED,
 	LOGO_X_GUTTER,
 	SIDE_NAV_COLLAPSED_WIDTH,
 	SIDE_NAV_CONTENT_GUTTER,
 	SIDE_NAV_WIDTH,
-	THEMED_SIDEBAR_CLASSNAMES,
+	colors,
 	validPaths,
 } from '@/utils';
 import { useDashboardStore } from './store/dashboardStore';
 import { Link } from 'react-router-dom';
+import { useConfigApp } from '@/store';
 
 const Drawer = React.lazy(() => import('@teslo/react-ui/Drawer'));
 const VerticalMenuContent = React.lazy(() => import('./VerticalMenuContent'));
@@ -34,7 +34,7 @@ const sideNavStyle = {
 const SidebarDashboard: React.FC<ISidebarDashboardProps> = props => {
 	const {} = props;
 	const { closeCollapse, isCollapsed } = useDashboardStore();
-
+	const { colors } = useConfigApp();
 	const { mobile, desktop } = useResponsive();
 
 	return (
@@ -61,17 +61,15 @@ const SidebarDashboard: React.FC<ISidebarDashboardProps> = props => {
 					style={isCollapsed ? sideNavCollapseStyle : sideNavStyle}
 					className={classNames(
 						'side-nav side-nav-light print:hidden',
-						IS_THEMED && THEMED_SIDEBAR_CLASSNAMES.textColor,
-						IS_THEMED &&
-							THEMED_SIDEBAR_CLASSNAMES.sidebarContainer,
+						colors.isThemed && colors.textColor,
+						colors.isThemed && colors.sidebarContainer,
 						!isCollapsed && 'side-nav-expand'
 					)}
 				>
 					<div
 						className={classNames(
 							'side-nav-header fixed py-[0.95rem]',
-							IS_THEMED &&
-								THEMED_SIDEBAR_CLASSNAMES.topLogoContainer
+							colors.isThemed && colors.topLogoContainer
 						)}
 						style={
 							isCollapsed
@@ -86,7 +84,11 @@ const SidebarDashboard: React.FC<ISidebarDashboardProps> = props => {
 										? 'full'
 										: 'streamline'
 								}
-								mode={IS_THEMED ? 'dark' : 'light'}
+								mode={
+									colors.isThemed
+										? 'dark'
+										: 'light'
+								}
 								gutter={
 									!isCollapsed
 										? SIDE_NAV_CONTENT_GUTTER

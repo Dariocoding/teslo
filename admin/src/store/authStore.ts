@@ -1,4 +1,3 @@
-import { hideLoader } from '@/components/ui/Loader';
 import { User } from '@teslo/interfaces';
 import { authService, ReturnValuesLogin, tokenAuth } from '@teslo/services';
 import { create } from 'zustand';
@@ -66,7 +65,6 @@ export const useAuthStore = create<AuthStoreValues>(set => ({
 				authenticated: false,
 			});
 		} finally {
-			hideLoader();
 		}
 	},
 }));

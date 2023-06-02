@@ -10,10 +10,23 @@ import {
 	ValidRoles,
 	ValidStatusOrder,
 } from '@teslo/interfaces';
+import { CreateConfigEnterpriseDto } from 'src/modules/config-enterprise/dto/create-config-enterprise.dto';
+import { CreateConfigAppDto } from 'src/modules/config-app/dto/create-config-app.dto';
+import { CreateProviderDto } from 'src/modules/providers/dto/create-provider.dto';
+
+interface SeedConfigEnterprise extends CreateConfigEnterpriseDto {}
+
+interface SeedConfigApp extends CreateConfigAppDto {}
 
 interface SeedCategory {
 	title: string;
 }
+
+interface SeedBrand {
+	title: string;
+}
+
+interface SeedProvider extends CreateProviderDto {}
 
 interface SeedProduct {
 	description: string;
@@ -68,6 +81,10 @@ interface SeedData {
 	categories: SeedCategory[];
 	orders: SeedOrder[];
 	payments: SeedPaymentMethod[];
+	providers: SeedProvider[];
+	brands: SeedBrand[];
+	configEnterprise: SeedConfigEnterprise;
+	configApp: SeedConfigApp;
 }
 
 export const initialData: SeedData = {
@@ -754,6 +771,40 @@ export const initialData: SeedData = {
 		{ title: 'Skirts' },
 	],
 
+	brands: [
+		{ title: 'Nike' },
+		{ title: 'RSR24' },
+		{ title: 'Lions Roots' },
+		{ title: 'Macuto' },
+	],
+
+	providers: [
+		{
+			name: 'Macuto',
+			phone1: '042406210601',
+			phone2: '042406210601',
+			email: 'correo@correo.com',
+		},
+		{
+			name: 'El Cuerno',
+			phone1: '042406210601',
+			phone2: '042406210601',
+			email: 'correo@correo.com',
+		},
+		{
+			name: 'El Hormigon',
+			phone1: '042406210601',
+			phone2: '042406210601',
+			email: 'correo@correo.com',
+		},
+		{
+			name: 'TodoHogar',
+			phone1: '042406210601',
+			phone2: '042406210601',
+			email: 'correo@correo.com',
+		},
+	],
+
 	payments: [
 		{
 			email: 'darioflores170@gmail.com',
@@ -791,4 +842,39 @@ export const initialData: SeedData = {
 			status: ValidStatusOrder.CANCELED,
 		},
 	],
+
+	configEnterprise: {
+		name: 'Teslo',
+		phone: '042406210601',
+		email: 'teslo@gmail.com',
+		iva: 16.0,
+		address: '',
+		prefixes: ['J-', 'V-', 'E-'],
+	},
+
+	configApp: {
+		colorsAdmin: {
+			topLogoContainer: 'bg-slate-900 border-slate-800 border-t-0',
+			headerTop: 'bg-slate-800',
+			textColor: 'text-gray-50',
+			textSubtitleSidebar: 'text-gray-50',
+			hoverNavToggle: 'hover:bg-slate-700',
+			sidebarContainer: 'bg-slate-800 border-0',
+			sidebarItemHover: 'hover:bg-slate-700',
+			sidebarItemDropdown: 'hover:bg-slate-500',
+			sidebarDropdownCollapsedContainer: 'bg-slate-700',
+			loaderColor: 'text-slate-700',
+			backgroundHome: 'bg-slate-800',
+			isThemed: true,
+			isThemeDarkLogin: true,
+		},
+		emailFrom: '',
+		emailHost: '',
+		emailName: '',
+		emailPassword: '',
+		emailPort: 0,
+		emailSecure: '',
+		emailUser: '',
+		chatGptKey: '',
+	},
 };

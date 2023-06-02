@@ -10,3 +10,15 @@ html,
 .tile {
 	@apply relative flex flex-col min-w-0 break-words w-full mb-6 shadow-md rounded-lg bg-white p-6;
 }
+
+.react-confirm-alert-body h1 {
+	@apply text-xl font-bold mb-1;
+}
+
+.react-confirm-alert-button-group button:first-child {
+	@apply bg-teal-600 text-white hover:bg-teal-500 transition;
+}
+
+.react-confirm-alert-button-group button:nth-child(2) {
+	@apply bg-red-600 text-white hover:bg-red-500 transition;
+}

@@ -1,18 +1,18 @@
 import RenderIf from '@teslo/react-ui/RenderIf';
-import { PF } from '@/utils';
+import { PF, validPaths } from '@/utils';
 import { Product } from '@teslo/interfaces';
 import dayjs from 'dayjs';
 import * as React from 'react';
 import { FaPen, FaTrash } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 
 interface IHeaderViewProductProps {
 	product: Product;
-	onUpdateProduct: () => void;
 	onDeleteProduct: () => void;
 }
 
 const HeaderViewProduct: React.FunctionComponent<IHeaderViewProductProps> = props => {
-	const { product, onDeleteProduct, onUpdateProduct } = props;
+	const { product, onDeleteProduct } = props;
 
 	return (
 		<div className="grid lg:grid-cols-12 lg:gap-8 gap-4">
@@ -33,14 +33,18 @@ const HeaderViewProduct: React.FunctionComponent<IHeaderViewProductProps> = prop
 					</div>
 					<h6 className="text-center mb-1.5">{product.title}</h6>
 					<div className="flex flex-col justify-end items-end h-full">
-						<button
-							onClick={onUpdateProduct}
+						<Link
+							to={validPaths.editProduct.fnPath(
+								product.id
+							)}
+							type="button"
 							className="mx-auto w-full btn btn-primary btn-sm"
 						>
 							Update Product <FaPen className="ml-2" />
-						</button>
+						</Link>
 
 						<button
+							type="button"
 							className="mx-auto w-full btn btn-danger btn-sm"
 							onClick={onDeleteProduct}
 						>
@@ -72,6 +76,13 @@ const HeaderViewProduct: React.FunctionComponent<IHeaderViewProductProps> = prop
 						<span className="font-bold">Sizes:</span>{' '}
 						{product.sizes?.join(', ')}
 					</p>
+
+					<RenderIf isTrue={product.status}>
+						<p>
+							<span className="font-bold">Status:</span>{' '}
+							{product.status}
+						</p>
+					</RenderIf>
 
 					<RenderIf isTrue={product.description}>
 						<p>

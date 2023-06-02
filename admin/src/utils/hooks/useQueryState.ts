@@ -1,25 +1,20 @@
 import { QueryFunction, useQuery, UseQueryResult } from '@tanstack/react-query';
 import React from 'react';
-const twentyFourHoursInMs = 1000 * 60 * 60 * 24;
 
 const useQueryState = <T = unknown>(
 	queryKey: string[],
 	queryFn: QueryFunction<T, any>,
 	initialData: any
-): UseQueryResult<T, unknown> & { setData: React.Dispatch<T> } => {
+): UseQueryResult<T, unknown> & { setData: React.Dispatch<T>; isLoading: boolean } => {
 	const [firstLoad, setFirstLoad] = React.useState(false);
 	const [isFetched, setIsFetched] = React.useState(false);
+	const [data, setData] = React.useState(initialData);
 
 	const query = useQuery(queryKey, queryFn, {
 		initialData,
-		refetchOnWindowFocus: false,
-		refetchOnMount: true,
-		refetchOnReconnect: false,
-		retry: false,
-		staleTime: twentyFourHoursInMs,
+		staleTime: Infinity,
+		enabled: false,
 	});
-
-	const [data, setData] = React.useState(query.data);
 
 	React.useEffect(() => {
 		query.refetch();
@@ -34,11 +29,20 @@ const useQueryState = <T = unknown>(
 		}
 	}, [query.data, query.isFetching]);
 
+	const isLoading =
+		query.isFetching ||
+		!isFetched ||
+		!firstLoad ||
+		query.isRefetching ||
+		query.isLoading;
+
+	//@ts-ignore
 	return {
 		...query,
 		data: data || query.data,
 		setData,
-		isFetching: query.isFetching || !isFetched || !firstLoad,
+		isFetching: isLoading,
+		isLoading,
 	};
 };
 

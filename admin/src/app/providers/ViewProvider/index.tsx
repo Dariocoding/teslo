@@ -1,0 +1,105 @@
+import Loader from '@/components/ui/Loader';
+import HeaderDashboard from '@/layouts/HeaderDashboardLayout';
+import { protectedRoutes, validPaths } from '@/utils';
+import * as React from 'react';
+import { FaTag } from 'react-icons/fa';
+import { Navigate, useNavigate, useParams } from 'react-router-dom';
+import toast from 'react-hot-toast';
+import { brandsService, providersService } from '@teslo/services';
+import { Provider } from '@teslo/interfaces';
+import { useModalStore } from '@/store';
+import { useFetchProvider } from '../hooks/useFetchProvider';
+import HeaderViewProvider from './HeaderViewProvider';
+import ModalDeleteProvider from '../TableProviders/ModalDeleteProvider';
+import RenderIf from '@teslo/react-ui/RenderIf';
+import TableProductsProviderId from './TableProductsByProvider';
+
+interface IViewProviderPageProps {}
+
+const FormProvider = React.lazy(() => import('../forms/FormProvider'));
+
+const ViewProviderPage: React.FunctionComponent<IViewProviderPageProps> = props => {
+	const {} = props;
+	const navigate = useNavigate();
+	const params = useParams();
+	const { data: provider, setData, isFetching } = useFetchProvider(params.id);
+	const setModal = useModalStore(state => state.setModal);
+	const closeModal = useModalStore(state => state.closeModal);
+	const [showModalDeleteProvider, setShowModalDeleteProvider] = React.useState(false);
+	const [isLoadingDeleteBrand, setIsLoadingDeleteBrand] = React.useState(null);
+
+	const onUpdate = () => {
+		const onSuccess = (data: Provider) => {
+			setData({ ...provider, ...data });
+			closeModal();
+		};
+
+		setModal({
+			title: 'Update Brand',
+			children: (
+				<React.Suspense fallback={<></>}>
+					<FormProvider provider={provider} onSuccess={onSuccess} />
+				</React.Suspense>
+			),
+			size: 'md',
+		});
+	};
+
+	const onCloseModalDelete = () => setShowModalDeleteProvider(false);
+	const onDelete = () => setShowModalDeleteProvider(true);
+
+	const onAcceptDeleteProvider = async () => {
+		try {
+			setIsLoadingDeleteBrand(true);
+			await providersService.delete(provider.idprovider);
+			onCloseModalDelete();
+			toast.success('Brand deleted successfully');
+			navigate(protectedRoutes.brands.path);
+		} catch (error) {
+			console.log(error);
+			toast.error(
+				error.response.data.message ||
+					'There was an error deleting the provider'
+			);
+		} finally {
+			setIsLoadingDeleteBrand(false);
+		}
+	};
+
+	if (isFetching) return <Loader loading={true} />;
+
+	if (!provider) return <Navigate replace to={protectedRoutes.providers.path} />;
+
+	return (
+		<HeaderDashboard
+			to={validPaths.providers.path}
+			title={'Provider'}
+			icon={<FaTag />}
+			breadcrumbs={[
+				{ label: 'Dashboard', to: validPaths.home.path },
+				{ label: 'Providers', to: validPaths.brands.path },
+				{ label: provider?.name || 'Provider' },
+			]}
+		>
+			<HeaderViewProvider
+				provider={provider}
+				onDelete={onDelete}
+				onUpdate={onUpdate}
+			/>
+			<TableProductsProviderId provider={provider} />
+			<RenderIf isTrue={showModalDeleteProvider}>
+				<React.Suspense fallback={<></>}>
+					<ModalDeleteProvider
+						onAcceptDelete={onAcceptDeleteProvider}
+						onClose={onCloseModalDelete}
+						show={showModalDeleteProvider}
+						provider={provider}
+						isLoading={isLoadingDeleteBrand}
+					/>
+				</React.Suspense>
+			</RenderIf>
+		</HeaderDashboard>
+	);
+};
+
+export default ViewProviderPage;

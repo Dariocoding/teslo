@@ -1,6 +1,8 @@
 import Logo from '@/layouts/Logo';
+import { useConfigEnterpriseStore } from '@/store';
 import { APP_EMAIL, APP_NAME, APP_PHONE, capitalize, formatter, PF } from '@/utils';
 import { Order } from '@teslo/interfaces';
+import RenderIf from '@teslo/react-ui/RenderIf';
 import dayjs from 'dayjs';
 import * as React from 'react';
 import { FaPrint } from 'react-icons/fa';
@@ -11,6 +13,7 @@ interface IInvoiceOrderProps {
 
 const InvoiceOrder: React.FunctionComponent<IInvoiceOrderProps> = props => {
 	const { order } = props;
+	const { configEnterprise } = useConfigEnterpriseStore();
 	const { user } = order;
 	return (
 		<div className="tile">
@@ -30,18 +33,29 @@ const InvoiceOrder: React.FunctionComponent<IInvoiceOrderProps> = props => {
 					<div>
 						Data Enterprise:
 						<address className="mt-1">
-							<strong className="mb-2">{APP_NAME}</strong>
-							<br />
-							<strong>Tel: </strong> {APP_PHONE}
-							<br />
-							<strong>Email: </strong> {APP_EMAIL}
-							<br />
+							<RenderIf isTrue={configEnterprise.name}>
+								<strong className="mb-2">
+									{configEnterprise.name}
+								</strong>
+								<br />
+							</RenderIf>
+							<RenderIf isTrue={configEnterprise.phone}>
+								<strong>Tel: </strong>{' '}
+								{configEnterprise.phone}
+								<br />
+							</RenderIf>
+
+							<RenderIf isTrue={configEnterprise.email}>
+								<strong>Email: </strong> {APP_EMAIL}
+								<br />
+							</RenderIf>
+
 							<a
 								target="_blank"
 								rel="noreferrer"
 								href={'#!'}
 							>
-								http://127.0.0.1:5173
+								{window.location.origin}
 							</a>
 						</address>
 					</div>

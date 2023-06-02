@@ -1,29 +1,34 @@
 import ButtonFormik from '@/components/@forms/ButtonFormik';
 import InputFormik from '@/components/@forms/InputFormik';
 import { useModalStore } from '@/store';
+import { validPaths } from '@/utils';
 import { SendRequestPasswordRecoverDto, usersService } from '@teslo/services';
 import { Form, Formik } from 'formik';
 import * as React from 'react';
-import { toast } from 'react-toastify';
+import toast from 'react-hot-toast';
+import { createSearchParams, useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 
-interface IForgottenPasswordFormProps {}
-
-const INITIAL_VALUES: SendRequestPasswordRecoverDto = {
-	email: '',
-};
+interface IForgottenPasswordFormProps {
+	defaultEmail?: string;
+}
 
 const validationSchema = Yup.object({
 	email: Yup.string().required('Email is required').email('Email not valid'),
 });
 
 const ForgottenPasswordForm: React.FunctionComponent<IForgottenPasswordFormProps> = props => {
-	const {} = props;
+	const { defaultEmail } = props;
 	const { closeModal } = useModalStore();
+	const navigate = useNavigate();
 
 	const onSubmit = async (values: SendRequestPasswordRecoverDto) => {
 		try {
 			const req = await usersService.sendRequestPassword(values);
+			navigate({
+				pathname: validPaths.verifyEmailSent.path,
+				search: createSearchParams({ email: values.email }).toString(),
+			});
 			toast.success(req.data.msg);
 			closeModal();
 		} catch (error) {
@@ -32,6 +37,10 @@ const ForgottenPasswordForm: React.FunctionComponent<IForgottenPasswordFormProps
 				error.response.data.message || 'Error sending message to the email'
 			);
 		}
+	};
+
+	const INITIAL_VALUES: SendRequestPasswordRecoverDto = {
+		email: defaultEmail || '',
 	};
 
 	return (
@@ -48,7 +57,7 @@ const ForgottenPasswordForm: React.FunctionComponent<IForgottenPasswordFormProps
 					showSuccess={false}
 				/>
 
-				<ButtonFormik full className="btn-primary">
+				<ButtonFormik full className="btn-primary btn-sm">
 					Send Email
 				</ButtonFormik>
 			</Form>

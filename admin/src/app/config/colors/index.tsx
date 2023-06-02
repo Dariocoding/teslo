@@ -1,0 +1,51 @@
+import HeaderDashboard from '@/layouts/HeaderDashboardLayout';
+import { validPaths } from '@/utils';
+import * as React from 'react';
+import { AiOutlineBgColors } from 'react-icons/ai';
+import ShowColors from './ShowColors';
+import FormColors from './FormColors';
+import RecomendedColors from './RecommendedColors';
+import { useConfigApp } from '@/store';
+
+interface IColorsPageProps {}
+
+const ColorsPage: React.FunctionComponent<IColorsPageProps> = props => {
+	const {} = props;
+
+	return (
+		<HeaderDashboard
+			to={validPaths.settings.path}
+			breadcrumbs={[
+				{
+					to: validPaths.dashboard.path,
+					label: 'Dashboard',
+				},
+
+				{
+					to: validPaths.settings.path,
+					label: 'Settings',
+				},
+				{
+					to: validPaths.colorsAdmin.path,
+					label: 'Colors',
+				},
+			]}
+			icon={<AiOutlineBgColors />}
+			title={'Colors Admin'}
+		>
+			<div className="grid lg:grid-cols-7 gap-4">
+				<div className="lg:col-span-3">
+					<div className="tile">
+						<FormColors onSuccess={() => {}} />
+					</div>
+					<RecomendedColors />
+				</div>
+				<div className="tile lg:col-span-4">
+					<ShowColors />
+				</div>
+			</div>
+		</HeaderDashboard>
+	);
+};
+
+export default ColorsPage;

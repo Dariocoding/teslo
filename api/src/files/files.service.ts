@@ -13,6 +13,14 @@ export class FilesService {
 		});
 	}
 
+	getLogoEnterpriseImage(mode: string, type: string) {
+		return this.getPath({
+			imageName: `/logo-${mode}-${type}.png`,
+			name: 'logo enterprise',
+			staticPath: `logo_enterprise`,
+		});
+	}
+
 	private getPath(object: { imageName: string; name: string; staticPath: string }) {
 		const { staticPath, imageName, name } = object;
 		const path = join(__dirname, `../../static/${staticPath}`, imageName);

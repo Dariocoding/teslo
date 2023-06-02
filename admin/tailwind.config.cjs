@@ -1,3 +1,56 @@
+const colors = [
+	'slate',
+	'gray',
+	'zinc',
+	'neutral',
+	'stone',
+	'red',
+	'orange',
+	'amber',
+	'yellow',
+	'lime',
+	'green',
+	'emerald',
+	'teal',
+	'cyan',
+	'sky',
+	'blue',
+	'indigo',
+	'violet',
+	'purple',
+	'fuchsia',
+	'pink',
+	'rose',
+];
+
+const colorsNumbers = ['50', '100', '200', '300', '400', '500', '600', '700', '800', '900'];
+
+const tailwindColors = [
+	...colorsNumbers
+		.map(number => {
+			const colorsNormal = colors.map(color => {
+				return `bg-${color}-${number}`;
+			});
+
+			const colorsHover = colors.map(color => {
+				return `hover:${color}-${number}`;
+			});
+
+			const borderColors = colors.map(color => {
+				return `border-${color}-${number}`;
+			});
+
+			const textColors = colors.map(color => {
+				return `text-${color}-${number}`;
+			});
+
+			const borders = ['border', 'border-t', 'border-r', 'border-b', 'border-l'];
+
+			return [...colorsNormal, ...colorsHover, ...borderColors, ...borders];
+		})
+		.flat(),
+];
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
 	content: [
@@ -7,6 +60,7 @@ module.exports = {
 	],
 	darkMode: 'class',
 	important: true,
+	safelist: [...tailwindColors],
 	theme: {
 		extend: {
 			animation: {

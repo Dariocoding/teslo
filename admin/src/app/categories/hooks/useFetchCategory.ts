@@ -4,10 +4,10 @@ import { categoriesService } from '@teslo/services';
 
 async function fetchCategory(ctx: QueryFunctionContext) {
 	const { queryKey } = ctx;
-	const { data } = await categoriesService.getCategory(queryKey[0] as string);
+	const { data } = await categoriesService.getCategory(queryKey[1] as string);
 	return data;
 }
 
 export function useFetchCategory(id: string) {
-	return useQueryState([id], fetchCategory, null);
+	return useQueryState(['category', id], fetchCategory, null);
 }

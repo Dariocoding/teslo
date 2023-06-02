@@ -1,8 +1,10 @@
 import { Order, OrderDto } from '@teslo/interfaces';
 import { axiosClient } from '../../config/axios';
+import { FindOrdersByDateDto } from './interfaces';
 
 export const ordersService = {
-	getOrders: () => axiosClient.get<Order[]>('/orders'),
+	getOrders: (params?: FindOrdersByDateDto) =>
+		axiosClient.get<Order[]>('/orders', { params }),
 	getOrderById: (orderId: string | number) => axiosClient.get<Order>(`/orders/${orderId}`),
 	getOrdersByIdUser: (userId: string) => axiosClient.get<Order[]>(`/orders/all/${userId}`),
 	getOrdersByPaymentMethod: (id: string | number) =>

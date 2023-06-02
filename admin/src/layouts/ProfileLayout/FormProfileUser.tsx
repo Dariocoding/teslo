@@ -1,9 +1,9 @@
-import { validationSchemaUpdateUserDto } from '@/app/users/forms/validationSchemaUserDto';
 import ButtonFormik from '@/components/@forms/ButtonFormik';
 import InputFormik from '@/components/@forms/InputFormik';
 import { User, UserDto } from '@teslo/interfaces';
 import { Form, Formik, FormikHelpers } from 'formik';
 import * as React from 'react';
+import * as yup from 'yup';
 
 interface IFormProfileUserProps {
 	user: User;
@@ -29,11 +29,18 @@ const FormProfileUser: React.FunctionComponent<IFormProfileUserProps> = props =>
 		actions.setSubmitting(false);
 	}
 
+	const validationSchema = yup.object({
+		firstName: yup.string().required('First Name is required.'),
+		lastName: yup.string().required('Last Name is requred.'),
+		email: yup.string().required('Email is required.').email('Email not Valid.'),
+		password: yup.string().min(6, 'Password should be at least 6 characters'),
+	});
+
 	return (
 		<Formik
 			initialValues={initialValues}
 			onSubmit={onSubmit}
-			validationSchema={validationSchemaUpdateUserDto}
+			validationSchema={validationSchema}
 		>
 			<Form className="text-start">
 				<InputFormik

@@ -1,7 +1,9 @@
 import * as React from 'react';
 
 interface IAppRouteProps {
-	component: React.LazyExoticComponent<React.FunctionComponent<any>>;
+	component: React.MemoExoticComponent<
+		React.LazyExoticComponent<React.FunctionComponent<any>>
+	>;
 }
 
 const AppRoute: React.FunctionComponent<IAppRouteProps> = props => {

@@ -3,13 +3,13 @@ import classNames from 'classnames';
 import FileItem from './FileItem';
 import CloseButton from '../CloseButton';
 import './_upload.css';
-import { toast } from 'react-toastify';
+import toast from 'react-hot-toast';
 import RenderIf from '../RenderIf';
 import { v4 as UUID } from 'uuid';
 
 const filesToArray = (files: File[]) => Object.keys(files).map(key => files[key]);
 
-interface IUploadProps {
+export interface IUploadProps {
 	uploadLimit?: number;
 	draggable?: boolean;
 	disabled?: boolean;

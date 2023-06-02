@@ -4,6 +4,8 @@ import { User, ValidRoles } from '@teslo/interfaces';
 import * as React from 'react';
 import { useFetcUsers } from './hooks/useFetchUsers';
 import TableUsers from './TableUsers.tsx';
+import { validPaths } from '@/utils';
+import { FaUsers } from 'react-icons/fa';
 
 interface IUsersPageProps {}
 
@@ -15,8 +17,15 @@ const UsersPage: React.FunctionComponent<IUsersPageProps> = props => {
 	const usersSelected = users.filter(user => user.roles.includes(selectedValue));
 
 	return (
-		<React.Fragment>
-			<HeaderDashboard to={'/dashboard'}>Dashboard</HeaderDashboard>
+		<HeaderDashboard
+			to={validPaths.dashboard.path}
+			title={'Users'}
+			icon={<FaUsers />}
+			breadcrumbs={[
+				{ label: 'Dashboard', to: validPaths.home.path },
+				{ label: 'Users' },
+			]}
+		>
 			<div className="tile">
 				<div className="mb-4">
 					<Tabs
@@ -45,7 +54,7 @@ const UsersPage: React.FunctionComponent<IUsersPageProps> = props => {
 					validRol={selectedValue}
 				/>
 			</div>
-		</React.Fragment>
+		</HeaderDashboard>
 	);
 };
 

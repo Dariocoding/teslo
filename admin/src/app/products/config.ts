@@ -7,4 +7,7 @@ export interface ProductTable extends Product {
 	image: React.ReactNode;
 	dateFormatted: string;
 	sizesFormatted?: string;
+	categoriesFormatted: React.ReactNode;
+	providersFormatted: React.ReactNode;
+	titleFormatted: React.ReactNode;
 }

@@ -40,15 +40,15 @@ const Modal: React.FC<IModalProps> = props => {
 		<React.Fragment>
 			<LazyMotion features={domAnimation}>
 				<m.div
-					className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-[1000] outline-none focus:outline-none"
+					className="justify-center items-center flex overflow-hidden fixed inset-0 z-[1000] outline-none focus:outline-none"
 					initial={{ opacity: 0, y: 50 }}
 					animate={{ opacity: 1, y: 0 }}
 					exit={{ opacity: 0, y: 50 }}
 				>
 					<div
-						className={`px-4 w-full py-6 mx-auto h-full overflow-auto ${maxWidth} flex lg:items-start items-center`}
+						className={`px-4 w-full py-6 mx-auto h-full ${maxWidth} flex lg:items-start items-center`}
 					>
-						<div className="border-0 rounded-lg shadow-lg lg:mt-12 flex flex-col w-full bg-white outline-none focus:outline-none">
+						<div className="border-0 rounded-lg shadow-lg flex flex-col max-h-[100vh] overflow-auto w-full bg-white outline-none focus:outline-none">
 							<div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
 								<h3 className=" text-lg md:text-2xl font-semibold">
 									{title}

@@ -7,10 +7,11 @@ interface IDropdownProps {
 	placement?: 'bottom' | 'right';
 	children?: React.ReactNode;
 	displayButton: React.ReactNode;
+	inTable?: boolean;
 }
 
 const Dropdown: React.FunctionComponent<IDropdownProps> = props => {
-	const { displayButton, placement = 'bottom', showOnHover } = props;
+	const { displayButton, placement = 'bottom', showOnHover, inTable = false } = props;
 	const [isShowing, setIsShowing] = React.useState(false);
 	const placementClassName = classNames(
 		placement === 'bottom' && 'right-0 origin-top-right w-56',
@@ -22,13 +23,11 @@ const Dropdown: React.FunctionComponent<IDropdownProps> = props => {
 			as="div"
 			onMouseEnter={() => (showOnHover ? setIsShowing(true) : null)}
 			onMouseLeave={() => (showOnHover ? setIsShowing(false) : null)}
-			className="relative inline-block text-left"
+			className={classNames('inline-block text-left', !inTable && 'relative')}
 		>
 			{({ open }) => (
 				<React.Fragment>
-					<div>
-						<Menu.Button>{displayButton}</Menu.Button>
-					</div>
+					<Menu.Button>{displayButton}</Menu.Button>
 
 					<Transition
 						show={(isShowing && showOnHover) || open}
@@ -42,11 +41,12 @@ const Dropdown: React.FunctionComponent<IDropdownProps> = props => {
 					>
 						<Menu.Items
 							className={classNames(
-								'absolute z-10 mt-0 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none w-auto',
-								placementClassName
+								'absolute z-10 mt-0 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none w-auto overflow-hidden',
+								placementClassName,
+								inTable && 'right-[80px]'
 							)}
 						>
-							<div className="py-1">{props.children}</div>
+							{props.children}
 						</Menu.Items>
 					</Transition>
 				</React.Fragment>

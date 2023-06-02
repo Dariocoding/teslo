@@ -6,7 +6,7 @@ import { AxiosResponse } from 'axios';
 import classNames from 'classnames';
 import { Form, Formik, FormikHelpers } from 'formik';
 import * as React from 'react';
-import { toast } from 'react-toastify';
+import toast from 'react-hot-toast';
 import * as yup from 'yup';
 
 interface IFormPaymentMethodProps {

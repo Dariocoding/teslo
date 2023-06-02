@@ -20,6 +20,8 @@ interface IInputFormikProps {
 	showError?: boolean;
 	forceErrorMessage?: string;
 	decimalValues?: boolean;
+	onFocus?: () => void;
+	onBlur?: () => void;
 }
 
 const InputFormik: React.FunctionComponent<IInputFormikProps> = props => {
@@ -38,6 +40,8 @@ const InputFormik: React.FunctionComponent<IInputFormikProps> = props => {
 		showSuccess = true,
 		forceErrorMessage,
 		decimalValues = true,
+		onFocus = () => null,
+		onBlur = () => null,
 	} = props;
 	const { errors, values, touched, setFieldValue, handleBlur } = useFormikContext();
 	const isInputNumber = type === 'number';
@@ -69,7 +73,10 @@ const InputFormik: React.FunctionComponent<IInputFormikProps> = props => {
 						setFieldValue(name, values.floatValue);
 					}}
 					prefix={decimalValues ? '$ ' : ''}
-					onBlur={handleBlur}
+					onBlur={e => {
+						handleBlur(e);
+					}}
+					onFocus={onFocus}
 					className={classNames('form-control', classNameInput)}
 					disabled={disabled}
 					autoComplete={autoComplete}
@@ -86,6 +93,12 @@ const InputFormik: React.FunctionComponent<IInputFormikProps> = props => {
 					placeholder={placeholder}
 					name={name}
 					id={name}
+					value={value}
+					onBlur={e => {
+						handleBlur(e);
+						onBlur();
+					}}
+					onFocus={onFocus}
 				/>
 			)}
 

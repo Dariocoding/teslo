@@ -6,6 +6,7 @@ import { useFetchOrder } from '../hooks/useFetchOrder';
 import Loader from '@/components/ui/Loader';
 import RenderIf from '@teslo/react-ui/RenderIf';
 import InvoiceOrder from './InvoiceOrder';
+import { FaMoneyCheck } from 'react-icons/fa';
 
 interface IInvoicePageProps {}
 
@@ -19,11 +20,24 @@ const InvoicePage: React.FunctionComponent<IInvoicePageProps> = props => {
 	return (
 		<React.Fragment>
 			<RenderIf isTrue={Object.keys(order).length}>
-				<HeaderDashboard to={protectedRoutes.orders.path}>
-					Orders
+				<HeaderDashboard
+					title={'Invoice'}
+					icon={<FaMoneyCheck />}
+					to={protectedRoutes.orders.path}
+					breadcrumbs={[
+						{
+							label: 'Dashboard',
+							to: protectedRoutes.dashboard.path,
+						},
+						{
+							label: 'Orders',
+							to: protectedRoutes.orders.path,
+						},
+						{ label: 'Invoice' },
+					]}
+				>
+					<InvoiceOrder order={order} />
 				</HeaderDashboard>
-
-				<InvoiceOrder order={order} />
 			</RenderIf>
 
 			<RenderIf isTrue={!Object.keys(order).length && error}>

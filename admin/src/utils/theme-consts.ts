@@ -78,3 +78,62 @@ export const THEMED_SIDEBAR_CLASSNAMES = {
 	sidebarDropdownCollapsedContainer: 'bg-teal-600',
 	loaderColor: 'text-teal-700',
 }; */
+
+export const colorsCromatics = [
+	'slate',
+	'gray',
+	'zinc',
+	'neutral',
+	'stone',
+	'red',
+	'orange',
+	'amber',
+	'yellow',
+	'lime',
+	'green',
+	'emerald',
+	'teal',
+	'cyan',
+	'sky',
+	'blue',
+	'indigo',
+	'violet',
+	'purple',
+	'fuchsia',
+	'pink',
+	'rose',
+];
+
+const colorsNumbers = ['50', '100', '200', '300', '400', '500', '600', '700', '800', '900'];
+
+export const tailwindColors = [
+	...colorsNumbers
+		.map(number => {
+			const colorsNormal = colorsCromatics.map(color => {
+				return `bg-${color}-${number}`;
+			});
+
+			const colorsHover = colorsCromatics.map(color => {
+				return `hover:${color}-${number}`;
+			});
+
+			const borderColors = colorsCromatics.map(color => {
+				return `border-${color}-${number}`;
+			});
+
+			const textColors = colorsCromatics.map(color => {
+				return `text-${color}-${number}`;
+			});
+
+			const borders = ['border', 'border-t', 'border-r', 'border-b', 'border-l'];
+
+			return [
+				...colorsNormal,
+				...colorsHover,
+				...borderColors,
+				...borders,
+				...textColors,
+			];
+		})
+		.flat(),
+];

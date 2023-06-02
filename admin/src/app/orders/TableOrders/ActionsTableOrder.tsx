@@ -1,9 +1,11 @@
 import AuthorityCheck from '@/components/AuthorityCheck';
 import { protectedRoutes } from '@/utils';
 import { Order, ValidRoles } from '@teslo/interfaces';
+import Dropdown from '@teslo/react-ui/Dropdown';
+import DropdownItem from '@teslo/react-ui/Dropdown/DropdownItem';
 import * as React from 'react';
-import { FaEye, FaPen, FaUser } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
+import { FaPen, FaUser, FaCog, FaFileInvoice } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 
 interface IActionsTableOrderProps {
 	order: Order;
@@ -13,29 +15,44 @@ interface IActionsTableOrderProps {
 
 const ActionsTableOrder: React.FunctionComponent<IActionsTableOrderProps> = props => {
 	const { order, onClickUpdateOrder, onClickViewUser } = props;
-
+	const navigate = useNavigate();
 	const handleUpdateOrder = () => onClickUpdateOrder(order);
 	const handleViewUser = () => onClickViewUser(order);
 	return (
-		<React.Fragment>
-			<Link
-				to={protectedRoutes.invoiceOrder.fnPath(order.idorder)}
-				className="btn btn-success btn-xs"
-			>
-				<FaEye />
-			</Link>
-			<AuthorityCheck validRoles={[ValidRoles.ADMIN, ValidRoles.SUPER_USER]}>
-				<button className="btn btn-warning btn-xs" onClick={handleViewUser}>
-					<FaUser />
+		<Dropdown
+			displayButton={
+				<button type="button" className="btn btn-dark btn-xs">
+					<FaCog />
 				</button>
-				<button
-					className="btn btn-primary btn-xs"
+			}
+			inTable
+		>
+			<DropdownItem
+				className="py-3 px-3 flex items-center justify-start gap-1"
+				onClick={() =>
+					navigate(protectedRoutes.invoiceOrder.fnPath(order.idorder))
+				}
+			>
+				<FaFileInvoice className="text-primary" /> Ver Orden
+			</DropdownItem>
+
+			<AuthorityCheck validRoles={[ValidRoles.ADMIN, ValidRoles.SUPER_USER]}>
+				<DropdownItem
+					className="py-3 px-3 flex items-center justify-start gap-1"
+					onClick={handleViewUser}
+				>
+					<FaUser />
+					Ver Usuario
+				</DropdownItem>
+				<DropdownItem
+					className="py-3 px-3 flex items-center justify-start gap-1"
 					onClick={handleUpdateOrder}
 				>
 					<FaPen />
-				</button>
+					Editar orden
+				</DropdownItem>
 			</AuthorityCheck>
-		</React.Fragment>
+		</Dropdown>
 	);
 };
 

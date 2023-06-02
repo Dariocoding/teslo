@@ -6,13 +6,12 @@ import { usersService } from '@teslo/services';
 import * as React from 'react';
 import { AiOutlineReload } from 'react-icons/ai';
 import { FaPlus } from 'react-icons/fa';
-import { toast } from 'react-toastify';
+import toast from 'react-hot-toast';
 import defaultHeadingUsers from './heading';
 import mapUsers from './mapUsers';
 import { TablePlaceholder } from '@/components/placeholders';
 
-const FormCreateUser = React.lazy(() => import('../forms/FormCreateUser'));
-const FormUpdateUser = React.lazy(() => import('../forms/FormUpdateUser'));
+const FormUser = React.lazy(() => import('../forms/FormUser'));
 const ModalDeleteUser = React.lazy(() => import('./ModalDeleteUser'));
 
 interface ITableUsersProps {
@@ -56,7 +55,7 @@ const TableUsers: React.FunctionComponent<ITableUsersProps> = props => {
 			title: 'Create User',
 			children: (
 				<React.Suspense fallback={<></>}>
-					<FormCreateUser
+					<FormUser
 						onSuccess={onSuccess}
 						defaultValidRole={[validRol]}
 					/>
@@ -83,7 +82,7 @@ const TableUsers: React.FunctionComponent<ITableUsersProps> = props => {
 			title: 'Update User',
 			children: (
 				<React.Suspense fallback={<></>}>
-					<FormUpdateUser user={user} onSuccess={onSuccess} />
+					<FormUser user={user} onSuccess={onSuccess} />
 				</React.Suspense>
 			),
 			size: 'md',
@@ -118,26 +117,28 @@ const TableUsers: React.FunctionComponent<ITableUsersProps> = props => {
 			<DataTable
 				placeholder={<TablePlaceholder />}
 				buttons={
-					<>
-						<RenderIf isTrue={showCreate}>
-							<button
-								title="Add User"
-								className="btn btn-primary btn-xs"
-								onClick={onCreateUser}
-							>
-								<FaPlus />
-							</button>
-						</RenderIf>
+					<RenderIf isTrue={showCreate || refetch}>
+						<div className="flex items-center justify-start">
+							<RenderIf isTrue={showCreate}>
+								<button
+									title="Add User"
+									className="btn btn-primary btn-xs"
+									onClick={onCreateUser}
+								>
+									<FaPlus />
+								</button>
+							</RenderIf>
 
-						<RenderIf isTrue={refetch}>
-							<button
-								className="btn btn-outline-alternative btn-xs"
-								onClick={refetch}
-							>
-								<AiOutlineReload />
-							</button>
-						</RenderIf>
-					</>
+							<RenderIf isTrue={refetch}>
+								<button
+									className="btn btn-outline-alternative btn-xs"
+									onClick={refetch}
+								>
+									<AiOutlineReload />
+								</button>
+							</RenderIf>
+						</div>
+					</RenderIf>
 				}
 				data={mapUsers({ users, onDeleteUser, onUpdateUser })}
 				heading={heading}

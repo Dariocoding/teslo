@@ -10,11 +10,11 @@ import {
 	OneToMany,
 	PrimaryGeneratedColumn,
 } from 'typeorm';
-import { ValidStatusOrder, Order as IOrder, StatusOrder } from '@teslo/interfaces';
+import { ValidStatusOrder, StatusOrder } from '@teslo/interfaces';
 import { DetailOrder } from './detail.order.entity';
 
 @Entity('orders')
-export class Order implements IOrder {
+export class Order {
 	@PrimaryGeneratedColumn()
 	@ApiProperty({})
 	idorder?: number;
@@ -28,8 +28,6 @@ export class Order implements IOrder {
 	status?: StatusOrder;
 
 	@ApiProperty()
-	@Column({ default: '' })
-	@ApiProperty()
 	@Column('float')
 	total?: number;
 
@@ -41,12 +39,10 @@ export class Order implements IOrder {
 
 	@ApiProperty({ type: () => DetailOrder, isArray: true })
 	@OneToMany(() => DetailOrder, detail => detail.order, { cascade: true })
-	//@ts-ignore
 	detail?: DetailOrder[];
 
 	@ApiProperty({ type: () => User })
 	@ManyToOne(() => User, user => user.orders)
-	//@ts-ignore
 	user?: User;
 
 	@ApiProperty()

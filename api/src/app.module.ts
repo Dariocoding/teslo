@@ -12,6 +12,11 @@ import { MailModule } from './mail/mail.module';
 import { OrdersModule } from './modules/orders/orders.module';
 import { DashboardModule } from './modules/dashboard/dashboard.module';
 import { PaymentMethodsModule } from './modules/payment-methods/payment-methods.module';
+import { BrandsModule } from './modules/brands/brands.module';
+import { ProvidersModule } from './modules/providers/providers.module';
+import { ConfigEnterpriseModule } from './modules/config-enterprise/config-enterprise.module';
+import { ConfigAppModule } from './modules/config-app/config-app.module';
+import { BillsModule } from './modules/bills/bills.module';
 
 @Module({
 	imports: [
@@ -57,6 +62,16 @@ import { PaymentMethodsModule } from './modules/payment-methods/payment-methods.
 		DashboardModule,
 
 		PaymentMethodsModule,
+
+		BrandsModule,
+
+		ProvidersModule,
+
+		ConfigEnterpriseModule,
+
+		ConfigAppModule,
+
+		BillsModule,
 	],
 	providers: [],
 })

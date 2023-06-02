@@ -3,6 +3,7 @@ import Label from '../label';
 import { getIn, useFormikContext } from 'formik';
 import * as React from 'react';
 import Select from 'react-tailwindcss-select';
+import styled from 'styled-components';
 
 export interface OptionReactSelect {
 	value: string | number | boolean;
@@ -24,6 +25,8 @@ interface ISelectFormikProps {
 	options?: OptionReactSelect[];
 	multiple?: boolean;
 	onChange?: (option: OptionReactSelect | OptionReactSelect[], lastState: any) => any;
+	value?: string | number | boolean;
+	optionSelected?: OptionReactSelect;
 }
 
 const SelectFormik: React.FunctionComponent<ISelectFormikProps> = props => {
@@ -41,6 +44,8 @@ const SelectFormik: React.FunctionComponent<ISelectFormikProps> = props => {
 		options = [],
 		multiple,
 		onChange,
+		value: _value,
+		optionSelected,
 	} = props;
 	const { errors, touched, values, setFieldValue } = useFormikContext();
 	const value = getIn(values, name);
@@ -61,7 +66,7 @@ const SelectFormik: React.FunctionComponent<ISelectFormikProps> = props => {
 	const valuesMultiple = value as (string | number | boolean)[];
 	const selected = multiple
 		? options.filter(opt => valuesMultiple?.some(value => value === opt.value))
-		: options.find(opt => opt.value === value);
+		: options.find(opt => opt.value === value || opt.value === _value);
 
 	return (
 		<div
@@ -83,11 +88,19 @@ const SelectFormik: React.FunctionComponent<ISelectFormikProps> = props => {
 				placeholder={placeholder}
 				primaryColor={null}
 				//@ts-ignore
-				value={selected}
+				value={optionSelected || selected}
 				//@ts-ignore
 				onChange={handleChange}
 				// @ts-ignore
 				options={options}
+				classNames={{
+					menuButton: ({ isDisabled }) =>
+						`flex text-sm text-gray-500 border border-gray-300 rounded shadow-sm transition-all duration-300 focus:outline-none ${
+							isDisabled
+								? 'bg-gray-200'
+								: 'bg-gray-50 hover:border-gray-400 focus:border-blue-500 focus:ring focus:ring-blue-500/20'
+						}`,
+				}}
 			/>
 		</div>
 	);

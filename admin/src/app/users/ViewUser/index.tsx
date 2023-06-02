@@ -7,12 +7,13 @@ import { useAuthStore } from '@/store';
 import classNames from 'classnames';
 import * as React from 'react';
 import { Navigate, useParams } from 'react-router-dom';
-import { toast } from 'react-toastify';
-import { protectedRoutes } from '@/utils';
+import toast from 'react-hot-toast';
+import { protectedRoutes, validPaths } from '@/utils';
 import { useFetcUser } from '../hooks/useFetchUser';
 import TableOrdersByUser from './TableOrdersByUser';
 import { UserDto, ValidRol, ValidRoles } from '@teslo/interfaces';
 import { usersService } from '@teslo/services';
+import { FaUser } from 'react-icons/fa';
 
 interface IViewUserPageProps {}
 const validRolesActions = [ValidRoles.ADMIN, ValidRoles.SUPER_USER] as ValidRol[];
@@ -51,8 +52,20 @@ const ViewUserPage: React.FunctionComponent<IViewUserPageProps> = props => {
 	const isValidRol = authUser.roles?.some(role => validRolesActions.includes(role));
 
 	return (
-		<React.Fragment>
-			<HeaderDashboard to="/users">Users</HeaderDashboard>
+		<HeaderDashboard
+			to={validPaths.users.path}
+			title={'User'}
+			icon={<FaUser />}
+			breadcrumbs={[
+				{ label: 'Dashboard', to: validPaths.home.path },
+				{ label: 'Users', to: validPaths.users.path },
+				{
+					label: user.firstName
+						? user.firstName + ' ' + user.lastName
+						: 'User',
+				},
+			]}
+		>
 			<ProfileLayout
 				user={user}
 				onSubmitUpdateUser={updateUser}
@@ -118,7 +131,7 @@ const ViewUserPage: React.FunctionComponent<IViewUserPageProps> = props => {
 					<TableOrdersByUser id={params.id} />
 				</div>
 			</RenderIf>
-		</React.Fragment>
+		</HeaderDashboard>
 	);
 };
 

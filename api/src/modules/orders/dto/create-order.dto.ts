@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsIn, IsNumber, IsOptional, IsString, Min } from 'class-validator';
-import { StatusOrder, ValidStatusOrder } from '@teslo/interfaces';
+import { StatusOrder, ARRSTATUSORDER } from '@teslo/interfaces';
 import { PaymentMethod } from 'src/modules/payment-methods/entities/payment-method.entity';
 import { CreateDetailDto } from './create-detail.dto';
 
@@ -16,7 +16,7 @@ export class CreateOrderDto {
 	reference: string;
 
 	@ApiProperty({})
-	@IsIn([ValidStatusOrder.CANCELED, ValidStatusOrder.COMPLETED, ValidStatusOrder.PENDING])
+	@IsIn([...ARRSTATUSORDER])
 	@IsOptional()
 	@IsString()
 	status: StatusOrder;

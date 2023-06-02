@@ -14,12 +14,13 @@ interface IDataTableProps {
 	showPagination?: boolean;
 	buttons?: React.ReactNode;
 	placeholder: React.ReactNode;
+	showResponsive?: boolean;
 }
 
 const itemsPerPage = 10;
 
 const DataTable: React.FunctionComponent<IDataTableProps> = props => {
-	const { data, loading, showPagination = true, heading } = props;
+	const { data, loading, showPagination = true, heading, showResponsive = true } = props;
 
 	const [q, setQ] = React.useState('');
 	const [currentItems, setCurrentItems] = React.useState(data);
@@ -57,68 +58,74 @@ const DataTable: React.FunctionComponent<IDataTableProps> = props => {
 		);
 	}
 
-	if (loading) {
-		return <>{props.placeholder}</>;
-	}
-
 	return (
 		<div>
 			<SearchDataTable q={q} setQ={setQ} {...props} />
-
-			<div className="table-responsive">
-				<table className="table">
-					<thead>
-						<tr>
-							{heading.map(h => (
-								<th
-									key={h.field}
-									className={classNames(
-										h.center &&
-											'text-center'
-									)}
-								>
-									{h.title}
-								</th>
-							))}
-						</tr>
-					</thead>
-					<tbody>
-						{currentItems.map((item, key) => (
-							<tr key={key}>
-								{heading.map((h, key) => (
-									<td
-										key={key}
+			<RenderIf isTrue={loading}>{props.placeholder}</RenderIf>
+			<RenderIf isTrue={!loading}>
+				<div
+					className={classNames(
+						showResponsive
+							? 'table-responsive'
+							: 'overflow-x-auto'
+					)}
+				>
+					<table className="table">
+						<thead>
+							<tr>
+								{heading.map(h => (
+									<th
+										key={h.field}
 										className={classNames(
 											h.center &&
 												'text-center'
 										)}
 									>
-										{getIn(
-											item,
-											h.field
-										)}
-									</td>
+										{h.title}
+									</th>
 								))}
 							</tr>
-						))}
-					</tbody>
-				</table>
-			</div>
-			<RenderIf isTrue={showPagination}>
-				<div className="flex lg:justify-between justify-center lg:flex-row flex-col mt-4">
-					<small className="lg:mb-0 mb-2 lg:inline block text-center">
-						<span className="font-bold">Total Records:</span>{' '}
-						{Object.keys(data).length}
-					</small>
-					<PaginatedItems
-						pageCount={pageCount}
-						setItemOffset={setItemOffset}
-						items={data}
-						itemsPerPage={itemsPerPage}
-						page={page}
-						setPage={setPage}
-					/>
+						</thead>
+						<tbody>
+							{currentItems.map((item, key) => (
+								<tr key={key}>
+									{heading.map((h, key) => (
+										<td
+											key={key}
+											className={classNames(
+												h.center &&
+													'text-center'
+											)}
+										>
+											{getIn(
+												item,
+												h.field
+											)}
+										</td>
+									))}
+								</tr>
+							))}
+						</tbody>
+					</table>
 				</div>
+				<RenderIf isTrue={showPagination}>
+					<div className="flex lg:justify-between justify-center lg:flex-row flex-col mt-4">
+						<small className="lg:mb-0 mb-2 lg:inline block text-center">
+							<span className="font-bold">
+								Total Records:
+							</span>{' '}
+							{Object.keys(data).length}
+						</small>
+						<PaginatedItems
+							pageCount={pageCount}
+							setItemOffset={setItemOffset}
+							items={data}
+							itemsPerPage={itemsPerPage}
+							page={page}
+							setPage={setPage}
+						/>
+					</div>
+				</RenderIf>
 			</RenderIf>
 		</div>
 	);

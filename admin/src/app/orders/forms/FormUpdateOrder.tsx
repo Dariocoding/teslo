@@ -5,7 +5,7 @@ import { capitalize } from '@/utils';
 import { Form, Formik } from 'formik';
 import { ARRSTATUSORDER, Order, OrderDto, PaymentMethod } from '@teslo/interfaces';
 import * as React from 'react';
-import { toast } from 'react-toastify';
+import toast from 'react-hot-toast';
 import { ordersService } from '@teslo/services';
 
 interface IFormUpdateOrderProps {

@@ -1,8 +1,17 @@
 import { validPaths } from '@/utils';
 import { ValidRol, ValidRoles } from '@teslo/interfaces';
 import React from 'react';
-import { FaBoxes, FaHome, FaUsers, FaStore, FaCogs } from 'react-icons/fa';
+import {
+	FaBoxes,
+	FaHome,
+	FaUsers,
+	FaStore,
+	FaCogs,
+	FaPeopleCarry,
+	FaFileInvoiceDollar,
+} from 'react-icons/fa';
 import VerticalMenuIcon, { IVerticalMenuIconProps } from '../VerticalMenuContent/VerticalMenuIcon';
+import { RiBillFill } from 'react-icons/ri';
 
 export interface IMenuItem {
 	title: string;
@@ -46,7 +55,19 @@ const MenuItems: IMenuItem[] = [
 		subNav: [
 			{ title: 'Products', path: validPaths.products.path },
 			{ title: 'Categories', path: validPaths.categories.path },
+			{ title: 'Brands', path: validPaths.brands.path },
 		],
+	},
+
+	{
+		title: 'Providers',
+		Icon: props => (
+			<VerticalMenuIcon {...props}>
+				<FaPeopleCarry />
+			</VerticalMenuIcon>
+		),
+		permissions: [ValidRoles.ADMIN, ValidRoles.SUPER_USER],
+		path: validPaths.providers.path,
 	},
 
 	{
@@ -57,7 +78,24 @@ const MenuItems: IMenuItem[] = [
 			</VerticalMenuIcon>
 		),
 		permissions: '*',
-		path: validPaths.orders.path,
+		subNav: [
+			{ title: 'Orders', path: validPaths.orders.path },
+			{ title: 'New Order', path: validPaths.newOrder.path },
+		],
+	},
+
+	{
+		title: 'Bills',
+		Icon: props => (
+			<VerticalMenuIcon {...props}>
+				<FaFileInvoiceDollar />
+			</VerticalMenuIcon>
+		),
+		permissions: '*',
+		subNav: [
+			{ title: 'Bills', path: validPaths.bills.path },
+			{ title: 'New Bill', path: validPaths.newBill.path },
+		],
 	},
 
 	{

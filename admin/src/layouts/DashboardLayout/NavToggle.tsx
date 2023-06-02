@@ -1,7 +1,7 @@
 import React from 'react';
 import { HiOutlineMenuAlt2, HiOutlineMenu } from 'react-icons/hi';
 import classNames from 'classnames';
-import { IS_THEMED, THEMED_SIDEBAR_CLASSNAMES } from '@/utils';
+import { useConfigApp } from '@/store';
 
 interface INavToggleProps {
 	className?: string;
@@ -10,13 +10,14 @@ interface INavToggleProps {
 }
 const NavToggle: React.FC<INavToggleProps> = props => {
 	const { onClick, toggled, className } = props;
+	const { colors } = useConfigApp();
 	return (
 		<span
 			onClick={onClick}
 			className={classNames(
 				'nav_toggle',
-				IS_THEMED && THEMED_SIDEBAR_CLASSNAMES.textColor,
-				IS_THEMED && THEMED_SIDEBAR_CLASSNAMES.hoverNavToggle,
+				colors.isThemed && colors.textColor,
+				colors.isThemed && colors.hoverNavToggle,
 				className
 			)}
 		>

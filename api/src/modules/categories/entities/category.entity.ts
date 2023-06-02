@@ -1,22 +1,21 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { stringToSlug } from 'src/common/utils/string-to-slug';
 import { Product } from 'src/modules/products/entities';
-import { Category as ICategory } from '@teslo/interfaces';
 import {
 	BeforeInsert,
 	BeforeUpdate,
 	Column,
 	CreateDateColumn,
 	Entity,
+	JoinTable,
+	ManyToMany,
 	OneToMany,
 	PrimaryGeneratedColumn,
 } from 'typeorm';
 
 @Entity('categories')
-export class Category implements ICategory {
+export class Category {
 	@ApiProperty({
-		example: 'cd533345-f1f3-48c9-a62e-7dc2da50c8f8',
-		description: 'Product ID',
 		uniqueItems: true,
 	})
 	@PrimaryGeneratedColumn('uuid')
@@ -38,8 +37,12 @@ export class Category implements ICategory {
 	})
 	slug?: string;
 
-	@OneToMany(() => Product, category => category.category, { cascade: true })
-	//@ts-ignore
+	@ManyToMany(() => Product, category => category.categories)
+	@JoinTable({
+		name: 'categories_products',
+		joinColumn: { name: 'category_id' },
+		inverseJoinColumn: { name: 'product_id' },
+	})
 	products?: Product[];
 
 	@CreateDateColumn({

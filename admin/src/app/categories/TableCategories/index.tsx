@@ -1,20 +1,19 @@
 import DataTable from '@teslo/react-ui/DataTable';
 import { useModalStore } from '@/store';
 import * as React from 'react';
-import { FaPlus } from 'react-icons/fa';
 import { useFetchCategories } from '../hooks/useFetchCategories';
 import headingCategories from './heading';
 import mapCategories from './mapCategories';
-import { toast } from 'react-toastify';
+import toast from 'react-hot-toast';
 import RenderIf from '@teslo/react-ui/RenderIf';
+import { FaPlus } from 'react-icons/fa';
 import { AiOutlineReload } from 'react-icons/ai';
 import AuthorityCheck from '@/components/AuthorityCheck';
 import { Category, ValidRoles } from '@teslo/interfaces';
 import { categoriesService } from '@teslo/services';
 import { TablePlaceholder } from '@/components/placeholders';
 
-const FormCreateCategory = React.lazy(() => import('../forms/FormCreateCategory'));
-const FormUpdateCategory = React.lazy(() => import('../forms/FormUpdateCategory'));
+const FormCategory = React.lazy(() => import('../forms/FormCategory'));
 const ModalDeleteCategory = React.lazy(() => import('./ModalDeleteCategory'));
 
 interface ITableCategoriesProps {}
@@ -43,10 +42,7 @@ const TableCategories: React.FunctionComponent<ITableCategoriesProps> = props =>
 			title: 'Update Category',
 			children: (
 				<React.Suspense fallback={<></>}>
-					<FormUpdateCategory
-						category={category}
-						onSuccess={onSuccess}
-					/>
+					<FormCategory category={category} onSuccess={onSuccess} />
 				</React.Suspense>
 			),
 			size: 'md',
@@ -63,7 +59,7 @@ const TableCategories: React.FunctionComponent<ITableCategoriesProps> = props =>
 			title: 'Create Category',
 			children: (
 				<React.Suspense fallback={<></>}>
-					<FormCreateCategory onSuccess={onSuccess} />
+					<FormCategory onSuccess={onSuccess} />
 				</React.Suspense>
 			),
 		});
@@ -106,7 +102,7 @@ const TableCategories: React.FunctionComponent<ITableCategoriesProps> = props =>
 			<DataTable
 				placeholder={<TablePlaceholder />}
 				buttons={
-					<React.Fragment>
+					<div className="flex items-center justify-start">
 						<AuthorityCheck
 							validRoles={[
 								ValidRoles.ADMIN,
@@ -127,7 +123,7 @@ const TableCategories: React.FunctionComponent<ITableCategoriesProps> = props =>
 						>
 							<AiOutlineReload />
 						</button>
-					</React.Fragment>
+					</div>
 				}
 				data={mapCategories({
 					categories,
