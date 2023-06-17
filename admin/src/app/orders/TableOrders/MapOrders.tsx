@@ -1,32 +1,24 @@
-import { formatter } from '@/utils';
-import { Order } from '@teslo/interfaces';
-import dayjs from 'dayjs';
-import { OrderTable } from '../config';
-import ActionsTableOrder from './ActionsTableOrder';
-import BadgeStatusOrder from './BadgeStatusOrder';
+import { formatter } from "@/utils";
+import { Order } from "@teslo/interfaces";
+import dayjs from "dayjs";
+import { OrderTable } from "../config";
+import ActionsTableOrder, { IActionsTableOrderProps } from "./ActionsTableOrder";
+import BadgeStatusOrder from "./BadgeStatusOrder";
 
-interface IMapOrdersProps {
-	orders: Order[];
-	onClickUpdateOrder(order: Order): void;
-	onClickViewUser(order: Order): void;
+interface IMapOrdersProps extends Omit<IActionsTableOrderProps, "order"> {
+  orders: Order[];
 }
 
 const mapOrders = (props: IMapOrdersProps): OrderTable[] => {
-	const { orders, onClickUpdateOrder, onClickViewUser } = props;
-	return orders.map(order => ({
-		...order,
-		actions: (
-			<ActionsTableOrder
-				order={order}
-				onClickUpdateOrder={onClickUpdateOrder}
-				onClickViewUser={onClickViewUser}
-			/>
-		),
-		fullName: order.user.firstName + ' ' + order.user.lastName,
-		dateCreatedFormatted: dayjs(order.dateCreated).format('DD/MM/YYYY'),
-		totalFormatted: formatter.format(order.total),
-		badgeStatus: <BadgeStatusOrder status={order.status} />,
-	}));
+  const { orders } = props;
+  return orders.map((order) => ({
+    ...order,
+    actions: <ActionsTableOrder order={order} {...props} />,
+    fullName: order.user.firstName + " " + order.user.lastName,
+    dateCreatedFormatted: dayjs(order.dateCreated).format("DD/MM/YYYY"),
+    totalFormatted: formatter.format(order.total),
+    badgeStatus: <BadgeStatusOrder status={order.status} />,
+  }));
 };
 
 export default mapOrders;

@@ -15,5 +15,5 @@
 }
 
 .avatar-group .avatar {
-  @apply border-2 border-white dark:border-gray-800;
+  @apply lg:border-2 border-white dark:border-gray-800;
 }

@@ -1,66 +1,72 @@
-import ButtonFormik from '@/components/@forms/ButtonFormik';
-import InputFormik from '@/components/@forms/InputFormik';
-import useTimeOutMessage from '@/utils/hooks/useTimeOutMessage';
-import { Brand, BrandDto } from '@teslo/interfaces';
-import { brandsService } from '@teslo/services';
-import { AxiosResponse } from 'axios';
-import { Form, Formik } from 'formik';
-import * as React from 'react';
-import toast from 'react-hot-toast';
-import * as yup from 'yup';
+import ButtonFormik from "@/components/@forms/ButtonFormik";
+import InputFormik from "@/components/@forms/InputFormik";
+import { translate } from "@/i18n";
+import useTimeOutMessage from "@/utils/hooks/useTimeOutMessage";
+import { Brand, BrandDto } from "@teslo/interfaces";
+import { brandsService } from "@teslo/services";
+import { AxiosResponse } from "axios";
+import { Form, Formik } from "formik";
+import * as React from "react";
+import toast from "react-hot-toast";
+import { useIntl } from "react-intl";
+import * as yup from "yup";
 
 interface IFormBrandProps {
-	onSuccess?: (data: Brand) => void;
-	brand?: Brand;
+  onSuccess?: (data: Brand) => void;
+  brand?: Brand;
 }
-const validationSchema = yup.object({ title: yup.string().required('Brand name is required') });
 
-const FormBrand: React.FunctionComponent<IFormBrandProps> = props => {
-	const { onSuccess, brand: brandToUpdate } = props;
-	const status = brandToUpdate ? 'update' : 'create';
-	const [errorMessage, setErrorMessage] = useTimeOutMessage();
+const FormBrand: React.FunctionComponent<IFormBrandProps> = (props) => {
+  const { onSuccess, brand: brandToUpdate } = props;
+  const { formatMessage } = useIntl();
+  const status = brandToUpdate ? "update" : "create";
+  const [errorMessage, setErrorMessage] = useTimeOutMessage();
 
-	const initialValues: BrandDto = {
-		title: brandToUpdate?.title || '',
-	};
+  const initialValues: BrandDto = {
+    title: brandToUpdate?.title || "",
+  };
 
-	const onSubmit = async (data: BrandDto) => {
-		try {
-			let req: AxiosResponse<Brand>;
-			if (status === 'create') {
-				req = await brandsService.create(data);
-				toast.success('Brand created successfully!');
-			} else if (status === 'update') {
-				req = await brandsService.update(brandToUpdate.idbrand, data);
-				toast.success('Brand updated successfully!');
-			}
-			if (onSuccess) onSuccess(req.data);
-		} catch (error) {
-			console.log(error);
-			setErrorMessage(error.response.data.message || 'Error setting brand');
-		}
-	};
+  const onSubmit = async (data: BrandDto) => {
+    try {
+      let req: AxiosResponse<Brand>;
+      if (status === "create") {
+        req = await brandsService.create(data);
+        const messageSuccess = formatMessage({ id: "brands.add.success" });
+        toast.success(messageSuccess);
+      } else if (status === "update") {
+        req = await brandsService.update(brandToUpdate.idbrand, data);
+        const messageSuccess = formatMessage({ id: "brands.edit.success" });
+        toast.success(messageSuccess);
+      }
+      if (onSuccess) onSuccess(req.data);
+    } catch (error) {
+      console.log(error);
+      setErrorMessage(error.response.data.message || "Error setting brand");
+    }
+  };
 
-	return (
-		<Formik
-			onSubmit={onSubmit}
-			validationSchema={validationSchema}
-			initialValues={initialValues}
-		>
-			<Form>
-				<InputFormik
-					name="title"
-					placeholder="Type the name of the brand"
-					label={'Brand name'}
-					forceErrorMessage={errorMessage}
-				/>
+  const validationSchema = yup.object({
+    title: yup.string().required(formatMessage({ id: "brands.error.name.required" })),
+  });
 
-				<ButtonFormik className="btn-primary btn-sm" full>
-					{status === 'create' ? 'Create brand' : 'Update brand'}
-				</ButtonFormik>
-			</Form>
-		</Formik>
-	);
+  return (
+    <Formik onSubmit={onSubmit} validationSchema={validationSchema} initialValues={initialValues}>
+      <Form>
+        <InputFormik
+          name="title"
+          placeholder={translate("brands.placeholder.name")}
+          label={translate("brands.label.name")}
+          forceErrorMessage={errorMessage}
+        />
+
+        <ButtonFormik className="btn-primary btn-sm" full>
+          {formatMessage({
+            id: status === "create" ? "brands.add.title" : "brands.edit.title",
+          })}
+        </ButtonFormik>
+      </Form>
+    </Formik>
+  );
 };
 
 export default FormBrand;

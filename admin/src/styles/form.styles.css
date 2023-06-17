@@ -35,12 +35,12 @@
 }
 
 .form-group-error p {
-	@apply text-red-500;
+	@apply text-red-600 font-bold;
 }
 
 .form-group-success label,
 .form-group-success p {
-	@apply text-teal-600;
+	@apply text-teal-700 font-bold;
 }
 
 .form-control-sm {

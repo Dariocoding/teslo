@@ -1,37 +1,40 @@
-import ConfirmModal from '@teslo/react-ui/Modal/ConfirmModal';
-import { PaymentMethod } from '@teslo/interfaces';
-import * as React from 'react';
+import ConfirmModal from "@teslo/react-ui/Modal/ConfirmModal";
+import { PaymentMethod } from "@teslo/interfaces";
+import * as React from "react";
+import { translate } from "@/i18n";
 
 interface IModalDeletePaymentMethodProps {
-	showModalDeletePaymentMethod: boolean;
-	paymentMethod?: PaymentMethod;
-	onCloseModalDelete: () => void;
-	onAcceptDeletePaymentMethod: () => void;
-	isLoading: boolean;
+  showModalDeletePaymentMethod: boolean;
+  paymentMethod?: PaymentMethod;
+  onCloseModalDelete: () => void;
+  onAcceptDeletePaymentMethod: () => void;
+  isLoading: boolean;
 }
 
-const ModalDeletePaymentMethod: React.FunctionComponent<IModalDeletePaymentMethodProps> = props => {
-	const {
-		paymentMethod = {},
-		showModalDeletePaymentMethod,
-		onAcceptDeletePaymentMethod,
-		onCloseModalDelete,
-		isLoading,
-	} = props;
+const ModalDeletePaymentMethod: React.FC<IModalDeletePaymentMethodProps> = (props) => {
+  const {
+    paymentMethod = {},
+    showModalDeletePaymentMethod,
+    onAcceptDeletePaymentMethod,
+    onCloseModalDelete,
+    isLoading,
+  } = props;
 
-	return (
-		<ConfirmModal
-			title={`Are you sure you want to delete this payment method: ${paymentMethod?.title}?`}
-			titleModal={'Delete Payment Method'}
-			subTitle={'You will not be able to recover this information'}
-			showModal={showModalDeletePaymentMethod}
-			onClose={onCloseModalDelete}
-			onClickButtonAccept={onAcceptDeletePaymentMethod}
-			buttonAccepText={'Delete Payment Method'}
-			isLoading={isLoading}
-			buttonCancelText={'Cancel'}
-		/>
-	);
+  return (
+    <ConfirmModal
+      title={translate("paymentMethods.delete.youSure", {
+        name: paymentMethod?.title,
+      })}
+      titleModal={translate("paymentMethods.delete")}
+      subTitle={translate("paymentMethods.delete.youWillNotBeAbleToRecover")}
+      showModal={showModalDeletePaymentMethod}
+      onClose={onCloseModalDelete}
+      onClickButtonAccept={onAcceptDeletePaymentMethod}
+      buttonAccepText={translate("paymentMethods.delete")}
+      isLoading={isLoading}
+      buttonCancelText={translate("app.cancel")}
+    />
+  );
 };
 
 export default ModalDeletePaymentMethod;

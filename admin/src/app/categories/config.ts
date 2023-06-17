@@ -1,7 +1,7 @@
-import { Category } from '@teslo/interfaces';
-import React from 'react';
+import { Category } from "@teslo/interfaces";
+import React from "react";
 
 export interface CategoryDataTable extends Category {
-	actions: React.ReactNode;
-	dateFormatted: string;
+  actions: React.ReactNode;
+  dateFormatted: string;
 }

@@ -1,37 +1,38 @@
-import ConfirmModal from '@teslo/react-ui/Modal/ConfirmModal';
-import { User } from '@teslo/interfaces';
-import * as React from 'react';
+import ConfirmModal from "@teslo/react-ui/Modal/ConfirmModal";
+import { User } from "@teslo/interfaces";
+import * as React from "react";
+import { translate } from "@/i18n";
 
 interface IModalDeleteUserProps {
-	showModalDeleteUser: boolean;
-	user?: User;
-	onCloseModalDelete: () => void;
-	onAcceptDeleteUser: () => void;
-	isLoading: boolean;
+  showModalDeleteUser: boolean;
+  user?: User;
+  onCloseModalDelete: () => void;
+  onAcceptDeleteUser: () => void;
+  isLoading: boolean;
 }
 
-const ModalDeleteUser: React.FunctionComponent<IModalDeleteUserProps> = props => {
-	const {
-		user = {},
-		showModalDeleteUser,
-		onAcceptDeleteUser,
-		onCloseModalDelete,
-		isLoading,
-	} = props;
+const ModalDeleteUser: React.FunctionComponent<IModalDeleteUserProps> = (props) => {
+  const {
+    user = {},
+    showModalDeleteUser,
+    onAcceptDeleteUser,
+    onCloseModalDelete,
+    isLoading,
+  } = props;
 
-	return (
-		<ConfirmModal
-			title={`Are you sure you want to delete this user: ${user?.firstName} ${user?.lastName}?`}
-			titleModal={'Delete User'}
-			subTitle={'You will not be able to recover this information'}
-			showModal={showModalDeleteUser}
-			onClose={onCloseModalDelete}
-			onClickButtonAccept={onAcceptDeleteUser}
-			buttonAccepText={'Delete User'}
-			isLoading={isLoading}
-			buttonCancelText={'Cancel'}
-		/>
-	);
+  return (
+    <ConfirmModal
+      title={translate("users.delete.youSure", { name: `${user?.firstName} ${user?.lastName}` })}
+      titleModal={translate("users.delete")}
+      subTitle={translate("users.delete.youWillNotBeAbleToRecover")}
+      showModal={showModalDeleteUser}
+      onClose={onCloseModalDelete}
+      onClickButtonAccept={onAcceptDeleteUser}
+      buttonAccepText={translate("users.delete")}
+      isLoading={isLoading}
+      buttonCancelText={translate("app.cancel")}
+    />
+  );
 };
 
 export default ModalDeleteUser;

@@ -1,33 +1,18 @@
-import { PaymentMethod } from '@teslo/interfaces';
-import { PaymentMethodTable } from '../config';
-import ActionsPaymentMethods from './ActionsPaymentMethods';
+import { PaymentMethod } from "@teslo/interfaces";
+import { PaymentMethodTable } from "../config";
+import ActionsPaymentMethods from "./ActionsPaymentMethods";
 
 interface IMapPaymentMethodsProps {
-	paymentMethods: PaymentMethod[];
-	deletePaymentMethod(paymentMethod: PaymentMethod): void;
-	updatePaymentMethod(paymentMethod: PaymentMethod): void;
-	setViewOrdersByPaymentMethod(paymentMethod: PaymentMethod): void;
+  paymentMethods: PaymentMethod[];
+  deletePaymentMethod(paymentMethod: PaymentMethod): void;
+  updatePaymentMethod(paymentMethod: PaymentMethod): void;
+  setViewOrdersByPaymentMethod(paymentMethod: PaymentMethod): void;
 }
 
-const mapPaymentMethods = (props: IMapPaymentMethodsProps): PaymentMethodTable[] => {
-	const {
-		paymentMethods,
-		updatePaymentMethod,
-		deletePaymentMethod,
-		setViewOrdersByPaymentMethod,
-	} = props;
-
-	return paymentMethods.map(paymentMethod => ({
-		...paymentMethod,
-		actions: (
-			<ActionsPaymentMethods
-				setViewOrdersByPaymentMethod={setViewOrdersByPaymentMethod}
-				paymentMethod={paymentMethod}
-				updatePaymentMethod={updatePaymentMethod}
-				deletePaymentMethod={deletePaymentMethod}
-			/>
-		),
-	}));
-};
+const mapPaymentMethods = (props: IMapPaymentMethodsProps): PaymentMethodTable[] =>
+  props.paymentMethods.map((paymentMethod) => ({
+    ...paymentMethod,
+    actions: <ActionsPaymentMethods paymentMethod={paymentMethod} {...props} />,
+  }));
 
 export default mapPaymentMethods;
