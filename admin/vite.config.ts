@@ -101,14 +101,14 @@ export default ({ mode }) => {
 			commonjsOptions: {
 				include: [...externalPackages],
 			},
-			rollupOptions: {
+			/* rollupOptions: {
 				output: {
 					manualChunks: {
 						vendor: ["react", "react-router-dom", "react-dom"],
 						...renderChunks(dependencies),
 					},
 				},
-			},
+			}, */
 		},
 	});
 };
