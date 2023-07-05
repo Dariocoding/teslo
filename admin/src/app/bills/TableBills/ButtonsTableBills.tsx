@@ -1,14 +1,15 @@
-import { validPaths } from '@/utils';
-import RenderIf from '@teslo/react-ui/RenderIf';
-import * as React from 'react';
-import { FaPlus, FaSearch } from 'react-icons/fa';
-import { Link } from 'react-router-dom';
-import { AiOutlineReload } from 'react-icons/ai';
-import { DatePicker } from 'react-rainbow-components';
-import dayjs from 'dayjs';
-import { Bill } from '@teslo/interfaces';
-import { billsService } from '@teslo/services';
-import { toast } from 'react-hot-toast';
+import { validPaths } from "@/utils";
+import RenderIf from "@teslo/react-ui/RenderIf";
+import * as React from "react";
+import { FaPlus, FaSearch } from "react-icons/fa";
+import { Link } from "react-router-dom";
+import { AiOutlineReload } from "react-icons/ai";
+import { DatePicker } from "react-rainbow-components";
+import dayjs from "dayjs";
+import { Bill } from "@teslo/interfaces";
+import { billsService } from "@teslo/services";
+import { toast } from "react-hot-toast";
+import { translate } from "@/i18n";
 
 interface IButtonsTableBillsProps {
 	showSelects?: boolean;
@@ -25,7 +26,7 @@ const ButtonsTableBills: React.FunctionComponent<IButtonsTableBillsProps> = prop
 	const fetchData = React.useCallback(async () => {
 		try {
 			if (dayjs(from).isAfter(dayjs(to)) || dayjs(to).isBefore(dayjs(from))) {
-				return toast.error('The date range is invalid');
+				return toast.error("The date range is invalid");
 			}
 
 			setIsLoadingTable(true);
@@ -41,17 +42,11 @@ const ButtonsTableBills: React.FunctionComponent<IButtonsTableBillsProps> = prop
 	return (
 		<div className="w-full flex items-center justify-start flex-wrap pb-2 sm:flex-row flex-col sm:mb-0 mb-2">
 			<div className="flex items-end justify-start sm:h-[50px] sm:mb-0 mb-2">
-				<Link
-					to={validPaths.newBill.path}
-					className="btn btn-primary btn-xs mb-0"
-				>
+				<Link to={validPaths.newBill.path} className="btn btn-primary btn-xs mb-0">
 					<FaPlus />
 				</Link>
 				<RenderIf isTrue={showSelects}>
-					<button
-						className="btn btn-alternative btn-xs mb-0"
-						onClick={fetchData}
-					>
+					<button className="btn btn-alternative btn-xs mb-0" onClick={fetchData}>
 						<AiOutlineReload />
 					</button>
 				</RenderIf>
@@ -63,12 +58,11 @@ const ButtonsTableBills: React.FunctionComponent<IButtonsTableBillsProps> = prop
 							htmlFor="category-select-products"
 							className="text-xs w-full text-start mb-1 font-semibold block"
 						>
-							From
+							{translate("app.from")}
 						</label>
 						<div>
 							<DatePicker
 								value={from}
-								placeholder="Select any provider"
 								borderRadius="semi-square"
 								size="small"
 								maxDate={new Date()}
@@ -81,12 +75,11 @@ const ButtonsTableBills: React.FunctionComponent<IButtonsTableBillsProps> = prop
 							htmlFor="category-select-products"
 							className="text-xs w-full text-start mb-1 font-semibold block"
 						>
-							To
+							{translate("app.to")}
 						</label>
 						<div>
 							<DatePicker
 								value={to}
-								placeholder="Select any brand"
 								borderRadius="semi-square"
 								size="small"
 								maxDate={new Date()}

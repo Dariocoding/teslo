@@ -1,5 +1,6 @@
-import { useConfigEnterpriseStore } from '@/store';
-import * as React from 'react';
+import { translate } from "@/i18n";
+import { useConfigEnterpriseStore } from "@/store";
+import * as React from "react";
 
 interface IEnterpriseInfoProps {}
 
@@ -9,26 +10,25 @@ const EnterpriseInfo: React.FunctionComponent<IEnterpriseInfoProps> = props => {
 	return (
 		<div>
 			<h6 className="text-lg font-semibold mb-1.5 inline-block">
-				Enterprise Info
+				{translate("settings.enterpriseInfo.title")}
 			</h6>
 			<div className="flex flex-col text-sm">
-				<div className="grid lg:grid-cols-2 lg:gap-1.5 gap-1 text-xs">
+				<div className="grid lg:grid-cols-2 lg:gap-1.5 gap-1 text-xs print:grid-cols-2">
 					<div>
-						<span className="font-bold">Name:</span>{' '}
-						{configEnterprise.name || 'No registered name'}
+						<span className="font-bold">{translate("providers.label.name")}:</span>{" "}
+						{configEnterprise.name || "No registered name"}
 					</div>
-					<div className="lg:text-end">
-						<span className="font-bold">Email:</span>{' '}
-						{configEnterprise.email || 'No registered email'}
+					<div className="lg:text-end print:text-end">
+						<span className="font-bold">{translate("providers.label.email")}:</span>{" "}
+						{configEnterprise.email || "No registered email"}
 					</div>
 					<div>
-						<span className="font-bold">Address:</span>{' '}
-						{configEnterprise.address ||
-							'No registered address'}
+						<span className="font-bold">{translate("providers.label.address")}:</span>{" "}
+						{configEnterprise.address || "No registered address"}
 					</div>
-					<div className="lg:text-end">
-						<span className="font-bold">Phone:</span>{' '}
-						{configEnterprise.phone || 'No registered phone'}
+					<div className="lg:text-end print:text-end">
+						<span className="font-bold">{translate("users.label.phone")}:</span>{" "}
+						{configEnterprise.phone || "No registered phone"}
 					</div>
 				</div>
 			</div>

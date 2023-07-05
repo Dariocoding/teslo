@@ -1,12 +1,15 @@
-import ButtonFormik from '@/components/@forms/ButtonFormik';
-import InputFormik from '@/components/@forms/InputFormik';
-import SelectFormik, { OptionReactSelect } from '@/components/@forms/SelectFormik';
-import { capitalize } from '@/utils';
-import { Form, Formik } from 'formik';
-import { ARRSTATUSORDER, Order, OrderDto, PaymentMethod } from '@teslo/interfaces';
-import * as React from 'react';
-import toast from 'react-hot-toast';
-import { ordersService } from '@teslo/services';
+import ButtonFormik from "@/components/@forms/ButtonFormik";
+import InputFormik from "@/components/@forms/InputFormik";
+import SelectFormik, { OptionReactSelect } from "@/components/@forms/SelectFormik";
+import { capitalize } from "@/utils";
+import { Form, Formik } from "formik";
+import { ARRSTATUSORDER, Order, OrderDto, PaymentMethod } from "@teslo/interfaces";
+import * as React from "react";
+import toast from "react-hot-toast";
+import { ordersService } from "@teslo/services";
+import { useIntl } from "react-intl";
+import { translate } from "@/i18n";
+import { libOrdersStatus } from "../TableOrders/BadgeStatusOrder";
 
 interface IFormUpdateOrderProps {
 	order: Order;
@@ -14,14 +17,9 @@ interface IFormUpdateOrderProps {
 	paymentMethods: PaymentMethod[];
 }
 
-const optionsStatus: OptionReactSelect[] = ARRSTATUSORDER.map(status => ({
-	value: status,
-	label: capitalize(status),
-}));
-
 const FormUpdateOrder: React.FunctionComponent<IFormUpdateOrderProps> = props => {
 	const { order, onSuccess, paymentMethods } = props;
-
+	const { formatMessage: t } = useIntl();
 	const initialValues: OrderDto = {
 		reference: order.reference,
 		status: order.status,
@@ -36,17 +34,21 @@ const FormUpdateOrder: React.FunctionComponent<IFormUpdateOrderProps> = props =>
 	async function onSubmit(values: OrderDto) {
 		try {
 			values.paymentMethod = paymentMethods.find(
-				paymentMethod =>
-					paymentMethod.idpaymentmethod === values.paymentMethod
+				paymentMethod => paymentMethod.idpaymentmethod === values.paymentMethod
 			);
 			const req = await ordersService.updateOrder(order.idorder, values);
-			toast.success('Order updated successfully.');
+			toast.success(t({ id: "orders.edit.success" }));
 			onSuccess?.(req.data);
 		} catch (error) {
 			console.log(error);
-			toast.error('Error updating order');
+			toast.error("Error updating order");
 		}
 	}
+
+	const optionsStatus: OptionReactSelect[] = ARRSTATUSORDER.map(status => ({
+		value: status,
+		label: capitalize(libOrdersStatus()[status]),
+	}));
 
 	return (
 		<Formik initialValues={initialValues} onSubmit={onSubmit}>
@@ -55,24 +57,17 @@ const FormUpdateOrder: React.FunctionComponent<IFormUpdateOrderProps> = props =>
 					<table className="table">
 						<tbody>
 							<tr>
-								<td>User:</td>
+								<td>{translate("users.single")}:</td>
 								<td>
 									<strong>
-										{
-											order.user
-												.firstName
-										}{' '}
-										{
-											order.user
-												.lastName
-										}
-									</strong>{' '}
+										{order.user.firstName} {order.user.lastName}
+									</strong>{" "}
 									<br />
 									{order.user.email}
 								</td>
 							</tr>
 							<tr>
-								<td>Reference:</td>
+								<td>{translate("orders.label.reference")}:</td>
 
 								<td>
 									<InputFormik
@@ -84,29 +79,25 @@ const FormUpdateOrder: React.FunctionComponent<IFormUpdateOrderProps> = props =>
 							</tr>
 
 							<tr>
-								<td>Status:</td>
+								<td>{translate("orders.label.status")}:</td>
 
 								<td>
 									<SelectFormik
 										className="my-2"
 										name="status"
-										options={
-											optionsStatus
-										}
+										options={optionsStatus}
 									/>
 								</td>
 							</tr>
 
 							<tr>
-								<td>Payment Method:</td>
+								<td>{translate("orders.label.paymentMethod")}:</td>
 
 								<td>
 									<SelectFormik
 										className="my-2"
 										name="paymentMethod"
-										options={
-											optionsPayment
-										}
+										options={optionsPayment}
 									/>
 								</td>
 							</tr>
@@ -115,7 +106,7 @@ const FormUpdateOrder: React.FunctionComponent<IFormUpdateOrderProps> = props =>
 				</div>
 
 				<ButtonFormik full className="btn-primary btn-sm mt-8">
-					Update Order
+					{translate("orders.edit.title")}
 				</ButtonFormik>
 			</Form>
 		</Formik>

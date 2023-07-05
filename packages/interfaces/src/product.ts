@@ -1,14 +1,14 @@
-import { Provider } from './providers';
-import { Category } from './category';
-import { DetailOrder } from './order';
-import { User } from './user';
-import { Brand } from './brands';
+import { Provider } from "./providers";
+import { Category } from "./category";
+import { DetailOrder } from "./order";
+import { User } from "./user";
+import { Brand } from "./brands";
 
-export type Size = 'XS' | 'S' | 'M' | 'L' | 'XL' | 'XXL' | 'XXS';
+export type Size = "XS" | "S" | "M" | "L" | "XL" | "XXL" | "XXS";
 
-export type Gender = 'men' | 'women' | 'kid' | 'unisex' | '';
+export type Gender = "men" | "women" | "kid" | "unisex" | "";
 
-export type StatusProduct = 'New in' | '50% Discount' | 'Sold Out' | 'Limited Edition' | '';
+export type StatusProduct = "New in" | "50% Discount" | "Sold Out" | "Limited Edition" | "";
 
 export interface Product {
 	id?: string;
@@ -28,6 +28,7 @@ export interface Product {
 	providers?: Provider[];
 	brand?: Brand;
 	code?: number;
+	customCode?: string;
 }
 
 export interface ProductDto {
@@ -43,4 +44,5 @@ export interface ProductDto {
 	status?: StatusProduct;
 	brand?: Brand | string;
 	providers?: Provider[] | string[];
+	customCode?: string;
 }

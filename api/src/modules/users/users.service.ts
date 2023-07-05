@@ -7,7 +7,13 @@ import { handleDBErrors } from "src/common/utils/handleDBErros";
 import { isUUID } from "class-validator";
 import { validateEmail } from "src/common/utils";
 import { MailService } from "src/mail/mail.service";
-import { RecoverPasswordDto, RequestPasswordEmailDto, CreateUserDto, UpdateUserDto } from "./dto";
+import {
+	RecoverPasswordDto,
+	RequestPasswordEmailDto,
+	CreateUserDto,
+	UpdateUserDto,
+	OptionsQueryGetUser,
+} from "./dto";
 import { v4 as UUID } from "uuid";
 import { ConfigService } from "@nestjs/config";
 import { Order } from "../orders/entities/order.entity";
@@ -15,146 +21,155 @@ import { DetailOrder } from "../orders/entities/detail.order.entity";
 
 @Injectable()
 export class UsersService {
-  constructor(
-    @InjectRepository(User)
-    private readonly userRepository: Repository<User>,
-    private readonly mailService: MailService,
-    private readonly configService: ConfigService,
-    @InjectRepository(Order)
-    private readonly orderRepository: Repository<Order>,
-    @InjectRepository(DetailOrder)
-    private readonly detailOrderRepository: Repository<DetailOrder>
-  ) {}
+	constructor(
+		@InjectRepository(User)
+		private readonly userRepository: Repository<User>,
+		private readonly mailService: MailService,
+		private readonly configService: ConfigService,
+		@InjectRepository(Order)
+		private readonly orderRepository: Repository<Order>,
+		@InjectRepository(DetailOrder)
+		private readonly detailOrderRepository: Repository<DetailOrder>
+	) {}
 
-  async create(createUserDto: CreateUserDto) {
-    try {
-      const { password, ...userData } = createUserDto;
+	async create(createUserDto: CreateUserDto) {
+		if (!createUserDto.password) {
+			createUserDto.password = await bcrypt.hash(UUID(), 10);
+		}
 
-      const user = this.userRepository.create({
-        ...userData,
-        password: this.hashPassword(password),
-      });
+		try {
+			const { password, ...userData } = createUserDto;
 
-      await this.userRepository.save(user);
-      delete user.password;
+			const user = this.userRepository.create({
+				...userData,
+				password: this.hashPassword(password),
+			});
 
-      return user;
-    } catch (error) {
-      handleDBErrors(error);
-    }
-  }
+			await this.userRepository.save(user);
+			delete user.password;
 
-  findAll() {
-    return this.userRepository.find({
-      where: { isDeleted: Not(true) as FindOperator<true> },
-      order: { dateCreated: "DESC" },
-    });
-  }
+			return user;
+		} catch (error) {
+			handleDBErrors(error);
+		}
+	}
 
-  async findOne(term: string) {
-    let user: User;
-    if (isUUID(term)) {
-      user = await this.userRepository.findOneBy({
-        iduser: term,
-        isDeleted: false,
-      });
-    } else if (validateEmail(term)) {
-      user = await this.userRepository.findOne({
-        where: { email: term.toLowerCase().trim(), isDeleted: false },
-      });
-    }
+	findAll() {
+		return this.userRepository.find({
+			where: { isDeleted: Not(true) as FindOperator<true> },
+			order: { dateCreated: "DESC" },
+		});
+	}
 
-    if (!user) throw new NotFoundException("User not found");
+	async findOne(term: string, optionsQueryGetUser?: OptionsQueryGetUser) {
+		const { prefix } = optionsQueryGetUser || {};
+		let user: User;
+		if (isUUID(term)) {
+			user = await this.userRepository.findOneBy({
+				iduser: term,
+				isDeleted: false,
+			});
+		} else if (validateEmail(term)) {
+			user = await this.userRepository.findOne({
+				where: { email: term.toLowerCase().trim(), isDeleted: false },
+			});
+		} else if (prefix) {
+			user = await this.userRepository.findOne({
+				where: { dni: term, isDeleted: false, prefix },
+			});
+		}
 
-    return user;
-  }
+		if (!user) throw new NotFoundException("User not found");
 
-  async findByEmailAndToken(email: string, token: string) {
-    const user = await this.userRepository.findOneBy({
-      email: email.trim().toLowerCase(),
-      token,
-    });
+		return user;
+	}
 
-    if (!user) throw new NotFoundException("User not found");
+	async findByEmailAndToken(email: string, token: string) {
+		const user = await this.userRepository.findOneBy({
+			email: email.trim().toLowerCase(),
+			token,
+		});
 
-    return user;
-  }
+		if (!user) throw new NotFoundException("User not found");
 
-  async update(iduser: string, updateUserDto: UpdateUserDto, returnUser = true) {
-    try {
-      if (returnUser) {
-        await this.findOne(iduser);
-      }
+		return user;
+	}
 
-      if (updateUserDto.password) {
-        updateUserDto.password = this.hashPassword(updateUserDto.password);
-      }
+	async update(iduser: string, updateUserDto: UpdateUserDto, returnUser = true) {
+		try {
+			if (returnUser) {
+				await this.findOne(iduser);
+			}
 
-      if (updateUserDto.email) {
-        updateUserDto.email = updateUserDto.email.trim().toLocaleLowerCase();
-      }
+			if (updateUserDto.password) {
+				updateUserDto.password = this.hashPassword(updateUserDto.password);
+			}
 
-      await this.userRepository.update({ iduser }, updateUserDto);
+			if (updateUserDto.email) {
+				updateUserDto.email = updateUserDto.email.trim().toLocaleLowerCase();
+			}
 
-      if (returnUser) {
-        return this.findOne(iduser);
-      }
-    } catch (error) {
-      handleDBErrors(error);
-    }
-  }
+			await this.userRepository.update({ iduser }, updateUserDto);
 
-  async remove(iduser: string) {
-    const ordersUser = await this.orderRepository.find({ where: { user: { iduser } } });
-    // delete all orders details
-    await Promise.all(
-      ordersUser.map(async (order) => {
-        await this.detailOrderRepository.delete({ order: { idorder: order.idorder } });
-      })
-    );
-    // delete all orders
-    await this.orderRepository.delete({ user: { iduser } });
-    await this.userRepository.delete({ iduser });
-  }
+			if (returnUser) {
+				return this.findOne(iduser);
+			}
+		} catch (error) {
+			handleDBErrors(error);
+		}
+	}
 
-  async sendRequestPassword(requestPasswordEmailDto: RequestPasswordEmailDto) {
-    const { email } = requestPasswordEmailDto;
-    const user = await this.findOne(email);
+	async remove(iduser: string) {
+		const ordersUser = await this.orderRepository.find({ where: { user: { iduser } } });
+		// delete all orders details
+		await Promise.all(
+			ordersUser.map(async order => {
+				await this.detailOrderRepository.delete({ order: { idorder: order.idorder } });
+			})
+		);
+		// delete all orders
+		await this.orderRepository.delete({ user: { iduser } });
+		await this.userRepository.delete({ iduser });
+	}
 
-    const token = UUID();
+	async sendRequestPassword(requestPasswordEmailDto: RequestPasswordEmailDto) {
+		const { email } = requestPasswordEmailDto;
+		const user = await this.findOne(email);
 
-    await this.userRepository.update({ iduser: user.iduser }, { token });
+		const token = UUID();
 
-    const HOST_APP = this.configService.get("HOST_APP");
-    const url = `${HOST_APP}/recover-password/${token}/${email}`;
+		await this.userRepository.update({ iduser: user.iduser }, { token });
 
-    await this.mailService.forgetPassword({ urlRecovery: url, user });
-  }
+		const HOST_APP = this.configService.get("HOST_APP");
+		const url = `${HOST_APP}/recover-password/${token}/${email}`;
 
-  async recoverPassword(recoverPasswordDto: RecoverPasswordDto) {
-    const { password, passwordConfirm, email, token, iduser } = recoverPasswordDto;
+		await this.mailService.forgetPassword({ urlRecovery: url, user });
+	}
 
-    if (password !== passwordConfirm) {
-      throw new BadRequestException("Passwords do not match");
-    }
+	async recoverPassword(recoverPasswordDto: RecoverPasswordDto) {
+		const { password, passwordConfirm, email, token, iduser } = recoverPasswordDto;
 
-    const user = await this.userRepository.findOneBy({
-      email,
-      token,
-      iduser,
-    });
+		if (password !== passwordConfirm) {
+			throw new BadRequestException("Passwords do not match");
+		}
 
-    if (!user) {
-      throw new NotFoundException("This user does not exist or the tokens do not match");
-    }
+		const user = await this.userRepository.findOneBy({
+			email,
+			token,
+			iduser,
+		});
 
-    await this.userRepository.update(
-      { iduser },
-      { token: null, password: this.hashPassword(password) }
-    );
-  }
+		if (!user) {
+			throw new NotFoundException("This user does not exist or the tokens do not match");
+		}
 
-  private hashPassword(password: string) {
-    return bcrypt.hashSync(password, 10);
-  }
+		await this.userRepository.update(
+			{ iduser },
+			{ token: null, password: this.hashPassword(password) }
+		);
+	}
+
+	private hashPassword(password: string) {
+		return bcrypt.hashSync(password, 10);
+	}
 }

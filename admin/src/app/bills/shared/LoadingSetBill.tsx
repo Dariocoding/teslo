@@ -1,17 +1,16 @@
-import { useConfigEnterpriseStore } from '@/store';
-import * as React from 'react';
+import { translate } from "@/i18n";
+import * as React from "react";
 
 interface ILoadingSetBillProps {}
 
 const LoadingSetBill: React.FunctionComponent<ILoadingSetBillProps> = props => {
 	const {} = props;
-	const { configEnterprise } = useConfigEnterpriseStore();
 
 	return (
 		<div className="tile">
 			<div className="mb-4">
 				<h6 className="text-lg font-semibold mb-1.5 inline-block">
-					Enterprise
+					{translate("settings.enterprise.title")}
 				</h6>
 				<div className="animate-pulse flex flex-col">
 					<div className="flex-1 space-y-4 py-1">
@@ -24,7 +23,7 @@ const LoadingSetBill: React.FunctionComponent<ILoadingSetBillProps> = props => {
 			<div className="flex flex-wrap justify-start items-center gap-6 mb-4">
 				<div className="w-full lg:w-1/5">
 					<h6 className="text-lg font-semibold mb-1.5 inline-block">
-						Providers
+						{translate("providers.title")}
 					</h6>
 					<div className="animate-pulse flex flex-col">
 						<div className="flex-1 space-y-4 py-1">
@@ -39,7 +38,7 @@ const LoadingSetBill: React.FunctionComponent<ILoadingSetBillProps> = props => {
 				</div>
 				<div className="w-full lg:w-9/12 flex-grow">
 					<h6 className="text-lg font-semibold mb-1.5 inline-block">
-						Products
+						{translate("products.title")}
 					</h6>
 					<div className="animate-pulse flex flex-col">
 						<div className="flex-1 space-y-4 py-1">
@@ -57,7 +56,7 @@ const LoadingSetBill: React.FunctionComponent<ILoadingSetBillProps> = props => {
 			<div className="flex flex-wrap justify-start items-center gap-6">
 				<div className="w-full lg:w-1/5">
 					<h6 className="text-lg font-semibold mb-1.5 inline-block">
-						Images
+						{translate("products.label.images")}
 					</h6>
 					<div className="animate-pulse flex flex-col">
 						<div className="flex-1 space-y-4 py-1">

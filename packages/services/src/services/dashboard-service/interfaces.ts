@@ -1,4 +1,4 @@
-import { PaymentMethod } from '@teslo/interfaces';
+import { PaymentMethod, StatusOrder } from "@teslo/interfaces";
 
 export interface TotalCountersResponse {
 	totalCategories: number;
@@ -30,4 +30,8 @@ export interface FindPaymentMethodsByYearMonth {
 	year: number;
 	month: string;
 	paymentMethods: (PaymentMethod & { quantity: number; total: number })[];
+}
+
+export interface FindStatisticQuery {
+	status: StatusOrder;
 }

@@ -1,36 +1,38 @@
-import { StatusOrder } from './order';
-import { Gender, Size, StatusProduct } from './product';
+import { StatusOrder } from "./order";
+import { Gender, Size, StatusProduct } from "./product";
 
 export enum ValidSizes {
-	XXS = 'XXS',
-	XS = 'XS',
-	S = 'S',
-	M = 'M',
-	L = 'L',
-	XL = 'XL',
-	XXL = 'XXL',
+	XXS = "XXS",
+	XS = "XS",
+	S = "S",
+	M = "M",
+	L = "L",
+	XL = "XL",
+	XXL = "XXL",
 }
 
 export enum ValidRoles {
-	ADMIN = 'admin',
-	SUPER_USER = 'super-user',
-	USER = 'user',
+	ADMIN = "admin",
+	SUPER_USER = "super-user",
+	USER = "user",
+	SELLER = "seller",
+	SUPERVISOR = "supervisor",
 }
 
-export const ARRGENDERS: Gender[] = ['kid', 'men', 'unisex', 'women'];
-export const ARRSIZES: Size[] = ['L', 'M', 'S', 'XL', 'XS', 'XXS', 'XXL'];
+export const ARRGENDERS: Gender[] = ["kid", "men", "unisex", "women"];
+export const ARRSIZES: Size[] = ["L", "M", "S", "XL", "XS", "XXS", "XXL"];
 export const ARRSTATUSPRODUCT: StatusProduct[] = [
-	'50% Discount',
-	'Limited Edition',
-	'New in',
-	'Sold Out',
+	"50% Discount",
+	"Limited Edition",
+	"New in",
+	"Sold Out",
 ];
 
 export enum ValidStatusOrder {
-	PENDING = 'pending',
-	COMPLETED = 'completed',
-	CANCELED = 'cancelled',
-	PAID = 'paid',
+	PENDING = "pending",
+	COMPLETED = "completed",
+	CANCELED = "cancelled",
+	PAID = "paid",
 }
 
 export const ARRSTATUSORDER: StatusOrder[] = [
@@ -40,12 +42,13 @@ export const ARRSTATUSORDER: StatusOrder[] = [
 	ValidStatusOrder.PAID,
 ];
 
-export * from './category';
-export * from './order';
-export * from './product';
-export * from './user';
-export * from './brands';
-export * from './providers';
-export * from './configEnterprise';
-export * from './configApp';
-export * from './bills';
+export * from "./category";
+export * from "./order";
+export * from "./product";
+export * from "./user";
+export * from "./brands";
+export * from "./providers";
+export * from "./configEnterprise";
+export * from "./configApp";
+export * from "./bills";
+export * from "./detailTempOrder";

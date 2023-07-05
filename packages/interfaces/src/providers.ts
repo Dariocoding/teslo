@@ -1,4 +1,4 @@
-import { Product } from './product';
+import { Product } from "./product";
 
 export interface Provider {
 	idprovider: string;
@@ -9,6 +9,7 @@ export interface Provider {
 	phone1: string;
 	phone2: string;
 	email: string;
+	address: string;
 }
 
 export interface ProviderDto {
@@ -16,4 +17,5 @@ export interface ProviderDto {
 	phone1?: string;
 	phone2?: string;
 	email?: string;
+	address?: string;
 }

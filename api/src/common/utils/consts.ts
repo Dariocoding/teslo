@@ -1,20 +1,20 @@
-export const EXAMPLE_UUID = 'fe0a8810-0981-4d8b-a272-95dd1507230b';
+export const EXAMPLE_UUID = "fe0a8810-0981-4d8b-a272-95dd1507230b";
 
-export const NAME_APP = 'Teslo';
+export const NAME_APP = "Teslo";
 
 export const MONTHS = () => [
-	'January',
-	'February',
-	'March',
-	'April',
-	'May',
-	'June',
-	'July',
-	'August',
-	'September',
-	'October',
-	'November',
-	'December',
+	"January",
+	"February",
+	"March",
+	"April",
+	"May",
+	"June",
+	"July",
+	"August",
+	"September",
+	"October",
+	"November",
+	"December",
 ];
 
 export const formatDateDDMMYYYY = (date: Date) => {
@@ -27,14 +27,14 @@ export const formatDateDDMMYYYY = (date: Date) => {
 
 export const formatDateYYYYMMDD = (date: Date) => {
 	let d = new Date(date),
-		month = '' + (d.getMonth() + 1),
-		day = '' + d.getDate(),
+		month = "" + (d.getMonth() + 1),
+		day = "" + d.getDate(),
 		year = d.getFullYear();
 
-	if (month.length < 2) month = '0' + month;
-	if (day.length < 2) day = '0' + day;
+	if (month.length < 2) month = "0" + month;
+	if (day.length < 2) day = "0" + day;
 
-	return [year, month, day].join('-');
+	return [year, month, day].join("-");
 };
 
 export const getDaysInMonth = (year: number, month: number) => {

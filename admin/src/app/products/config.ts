@@ -1,5 +1,5 @@
-import { Product } from '@teslo/interfaces';
-import React from 'react';
+import { Product } from "@teslo/interfaces";
+import React from "react";
 
 export interface ProductTable extends Product {
 	priceFormatted?: string;
@@ -10,4 +10,5 @@ export interface ProductTable extends Product {
 	categoriesFormatted: React.ReactNode;
 	providersFormatted: React.ReactNode;
 	titleFormatted: React.ReactNode;
+	checkSelected: React.ReactNode;
 }

@@ -1,5 +1,5 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, IsOptional, IsString, MinLength } from 'class-validator';
+import { ApiProperty } from "@nestjs/swagger";
+import { IsEmail, IsOptional, IsString, MinLength } from "class-validator";
 
 export class CreateProviderDto {
 	@ApiProperty({
@@ -23,4 +23,9 @@ export class CreateProviderDto {
 	@IsString()
 	@IsOptional()
 	email: string;
+
+	@ApiProperty()
+	@IsString()
+	@IsOptional()
+	address?: string;
 }

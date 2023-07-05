@@ -1,4 +1,4 @@
-import { BillDto } from '@teslo/interfaces';
+import { BillDto } from "@teslo/interfaces";
 
 export const getValidationsBillForm = (values: BillDto) => {
 	const subtotal = values.details.reduce((acc, detail) => acc + detail.qty * detail.price, 0);
@@ -10,8 +10,7 @@ export const getValidationsBillForm = (values: BillDto) => {
 
 	// total is subtotal + iva
 	const total =
-		(values.tax ? subtotal + (subtotal * values.tax) / 100 : subtotal) +
-		(values.delivery || 0);
+		(values.tax ? subtotal + (subtotal * values.tax) / 100 : subtotal) + (values.delivery || 0);
 
 	return { subtotal, disabledSubmit, total };
 };

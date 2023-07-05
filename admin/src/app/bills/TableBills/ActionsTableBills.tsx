@@ -1,10 +1,10 @@
-import { validPaths } from '@/utils';
-import { Bill } from '@teslo/interfaces';
-import * as React from 'react';
-import { FaEdit, FaEye, FaFilePdf } from 'react-icons/fa';
-import { TiCancel } from 'react-icons/ti';
-import { Link } from 'react-router-dom';
-import { HiFolderOpen } from 'react-icons/hi';
+import { validPaths } from "@/utils";
+import { Bill } from "@teslo/interfaces";
+import * as React from "react";
+import { FaEdit } from "react-icons/fa";
+import { TiCancel } from "react-icons/ti";
+import { Link } from "react-router-dom";
+import { HiFolderOpen } from "react-icons/hi";
 
 interface IActionsTableBillsProps {
 	bill: Bill;
@@ -13,14 +13,11 @@ interface IActionsTableBillsProps {
 
 const ActionsTableBills: React.FunctionComponent<IActionsTableBillsProps> = props => {
 	const { bill, onCancelBill } = props;
-	const isCancelled = bill.status === 'cancelled';
+	const isCancelled = bill.status === "cancelled";
 	const handleCancelBill = () => onCancelBill(bill);
+
 	return (
 		<div className="flex items-center justify-center">
-			<button type="button" className="btn btn-sm btn-warning px-2 5">
-				<FaFilePdf />
-			</button>
-
 			<Link
 				to={validPaths.viewBill.fnPath(bill.idbill)}
 				className="btn btn-sm btn-success px-2.5"

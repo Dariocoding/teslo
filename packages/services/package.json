@@ -6,12 +6,12 @@
   "license": "MIT",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "dependencies": {
-    "@teslo/interfaces": "1.0.0",
-    "axios": "^1.3.2"
-  },
   "scripts": {
     "compile:dev": "tsc -p tsconfig.json --watch",
     "compile": "tsc -p tsconfig.json"
+  },
+  "devDependencies": {
+    "@teslo/interfaces": "1.0.0",
+    "axios": "^1.3.2"
   }
 }

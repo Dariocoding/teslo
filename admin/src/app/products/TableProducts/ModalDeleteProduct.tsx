@@ -1,6 +1,7 @@
-import ConfirmModal from '@teslo/react-ui/Modal/ConfirmModal';
-import { Product } from '@teslo/interfaces';
-import * as React from 'react';
+import ConfirmModal from "@teslo/react-ui/Modal/ConfirmModal";
+import { Product } from "@teslo/interfaces";
+import * as React from "react";
+import { translate } from "@/i18n";
 
 interface IModalDeleteProductProps {
 	onAcceptDeleteProduct(): void;
@@ -20,15 +21,17 @@ const ModalDeleteProduct: React.FunctionComponent<IModalDeleteProductProps> = pr
 	} = props;
 	return (
 		<ConfirmModal
-			title={`Are you sure you want to delete this product: ${product?.title}?`}
-			titleModal={'Delete Product'}
-			subTitle={'You will not be able to recover this information'}
+			title={translate("products.delete.youSure", {
+				name: `${product?.title}`,
+			})}
+			titleModal={translate("products.delete.title")}
+			subTitle={translate("products.delete.youWillNotBeAbleToRecover")}
 			showModal={showModalDeleteProduct}
 			onClose={onCloseModalDelete}
 			onClickButtonAccept={onAcceptDeleteProduct}
-			buttonAccepText={'Delete Product'}
+			buttonAccepText={translate("products.delete.title")}
 			isLoading={isLoading}
-			buttonCancelText={'Cancel'}
+			buttonCancelText={translate("app.cancel")}
 		/>
 	);
 };

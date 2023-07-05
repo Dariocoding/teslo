@@ -1,5 +1,5 @@
-import React from 'react';
-import { User } from '@teslo/interfaces';
+import React from "react";
+import { User } from "@teslo/interfaces";
 
 export interface UserTable extends User {
 	actions: React.ReactNode;
@@ -8,6 +8,7 @@ export interface UserTable extends User {
 	dateCreatedFormatted: string;
 	dateCreatedFormattedWithouHour: string;
 	fullName: string;
+	dniFormatted: string;
 }
 
 export interface PasswordDto {

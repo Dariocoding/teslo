@@ -1,6 +1,7 @@
-import SelectFormik, { OptionReactSelect } from '@/components/@forms/SelectFormik';
-import { Brand } from '@teslo/interfaces';
-import * as React from 'react';
+import SelectFormik, { OptionReactSelect } from "@/components/@forms/SelectFormik";
+import { translate } from "@/i18n";
+import { Brand } from "@teslo/interfaces";
+import * as React from "react";
 
 interface IBrandsSelectProps {
 	brands: Brand[];
@@ -21,7 +22,9 @@ const BrandsSelect: React.FunctionComponent<IBrandsSelectProps> = props => {
 		[brands]
 	);
 
-	return <SelectFormik options={options} name={'brand'} label={'Brands available'} />;
+	return (
+		<SelectFormik options={options} name={"brand"} label={translate("products.label.brand")} />
+	);
 };
 
 export default BrandsSelect;

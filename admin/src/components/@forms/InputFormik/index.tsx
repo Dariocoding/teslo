@@ -1,15 +1,15 @@
-import { useFormikContext, getIn, Field } from 'formik';
-import * as React from 'react';
-import classNames from 'classnames';
-import Label from '../label';
-import RenderIf from '@teslo/react-ui/RenderIf';
-import { NumericFormat } from 'react-number-format';
+import { useFormikContext, getIn, Field } from "formik";
+import * as React from "react";
+import classNames from "classnames";
+import Label from "../label";
+import RenderIf from "@teslo/react-ui/RenderIf";
+import { NumericFormat } from "react-number-format";
 
 interface IInputFormikProps {
 	type?: React.HTMLInputTypeAttribute;
 	label?: React.ReactNode;
 	className?: string;
-	autoComplete?: 'on' | 'off';
+	autoComplete?: "on" | "off";
 	classNameInput?: string;
 	classNameLabel?: string;
 	disabled?: boolean;
@@ -22,14 +22,15 @@ interface IInputFormikProps {
 	decimalValues?: boolean;
 	onFocus?: () => void;
 	onBlur?: () => void;
+	onChange?: () => void;
 }
 
 const InputFormik: React.FunctionComponent<IInputFormikProps> = props => {
 	const {
-		type = 'text',
+		type = "text",
 		label,
 		className,
-		autoComplete = 'on',
+		autoComplete = "on",
 		name,
 		classNameLabel,
 		classNameInput,
@@ -42,9 +43,10 @@ const InputFormik: React.FunctionComponent<IInputFormikProps> = props => {
 		decimalValues = true,
 		onFocus = () => null,
 		onBlur = () => null,
+		onChange,
 	} = props;
 	const { errors, values, touched, setFieldValue, handleBlur } = useFormikContext();
-	const isInputNumber = type === 'number';
+	const isInputNumber = type === "number";
 	const value = getIn(values, name);
 	const error = getIn(errors, name);
 	const isTouched = getIn(touched, name);
@@ -54,9 +56,9 @@ const InputFormik: React.FunctionComponent<IInputFormikProps> = props => {
 	return (
 		<div
 			className={classNames(
-				'form-group',
-				validateError ? 'form-group-error' : null,
-				validateSuccess ? 'form-group-success' : null,
+				"form-group",
+				validateError ? "form-group-error" : null,
+				validateSuccess ? "form-group-success" : null,
 				className
 			)}
 		>
@@ -67,17 +69,17 @@ const InputFormik: React.FunctionComponent<IInputFormikProps> = props => {
 			{isInputNumber ? (
 				<NumericFormat
 					value={value}
-					thousandSeparator={'.'}
-					decimalSeparator={','}
+					thousandSeparator={"."}
+					decimalSeparator={","}
 					onValueChange={values => {
 						setFieldValue(name, values.floatValue);
 					}}
-					prefix={decimalValues ? '$ ' : ''}
+					prefix={decimalValues ? "$ " : ""}
 					onBlur={e => {
 						handleBlur(e);
 					}}
 					onFocus={onFocus}
-					className={classNames('form-control', classNameInput)}
+					className={classNames("form-control", classNameInput)}
 					disabled={disabled}
 					autoComplete={autoComplete}
 					placeholder={placeholder}
@@ -87,18 +89,22 @@ const InputFormik: React.FunctionComponent<IInputFormikProps> = props => {
 			) : (
 				<Field
 					type={type}
-					className={classNames('form-control', classNameInput)}
+					className={classNames("form-control", classNameInput)}
 					disabled={disabled}
 					autoComplete={autoComplete}
 					placeholder={placeholder}
 					name={name}
 					id={name}
-					value={value}
+					value={value || ""}
 					onBlur={e => {
 						handleBlur(e);
 						onBlur();
 					}}
 					onFocus={onFocus}
+					onChange={e => {
+						onChange?.();
+						setFieldValue(name, e.target.value);
+					}}
 				/>
 			)}
 

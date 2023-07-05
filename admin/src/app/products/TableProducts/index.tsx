@@ -1,19 +1,16 @@
-import DataTable, { HeaderDataTable } from '@teslo/react-ui/DataTable';
-import * as React from 'react';
-import defaultHeadingProducts from './heading';
-import mapProducts from './mapProducts';
-import RenderIf from '@teslo/react-ui/RenderIf';
-import toast from 'react-hot-toast';
-import { Brand, Category, Product, Provider } from '@teslo/interfaces';
-import { productsService } from '@teslo/services';
-import { TablePlaceholder } from '@/components/placeholders';
-import { useNavigate } from 'react-router-dom';
-import { validPaths } from '@/utils';
-import ButtonsTableProduct from './ButtonsTable';
+import DataTable, { HeaderDataTable } from "@teslo/react-ui/DataTable";
+import * as React from "react";
+import defaultHeadingProducts from "./heading";
+import mapProducts from "./mapProducts";
+import RenderIf from "@teslo/react-ui/RenderIf";
+import { Brand, Category, Product, Provider } from "@teslo/interfaces";
+import { TablePlaceholder } from "@/components/placeholders";
+import ButtonsTableProduct from "./ButtonsTable";
+import { useActionsTableProducts } from "./useActionsTableProducts";
 
-interface ITableProductsProps {
+export interface ITableProductsProps {
 	products: Product[];
-	setProducts: React.Dispatch<Product[]>;
+	setProducts: React.Dispatch<React.SetStateAction<Product[]>>;
 	isFetching: boolean;
 	refetch(): void;
 	heading?: HeaderDataTable[];
@@ -26,9 +23,15 @@ interface ITableProductsProps {
 	showSelects?: boolean;
 }
 
-const ModalDeleteProduct = React.lazy(() => import('./ModalDeleteProduct'));
+const ModalDeleteProduct = React.lazy(() => import("./ModalDeleteProduct"));
+const ModalBarCodes = React.lazy(() => import("../shared/ModalBarCodes"));
 
 const TableProducts: React.FunctionComponent<ITableProductsProps> = props => {
+	const [isLoadingTable, setIsLoadingTable] = React.useState(false);
+	const [showModalBarCodes, setShowModalBarCodes] = React.useState(false);
+	const [showAll, setShowAll] = React.useState(false);
+	const [currentItemsSelected, setCurrentItemsSelected] = React.useState<string[]>([]);
+
 	const {
 		products,
 		setProducts,
@@ -43,49 +46,28 @@ const TableProducts: React.FunctionComponent<ITableProductsProps> = props => {
 		loadingBrands,
 		showSelects,
 	} = props;
-	const navigate = useNavigate();
 
-	const [isLoadingTable, setIsLoadingTable] = React.useState(false);
-	const [showModalDeleteProduct, setShowModalDeleteProduct] = React.useState(false);
-	const [stateProductDelete, setStateProductDelete] = React.useState<Product>(null);
-	const [isLoadingDeleteProduct, setIsLoadingDeleteProduct] = React.useState(null);
+	const {
+		onCreateProduct,
+		onDeleteProduct,
+		onQuickEditProduct,
+		onUpdateProduct,
+		showModalDeleteProduct,
+		onAcceptDeleteProduct,
+		onCloseModalDelete,
+		stateProductDelete,
+		isLoadingDeleteProduct,
+		onViewBarCode,
+	} = useActionsTableProducts(props);
 
-	const onUpdateProduct = (product: Product) =>
-		navigate(validPaths.editProduct.fnPath(product.id));
-
-	const onCreateProduct = () => navigate(validPaths.newProduct.path);
-
-	const onCloseModalDelete = () => {
-		setShowModalDeleteProduct(false);
-		setStateProductDelete(null);
-	};
-
-	const onDeleteProduct = (product: Product) => {
-		setShowModalDeleteProduct(true);
-		setStateProductDelete(product);
-	};
-
-	const onAcceptDeleteProduct = async () => {
-		try {
-			setIsLoadingDeleteProduct(true);
-			await productsService.deleteProduct(stateProductDelete.id);
-			setProducts(products.filter(c => c.id !== stateProductDelete.id));
-			onCloseModalDelete();
-			toast.success('Product deleted successfully');
-		} catch (error) {
-			console.log(error);
-			toast.error(
-				error.response.data.message ||
-					'There was an error deleting the product. Please try again'
-			);
-		} finally {
-			setIsLoadingDeleteProduct(false);
-		}
-	};
+	React.useEffect(() => {
+		setCurrentItemsSelected([]);
+	}, [showAll]);
 
 	return (
 		<React.Fragment>
 			<DataTable
+				showAll={showAll}
 				placeholder={<TablePlaceholder />}
 				buttons={
 					<ButtonsTableProduct
@@ -100,10 +82,28 @@ const TableProducts: React.FunctionComponent<ITableProductsProps> = props => {
 						brands={brands}
 						loadingBrands={loadingBrands}
 						showSelects={showSelects}
+						showAll={showAll}
+						setShowAll={setShowAll}
+						currenItemsSelected={currentItemsSelected}
+						setShowModalBarCodes={setShowModalBarCodes}
 					/>
 				}
-				data={mapProducts({ products, onDeleteProduct, onUpdateProduct })}
-				heading={heading || defaultHeadingProducts}
+				data={mapProducts({
+					products,
+					onDeleteProduct,
+					onUpdateProduct,
+					onQuickEditProduct,
+					onViewBarCode,
+					currentItemsSelected,
+					setCurrentItemsSelected,
+				})}
+				heading={
+					heading ||
+					defaultHeadingProducts({
+						currentItemsSelected,
+						setCurrentItemsSelected,
+					})
+				}
 				loading={isFetching || isLoadingTable}
 				showResponsive={false}
 			/>
@@ -115,6 +115,17 @@ const TableProducts: React.FunctionComponent<ITableProductsProps> = props => {
 						showModalDeleteProduct={showModalDeleteProduct}
 						product={stateProductDelete}
 						isLoading={isLoadingDeleteProduct}
+					/>
+				</React.Suspense>
+			</RenderIf>
+			<RenderIf isTrue={showModalBarCodes}>
+				<React.Suspense fallback={<></>}>
+					<ModalBarCodes
+						products={products.filter(product =>
+							currentItemsSelected.includes(product.id)
+						)}
+						showModal={showModalBarCodes}
+						onClose={() => setShowModalBarCodes(false)}
 					/>
 				</React.Suspense>
 			</RenderIf>

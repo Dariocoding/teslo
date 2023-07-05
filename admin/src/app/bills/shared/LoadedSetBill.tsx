@@ -1,9 +1,9 @@
-import * as React from 'react';
-import { RenderIf } from 'react-rainbow-components';
-import LoadingSetBill from './LoadingSetBill';
-import { Provider } from '@teslo/interfaces';
-import { Link } from 'react-router-dom';
-import { validPaths } from '@/utils';
+import * as React from "react";
+import { RenderIf } from "react-rainbow-components";
+import LoadingSetBill from "./LoadingSetBill";
+import { Provider } from "@teslo/interfaces";
+import { Link } from "react-router-dom";
+import { validPaths } from "@/utils";
 
 interface ILoadedSetBillProps {
 	children?: React.ReactNode;
@@ -22,9 +22,7 @@ const LoadedSetBill: React.FunctionComponent<ILoadedSetBillProps> = props => {
 					<LoadingSetBill />
 				</RenderIf>
 				<RenderIf isTrue={!isLoadingProviders}>
-					<RenderIf isTrue={providers.length}>
-						{props.children}
-					</RenderIf>
+					<RenderIf isTrue={providers.length}>{props.children}</RenderIf>
 					<RenderIf isTrue={!providers.length}>
 						<div className="max-w-[500px] mx-auto">
 							<div className="tile">
@@ -42,15 +40,10 @@ const LoadedSetBill: React.FunctionComponent<ILoadedSetBillProps> = props => {
 
 									<div className="flex items-center justify-center mt-2">
 										<Link
-											to={
-												validPaths
-													.providers
-													.path
-											}
+											to={validPaths.providers.path}
 											className="btn btn-primary btn-sm px-8 mb-0"
 										>
-											Add new
-											Provider
+											Add new Provider
 										</Link>
 									</div>
 								</div>
@@ -78,14 +71,10 @@ const LoadedSetBill: React.FunctionComponent<ILoadedSetBillProps> = props => {
 								<button
 									type="button"
 									onClick={() => refetch()}
-									disabled={
-										isLoadingProviders
-									}
+									disabled={isLoadingProviders}
 									className="btn btn-primary btn-sm px-8 mb-0"
 								>
-									{isLoadingProviders
-										? 'Loading...'
-										: 'Retry'}
+									{isLoadingProviders ? "Loading..." : "Retry"}
 								</button>
 							</div>
 						</div>

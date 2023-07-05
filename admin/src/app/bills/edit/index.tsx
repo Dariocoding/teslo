@@ -1,13 +1,14 @@
-import HeaderDashboard from '@/layouts/HeaderDashboardLayout';
-import { validPaths } from '@/utils';
-import * as React from 'react';
-import { MdEditSquare } from 'react-icons/md';
-import LoadedSetBill from '../shared/LoadedSetBill';
-import { useFetchProviders } from '@/app/providers/hooks/useFetchProviders';
-import { Link, useParams } from 'react-router-dom';
-import { useFetchBill } from '../hooks/useFetchBill';
-import FormBill from '../forms/FormBill';
-import RenderIf from '@teslo/react-ui/RenderIf';
+import HeaderDashboard from "@/layouts/HeaderDashboardLayout";
+import { validPaths } from "@/utils";
+import * as React from "react";
+import { MdEditSquare } from "react-icons/md";
+import LoadedSetBill from "../shared/LoadedSetBill";
+import { useFetchProviders } from "@/app/providers/hooks/useFetchProviders";
+import { Link, useParams } from "react-router-dom";
+import { useFetchBill } from "../hooks/useFetchBill";
+import FormBill from "../forms/FormBill";
+import RenderIf from "@teslo/react-ui/RenderIf";
+import { translate } from "@/i18n";
 
 interface IEditBillPageProps {}
 
@@ -31,17 +32,11 @@ const EditBillPage: React.FunctionComponent<IEditBillPageProps> = props => {
 		<HeaderDashboard
 			to={validPaths.bills.path}
 			breadcrumbs={[
-				{
-					to: validPaths.dashboard.path,
-					label: 'Dashboard',
-				},
-				{
-					to: validPaths.bills.path,
-					label: 'Bills',
-				},
-				{ label: 'Edit Bill' },
+				{ to: validPaths.dashboard.path, label: translate("dashboard.title") },
+				{ to: validPaths.bills.path, label: translate("bills.title") },
+				{ label: translate("bills.edit.title") },
 			]}
-			title={'Edit Bill'}
+			title={translate("dashboard.edit.title")}
 			icon={<MdEditSquare />}
 		>
 			<LoadedSetBill
@@ -64,14 +59,10 @@ const EditBillPage: React.FunctionComponent<IEditBillPageProps> = props => {
 								/>
 							</div>
 							<div className="mt-4">
-								<h1 className="text-2xl font-semibold">
-									Bill not found
-								</h1>
+								<h1 className="text-2xl font-semibold">Bill not found</h1>
 								<p>
-									Maybe this bill was deleted
-									or doesn't exist or you
-									don't have permissions to
-									see it
+									Maybe this bill was deleted or doesn't exist or you don't have
+									permissions to see it
 								</p>
 							</div>
 						</div>

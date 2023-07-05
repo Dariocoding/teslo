@@ -1,23 +1,24 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { IsBoolean, IsEmail, IsOptional, IsString, MaxLength, MinLength } from 'class-validator';
-import { ValidRol, ValidRoles } from '@teslo/interfaces';
-import { EXAMPLE_UUID } from 'src/common/utils';
+import { ApiProperty } from "@nestjs/swagger";
+import { IsBoolean, IsEmail, IsOptional, IsString, MaxLength, MinLength } from "class-validator";
+import { ValidRol, ValidRoles } from "@teslo/interfaces";
+import { EXAMPLE_UUID } from "src/common/utils";
 
 export class CreateUserDto {
-	@ApiProperty({ example: 'Dario', nullable: false, minLength: 1 })
+	@ApiProperty({ example: "Dario", nullable: false, minLength: 1 })
 	@IsString()
 	@MinLength(1)
 	firstName?: string;
 
-	@ApiProperty({ example: 'Flores', nullable: false, minLength: 1 })
+	@ApiProperty({ example: "Flores", nullable: false, minLength: 1 })
 	@IsString()
 	@MinLength(1)
 	lastName?: string;
 
-	@ApiProperty({ example: 'password', nullable: false, minLength: 6 })
+	@ApiProperty({ example: "password", nullable: false, minLength: 6 })
 	@IsString()
 	@MinLength(6)
 	@MaxLength(50)
+	@IsOptional()
 	/*   @Matches(/(?:(?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/, {
     message:
       'The password must have a Uppercase, lowercase letter and a number',
@@ -37,12 +38,12 @@ export class CreateUserDto {
 	@IsOptional()
 	isActive?: boolean;
 
-	@ApiProperty({ example: 'test1@gmail.com', nullable: false, minLength: 1 })
+	@ApiProperty({ example: "test1@gmail.com", nullable: false, minLength: 1 })
 	@IsString()
 	@IsEmail()
 	email?: string;
 
-	@ApiProperty({ example: '041206021601', nullable: true })
+	@ApiProperty({ example: "041206021601", nullable: true })
 	@IsString()
 	@IsOptional()
 	phone?: string;
@@ -56,4 +57,14 @@ export class CreateUserDto {
 	@IsString({ each: true })
 	@IsOptional()
 	wishlist: string[];
+
+	@ApiProperty({})
+	@IsString()
+	@IsOptional()
+	dni?: string;
+
+	@ApiProperty({})
+	@IsString()
+	@IsOptional()
+	prefix?: string;
 }

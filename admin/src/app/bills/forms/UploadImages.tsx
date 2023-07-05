@@ -1,6 +1,7 @@
-import Upload from '@teslo/react-ui/Upload';
-import * as React from 'react';
-import { FcImageFile } from 'react-icons/fc';
+import { translate } from "@/i18n";
+import Upload from "@teslo/react-ui/Upload";
+import * as React from "react";
+import { FcImageFile } from "react-icons/fc";
 
 interface IUploadImagesProps {}
 
@@ -16,12 +17,12 @@ const UploadImages: React.FunctionComponent<IUploadImagesProps> = props => {
 					</div>
 					<p className="font-semibold">
 						<span className="text-gray-800 dark:text-white">
-							Drop your image here, or{' '}
+							{translate("app.dropYourImageOr")}{" "}
 						</span>
-						<span className="text-blue-500">browse</span>
+						<span className="text-blue-500">{translate("app.browse")}</span>
 					</p>
 					<p className="mt-1 opacity-60 dark:text-white">
-						Support: jpeg, jpg, png, webp
+						{translate("app.support")}: jpeg, jpg, png, webp
 					</p>
 				</div>
 			</Upload>

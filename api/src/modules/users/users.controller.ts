@@ -10,29 +10,30 @@ import {
 	Put,
 	Patch,
 	Query,
-} from '@nestjs/common';
-import { UsersService } from './users.service';
-import { Auth, GetUser } from '../auth/common/decorators';
-import { ApiResponse, ApiTags } from '@nestjs/swagger';
-import { User } from './entities/user.entity';
+} from "@nestjs/common";
+import { UsersService } from "./users.service";
+import { Auth, GetUser } from "../auth/common/decorators";
+import { ApiResponse, ApiTags } from "@nestjs/swagger";
+import { User } from "./entities/user.entity";
 import {
 	CreateUserDto,
-	OptionsQueryUser,
+	OptionsQueryPutUser,
 	RecoverPasswordDto,
 	RequestPasswordEmailDto,
 	UpdateUserDto,
-} from './dto';
-import { ValidRoles } from '@teslo/interfaces';
+	OptionsQueryGetUser,
+} from "./dto";
+import { ValidRoles } from "@teslo/interfaces";
 
-@Controller('users')
-@ApiTags('1 - Users')
+@Controller("users")
+@ApiTags("1 - Users")
 export class UsersController {
 	constructor(private readonly usersService: UsersService) {}
 
 	@Post()
 	@Auth(ValidRoles.ADMIN, ValidRoles.SUPER_USER)
 	@ApiResponse({ type: User, status: HttpStatus.CREATED })
-	@ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad request' })
+	@ApiResponse({ status: HttpStatus.BAD_REQUEST, description: "Bad request" })
 	create(@Body() createUserDto: CreateUserDto) {
 		return this.usersService.create(createUserDto);
 	}
@@ -44,61 +45,54 @@ export class UsersController {
 		return this.usersService.findAll();
 	}
 
-	@Get(':term')
+	@Get(":term")
 	@ApiResponse({ status: HttpStatus.OK, type: User, isArray: false })
-	@ApiResponse({ status: HttpStatus.NOT_FOUND, description: 'User Not Found' })
-	findOne(@Param('term', ParseUUIDPipe) term: string) {
-		return this.usersService.findOne(term);
+	@ApiResponse({ status: HttpStatus.NOT_FOUND, description: "User Not Found" })
+	findOne(@Param("term") term: string, @Query() query: OptionsQueryGetUser) {
+		return this.usersService.findOne(term, query);
 	}
 
-	@Get(':email/:token')
+	@Get(":email/:token")
 	@ApiResponse({ status: HttpStatus.OK, type: User, isArray: false })
-	@ApiResponse({ status: HttpStatus.NOT_FOUND, description: 'User Not Found' })
-	findByEmailAndToken(@Param('email') email: string, @Param('token') token: string) {
+	@ApiResponse({ status: HttpStatus.NOT_FOUND, description: "User Not Found" })
+	findByEmailAndToken(@Param("email") email: string, @Param("token") token: string) {
 		return this.usersService.findByEmailAndToken(email, token);
 	}
 
-	@Put(':iduser')
+	@Put(":iduser")
 	@ApiResponse({ status: HttpStatus.OK, type: User, isArray: false })
 	@Auth(ValidRoles.ADMIN, ValidRoles.SUPER_USER)
-	update(
-		@Param('iduser', ParseUUIDPipe) iduser: string,
-		@Body() updateUserDto: UpdateUserDto
-	) {
+	update(@Param("iduser", ParseUUIDPipe) iduser: string, @Body() updateUserDto: UpdateUserDto) {
 		return this.usersService.update(iduser, updateUserDto);
 	}
 
-	@Delete(':iduser')
+	@Delete(":iduser")
 	@Auth(ValidRoles.ADMIN, ValidRoles.SUPER_USER)
 	@ApiResponse({ isArray: false, type: User, status: HttpStatus.OK })
-	remove(@Param('iduser', ParseUUIDPipe) iduser: string) {
+	remove(@Param("iduser", ParseUUIDPipe) iduser: string) {
 		return this.usersService.remove(iduser);
 	}
 
-	@Patch('/sendRequestPassword')
+	@Patch("/sendRequestPassword")
 	async sendRequestPassword(@Body() requestPasswordEmailDto: RequestPasswordEmailDto) {
 		await this.usersService.sendRequestPassword(requestPasswordEmailDto);
-		return { msg: 'Mensaje enviado correctamente' };
+		return { msg: "Mensaje enviado correctamente" };
 	}
 
-	@Patch('/recoverPassword')
+	@Patch("/recoverPassword")
 	async recoverPassword(@Body() recoverPasswordDto: RecoverPasswordDto) {
 		await this.usersService.recoverPassword(recoverPasswordDto);
-		return { msg: 'Contraseña recuperada correctamente.' };
+		return { msg: "Contraseña recuperada correctamente." };
 	}
 
-	@Patch('/profile/user')
+	@Patch("/profile/user")
 	@Auth()
 	@ApiResponse({ isArray: false, type: User, status: HttpStatus.OK })
 	async updateProfile(
 		@GetUser() currentUser: User,
 		@Body() updateUserDto: UpdateUserDto,
-		@Query() query: OptionsQueryUser
+		@Query() query: OptionsQueryPutUser
 	) {
-		return this.usersService.update(
-			currentUser.iduser,
-			updateUserDto,
-			query.returnUser
-		);
+		return this.usersService.update(currentUser.iduser, updateUserDto, query.returnUser);
 	}
 }

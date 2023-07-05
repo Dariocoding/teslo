@@ -1,12 +1,13 @@
-import HeaderDashboard from '@/layouts/HeaderDashboardLayout';
-import * as React from 'react';
-import { useFetchProducts } from './hooks/useFetchProducts';
-import TableProducts from './TableProducts';
-import { validPaths } from '@/utils';
-import { FaBoxes } from 'react-icons/fa';
-import { useFetchCategories } from '../categories/hooks/useFetchCategories';
-import { useFetchProviders } from '../providers/hooks/useFetchProviders';
-import { useFetchBrands } from '../brands/hooks/useFetchBrands';
+import HeaderDashboard from "@/layouts/HeaderDashboardLayout";
+import * as React from "react";
+import { useFetchProducts } from "./hooks/useFetchProducts";
+import TableProducts from "./TableProducts";
+import { validPaths } from "@/utils";
+import { FaBoxes } from "react-icons/fa";
+import { useFetchCategories } from "../categories/hooks/useFetchCategories";
+import { useFetchProviders } from "../providers/hooks/useFetchProviders";
+import { useFetchBrands } from "../brands/hooks/useFetchBrands";
+import { translate } from "@/i18n";
 
 interface IProductsPageProps {}
 
@@ -20,10 +21,10 @@ const ProductsPage: React.FunctionComponent<IProductsPageProps> = props => {
 		<HeaderDashboard
 			to={validPaths.home.path}
 			icon={<FaBoxes />}
-			title={'Products'}
+			title={translate("products.title")}
 			breadcrumbs={[
-				{ label: 'Dashboard', to: validPaths.home.path },
-				{ label: 'Products' },
+				{ label: translate("dashboard.title"), to: validPaths.home.path },
+				{ label: translate("products.title") },
 			]}
 		>
 			<div className="tile">

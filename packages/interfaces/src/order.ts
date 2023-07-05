@@ -1,5 +1,6 @@
-import { Product } from './product';
-import { User } from './user';
+import { ValidSizes } from ".";
+import { Product } from "./product";
+import { User } from "./user";
 
 export interface Order {
 	idorder?: number;
@@ -10,6 +11,9 @@ export interface Order {
 	detail?: DetailOrder[];
 	user?: User;
 	paymentMethod?: PaymentMethod;
+	iva?: number;
+	subtotal?: number;
+	userSell?: User;
 }
 
 export interface OrderDto {
@@ -18,12 +22,15 @@ export interface OrderDto {
 	status?: StatusOrder;
 	detail?: DetailDto[];
 	paymentMethod?: PaymentMethod | string;
+	iva?: number;
+	subtotal?: number;
 }
 
 interface DetailDto {
 	total?: number;
 	quantity?: number;
 	product?: Product;
+	size?: ValidSizes;
 }
 
 export interface DetailOrder {
@@ -33,9 +40,10 @@ export interface DetailOrder {
 	title?: string;
 	product?: Product;
 	order?: Order;
+	size?: ValidSizes;
 }
 
-export type StatusOrder = 'pending' | 'completed' | 'cancelled' | 'paid';
+export type StatusOrder = "pending" | "completed" | "cancelled" | "paid";
 
 export interface PaymentMethod {
 	idpaymentmethod?: number;

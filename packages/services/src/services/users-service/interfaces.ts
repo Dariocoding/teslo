@@ -13,3 +13,7 @@ export interface RecoverPasswordDto {
 export interface OptionsQueryUser {
 	returnUser: boolean;
 }
+
+export interface OptionsQueryGetUser {
+	prefix: string;
+}

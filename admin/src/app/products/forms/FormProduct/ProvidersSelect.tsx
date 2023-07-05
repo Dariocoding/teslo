@@ -1,6 +1,7 @@
-import SelectFormik, { OptionReactSelect } from '@/components/@forms/SelectFormik';
-import { Provider } from '@teslo/interfaces';
-import * as React from 'react';
+import SelectFormik, { OptionReactSelect } from "@/components/@forms/SelectFormik";
+import { translate } from "@/i18n";
+import { Provider } from "@teslo/interfaces";
+import * as React from "react";
 
 interface IProvidersSelectProps {
 	providers: Provider[];
@@ -24,8 +25,9 @@ const ProvidersSelect: React.FunctionComponent<IProvidersSelectProps> = props =>
 		<SelectFormik
 			multiple
 			options={options}
-			name={'providers'}
-			label={'Providers available'}
+			name={"providers"}
+			label={translate("products.label.providers")}
+			placeholder={translate("products.placeholder.providers")}
 			onChange={(items: OptionReactSelect[]) => {
 				if (!items) return [];
 				const copyItems = [...items];

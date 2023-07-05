@@ -1,5 +1,5 @@
-import { Order } from './order';
-import { Product } from './product';
+import { Order } from "./order";
+import { Product } from "./product";
 
 export interface User {
 	iduser?: string;
@@ -16,9 +16,11 @@ export interface User {
 	dateCreated?: Date;
 	orders?: Order[];
 	wishlist?: string[];
+	prefix?: string;
+	dni?: string;
 }
 
-export type ValidRol = 'admin' | 'super-user' | 'user';
+export type ValidRol = "admin" | "super-user" | "user" | "seller" | "supervisor";
 
 export interface UserDto {
 	firstName?: string;
@@ -29,4 +31,6 @@ export interface UserDto {
 	isActive?: boolean;
 	roles?: ValidRol[];
 	wishlist?: string[];
+	prefix?: string;
+	dni?: string;
 }

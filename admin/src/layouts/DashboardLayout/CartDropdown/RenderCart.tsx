@@ -1,8 +1,8 @@
-import Prices from '@/components/ui/Prices';
-import { Cart, useCartStore } from '@/store';
-import { PF, validPaths } from '@/utils';
-import * as React from 'react';
-import { Link } from 'react-router-dom';
+import Prices from "@/components/ui/Prices";
+import { Cart, useCartStore } from "@/store";
+import { PF, imageProduct, validPaths } from "@/utils";
+import * as React from "react";
+import { Link } from "react-router-dom";
 
 interface IRenderCartProps {
 	close(): void;
@@ -12,20 +12,21 @@ interface IRenderCartProps {
 const RenderCart: React.FunctionComponent<IRenderCartProps> = props => {
 	const { close, cart } = props;
 	const { removeCart } = useCartStore();
-	const { images, title, size, price, qty } = cart;
+	const { size, qty, product } = cart;
+	const { title, slug, price } = product;
 
 	return (
 		<div className="flex py-5 last:pb-0">
 			<div className="relative h-24 w-20 flex-shrink-0 overflow-hidden rounded-xl bg-slate-100">
 				<img
-					src={PF + '/product/' + images[0]}
+					src={imageProduct(product)}
 					alt={title}
 					className="h-full w-full object-contain object-center"
 				/>
 				<Link
 					onClick={close}
 					className="absolute inset-0"
-					to={validPaths.viewProduct.fnPath(cart.slug)}
+					to={validPaths.viewProduct.fnPath(slug)}
 				/>
 			</div>
 
@@ -34,12 +35,7 @@ const RenderCart: React.FunctionComponent<IRenderCartProps> = props => {
 					<div className="flex justify-between ">
 						<div>
 							<h3 className="text-base font-medium text-black">
-								<Link
-									onClick={close}
-									to={validPaths.viewProduct.fnPath(
-										cart.slug
-									)}
-								>
+								<Link onClick={close} to={validPaths.viewProduct.fnPath(slug)}>
 									{title}
 								</Link>
 							</h3>
@@ -57,9 +53,7 @@ const RenderCart: React.FunctionComponent<IRenderCartProps> = props => {
 						<button
 							type="button"
 							className="font-medium transition hover:text-red-500 text-black"
-							onClick={() =>
-								removeCart(cart, { size, qty: 1 })
-							}
+							onClick={() => removeCart(cart, { size, qty: 1 })}
 						>
 							Remove
 						</button>

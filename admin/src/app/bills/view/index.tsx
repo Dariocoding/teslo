@@ -10,33 +10,33 @@ import { translate } from "@/i18n";
 
 interface IViewBillPageProps {}
 
-const ViewBillPage: React.FunctionComponent<IViewBillPageProps> = (props) => {
-  const {} = props;
-  const { id } = useParams();
-  const { data: bill, isFetching, error, setData } = useFetchBill(id);
+const ViewBillPage: React.FunctionComponent<IViewBillPageProps> = props => {
+	const {} = props;
+	const { id } = useParams();
+	const { data: bill, isFetching, error, setData } = useFetchBill(id);
 
-  return (
-    <HeaderDashboard
-      to={validPaths.bills.path}
-      breadcrumbs={[
-        {
-          to: validPaths.dashboard.path,
-          label: translate("dashboard.title"),
-        },
-        {
-          to: validPaths.bills.path,
-          label: translate("bills.title"),
-        },
-        { label: translate("bills.view.title") },
-      ]}
-      title={translate("bills.view.title")}
-      icon={<HiFolder />}
-    >
-      <ContainerBill isLoading={isFetching} error={error}>
-        <BillInfo bill={bill} setBill={setData} />
-      </ContainerBill>
-    </HeaderDashboard>
-  );
+	return (
+		<HeaderDashboard
+			to={validPaths.bills.path}
+			breadcrumbs={[
+				{
+					to: validPaths.dashboard.path,
+					label: translate("dashboard.title"),
+				},
+				{
+					to: validPaths.bills.path,
+					label: translate("bills.title"),
+				},
+				{ label: translate("bills.view.title") },
+			]}
+			title={translate("bills.view.title")}
+			icon={<HiFolder />}
+		>
+			<ContainerBill isLoading={isFetching} error={error}>
+				<BillInfo bill={bill} setBill={setData} />
+			</ContainerBill>
+		</HeaderDashboard>
+	);
 };
 
 export default ViewBillPage;

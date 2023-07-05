@@ -1,6 +1,7 @@
-import SelectFormik, { OptionReactSelect } from '@/components/@forms/SelectFormik';
-import { Category } from '@teslo/interfaces';
-import * as React from 'react';
+import SelectFormik, { OptionReactSelect } from "@/components/@forms/SelectFormik";
+import { translate } from "@/i18n";
+import { Category } from "@teslo/interfaces";
+import * as React from "react";
 
 interface ICategoriesProductProps {
 	categories: Category[];
@@ -30,8 +31,9 @@ const CategoriesProduct: React.FunctionComponent<ICategoriesProductProps> = prop
 				return copyItems.map(item => item.value);
 			}}
 			options={options}
-			name={'categories'}
-			label={'Categories available'}
+			name={"categories"}
+			label={translate("products.label.categories")}
+			placeholder={translate("products.placeholder.categories")}
 		/>
 	);
 };

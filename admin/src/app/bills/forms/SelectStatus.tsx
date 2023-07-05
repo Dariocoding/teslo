@@ -1,9 +1,10 @@
-import ReactSelectFormik from '@/components/@forms/ReactSelectFormik';
-import { OptionReactSelect } from '@/components/@forms/SelectFormik';
-import { capitalize } from '@/utils';
-import { ARRSTATUSORDER, BillDto, ValidStatusOrder } from '@teslo/interfaces';
-import { useFormikContext } from 'formik';
-import * as React from 'react';
+import ReactSelectFormik from "@/components/@forms/ReactSelectFormik";
+import { OptionReactSelect } from "@/components/@forms/SelectFormik";
+import { translate } from "@/i18n";
+import { capitalize } from "@/utils";
+import { ARRSTATUSORDER, BillDto, ValidStatusOrder } from "@teslo/interfaces";
+import { useFormikContext } from "formik";
+import * as React from "react";
 
 interface ISelectStatusBillFormProps {}
 
@@ -20,10 +21,10 @@ const SelectStatusBillForm: React.FunctionComponent<ISelectStatusBillFormProps> 
 	return (
 		<ReactSelectFormik
 			name="status"
-			label={'Status'}
+			label={translate("bills.label.status")}
 			optionSelected={
 				values.status === ValidStatusOrder.CANCELED
-					? { label: 'Canceled', value: ValidStatusOrder.CANCELED }
+					? { label: "Canceled", value: ValidStatusOrder.CANCELED }
 					: undefined
 			}
 			classNameLabel="text-xs"

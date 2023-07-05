@@ -1,40 +1,41 @@
-import * as React from 'react';
-import './SearchList.css';
-import SearchResult from './SearchResult';
-import classNames from 'classnames';
-import RenderIf from '@teslo/react-ui/RenderIf';
-import LoaderSearchList from './LoaderSearchList';
+import * as React from "react";
+import "./SearchList.css";
+import SearchListContainer from "./SearchList";
+import RenderIf from "@teslo/react-ui/RenderIf";
 
 export interface ISearchResult {
 	value: string | number;
 	label: string;
 }
 
-interface ISearchListProps {
+export interface ISearchListProps {
 	results: ISearchResult[];
 	classNameContainer?: string;
-	loading?: boolean;
 	onClickResult: (value: string | number) => void;
+	selected?: ISearchResult;
+	setSelected?: React.Dispatch<ISearchResult>;
+	children?: React.ReactNode;
+	onFocus?: () => void;
+	onBlur?: React.FocusEventHandler<HTMLDivElement>;
+	focused?: boolean;
 }
 
 const SearchList: React.FunctionComponent<ISearchListProps> = props => {
-	const { results, classNameContainer, loading, onClickResult } = props;
+	const { onFocus, onBlur, focused } = props;
+
+	const refContainer = React.useRef<HTMLDivElement>();
+
 	return (
-		<div className="relative">
-			<div className={classNames('absolute z-50 w-full', classNameContainer)}>
-				<div className="results-list">
-					<RenderIf isTrue={!loading}>
-						{results.map((result, id) => (
-							<SearchResult
-								result={result}
-								key={id}
-								onClickResult={onClickResult}
-							/>
-						))}
-					</RenderIf>
-					<LoaderSearchList loading={loading} />
-				</div>
-			</div>
+		<div
+			className="container-input-code relative"
+			onBlur={onBlur}
+			onFocus={onFocus}
+			ref={refContainer}
+		>
+			{props.children}
+			<RenderIf isTrue={focused}>
+				<SearchListContainer {...props} refContainer={refContainer} />
+			</RenderIf>
 		</div>
 	);
 };

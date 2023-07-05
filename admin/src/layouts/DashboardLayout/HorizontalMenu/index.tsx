@@ -7,28 +7,30 @@ import HorizontalMenuCollapsedItem from "./HorizontalMenuCollapsedItem";
 
 interface IHorizontalMenuProps {}
 
-const HorizontalMenu: React.FunctionComponent<IHorizontalMenuProps> = (props) => {
-  const {} = props;
-  const { colors } = useConfigApp();
+const HorizontalMenu: React.FunctionComponent<IHorizontalMenuProps> = props => {
+	const {} = props;
+	const { colors } = useConfigApp();
 
-  return (
-    <div
-      className={classNames(
-        "p-4 border-t z-10 border-[2px_solid_rgba(0,0,0,0.05)] fixed w-full top-16 border-opacity-30 side-nav side-nav-light print:hidden",
-        colors.isThemed && colors.textColor,
-        colors.isThemed && colors.sidebarContainer
-      )}
-    >
-      <div className="flex items-center gap-2 overflow-auto">{MenuItems.map(MapMenuItem)}</div>
-    </div>
-  );
+	return (
+		<div
+			className={classNames(
+				"p-4 z-10 border-t border-[2px_solid_rgba(0,0,0,0.05)] fixed w-full top-16 border-opacity-30 side-nav side-nav-light print:hidden",
+				colors.isThemed && colors.textColor,
+				colors.isThemed && colors.sidebarContainer
+			)}
+		>
+			<div className="flex items-center gap-2 overflow-auto">
+				{MenuItems.map(MapMenuItem)}
+			</div>
+		</div>
+	);
 };
 
 export default HorizontalMenu;
 
 const MapMenuItem = (item: IMenuItem, idx: number) =>
-  item.subNav ? (
-    <HorizontalMenuCollapsedItem key={idx} idx={idx} item={item} />
-  ) : (
-    <HorizontalMenuSingleItem key={idx} idx={idx} item={item} />
-  );
+	item.subNav ? (
+		<HorizontalMenuCollapsedItem key={idx} idx={idx} item={item} />
+	) : (
+		<HorizontalMenuSingleItem key={idx} idx={idx} item={item} />
+	);

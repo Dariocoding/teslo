@@ -1,15 +1,18 @@
-import { toast } from 'react-hot-toast';
-import { Transition } from '@headlessui/react';
-import { Product } from '@teslo/interfaces';
-import Prices from '../Prices';
-import { FaTimes } from 'react-icons/fa';
-import { Link, NavigateFunction } from 'react-router-dom';
-import { validPaths } from '@/utils';
+import { toast } from "react-hot-toast";
+import { Transition } from "@headlessui/react";
+import { Product } from "@teslo/interfaces";
+import Prices from "../Prices";
+import { FaTimes } from "react-icons/fa";
+import { NavigateFunction } from "react-router-dom";
+import { PF, validPaths } from "@/utils";
 
-export type ProductNotify = Product & { size: string; image: string; qty: number };
+export type ProductNotify = Product & { size: string; qty: number };
 
 export const notifyAddTocart = (product: ProductNotify, navigate: NavigateFunction) => {
-	const { title, image, size, price, qty } = product;
+	const { title, size, price, qty } = product;
+
+	const image = imageProduct(product);
+
 	const idtoast = toast.custom(
 		t => (
 			<Transition
@@ -23,9 +26,7 @@ export const notifyAddTocart = (product: ProductNotify, navigate: NavigateFuncti
 				leaveFrom="opacity-100 translate-x-0"
 				leaveTo="opacity-0 translate-x-20"
 			>
-				<p className="block text-base font-semibold leading-none">
-					Added to cart!
-				</p>
+				<p className="block text-base font-semibold leading-none">Added to cart!</p>
 				<span
 					className="absolute top-4 right-4 text-black cursor-pointer"
 					onClick={() => toast.remove(idtoast)}
@@ -47,34 +48,21 @@ export const notifyAddTocart = (product: ProductNotify, navigate: NavigateFuncti
 						<div>
 							<div className="flex justify-between ">
 								<div>
-									<h3 className="text-base font-medium ">
-										{title}
-									</h3>
+									<h3 className="text-base font-medium ">{title}</h3>
 									<p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
 										<span>{size}</span>
 									</p>
 								</div>
-								<Prices
-									price={price}
-									className="mt-0.5"
-								/>
+								<Prices price={price} className="mt-0.5" />
 							</div>
 						</div>
 						<div className="flex flex-1 items-end justify-between text-sm">
-							<p className="text-gray-500 dark:text-slate-400">
-								Qty {qty}
-							</p>
+							<p className="text-gray-500 dark:text-slate-400">Qty {qty}</p>
 
 							<div className="flex">
 								<button
 									type="button"
-									onClick={() =>
-										navigate(
-											validPaths
-												.newOrder
-												.path
-										)
-									}
+									onClick={() => navigate(validPaths.newOrder.path)}
 									className="font-medium text-primary-6000 dark:text-primary-500 "
 								>
 									View cart
@@ -85,6 +73,11 @@ export const notifyAddTocart = (product: ProductNotify, navigate: NavigateFuncti
 				</div>
 			</Transition>
 		),
-		{ position: 'bottom-right', id: 'nc-product-notify', duration: 3000 }
+		{ position: "bottom-right", id: "nc-product-notify", duration: 3000 }
 	);
 };
+
+const imageProduct = (product: Product) =>
+	product.images.length
+		? PF + "/product/" + product.images[product.images.length - 1]
+		: "/img/others/box.png";

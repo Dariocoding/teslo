@@ -1,15 +1,12 @@
-import { MessageFormatElement } from "react-intl";
 import { ValidLocales } from "./locales";
-import { EnTranslation } from "./en";
-import { EsTranslation } from "./es";
 
 interface Messages {
-  [key: string]: Record<string, string>;
+	[key: string]: () => Promise<any>;
 }
 
 export const i18nTranslate: Messages = {
-  [ValidLocales.ENGLISH.locale]: EnTranslation,
-  [ValidLocales.SPANISH.locale]: EsTranslation,
+	[ValidLocales.ENGLISH.locale]: () => import("./en"),
+	[ValidLocales.SPANISH.locale]: () => import("./es"),
 };
 
 export * from "./locales";

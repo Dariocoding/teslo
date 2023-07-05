@@ -1,9 +1,9 @@
-import classNames from 'classnames';
-import Label from '../label';
-import { getIn, useFormikContext } from 'formik';
-import * as React from 'react';
-import Select from 'react-tailwindcss-select';
-import styled from 'styled-components';
+import classNames from "classnames";
+import Label from "../label";
+import { getIn, useFormikContext } from "formik";
+import * as React from "react";
+import Select from "react-tailwindcss-select";
+import styled from "styled-components";
 
 export interface OptionReactSelect {
 	value: string | number | boolean;
@@ -13,7 +13,6 @@ export interface OptionReactSelect {
 interface ISelectFormikProps {
 	label?: React.ReactNode;
 	className?: string;
-	classNameSelect?: string;
 	classNameLabel?: string;
 	disabled?: boolean;
 	name: string;
@@ -27,7 +26,17 @@ interface ISelectFormikProps {
 	onChange?: (option: OptionReactSelect | OptionReactSelect[], lastState: any) => any;
 	value?: string | number | boolean;
 	optionSelected?: OptionReactSelect;
+	sm?: boolean;
+	classNameContainerSelect?: string;
 }
+const ContainerReactSelect = styled.div<{ sm: boolean }>`
+	${props =>
+		props.sm
+			? `p {
+	margin-top: 0 !important;
+ }`
+			: null}
+`;
 
 const SelectFormik: React.FunctionComponent<ISelectFormikProps> = props => {
 	const {
@@ -46,6 +55,8 @@ const SelectFormik: React.FunctionComponent<ISelectFormikProps> = props => {
 		onChange,
 		value: _value,
 		optionSelected,
+		sm = false,
+		classNameContainerSelect,
 	} = props;
 	const { errors, touched, values, setFieldValue } = useFormikContext();
 	const value = getIn(values, name);
@@ -68,12 +79,20 @@ const SelectFormik: React.FunctionComponent<ISelectFormikProps> = props => {
 		? options.filter(opt => valuesMultiple?.some(value => value === opt.value))
 		: options.find(opt => opt.value === value || opt.value === _value);
 
+	const valueReactSelect =
+		optionSelected ||
+		(Array.isArray(selected)
+			? selected.length
+				? selected
+				: [{ label: placeholder, value: null }]
+			: selected);
+
 	return (
 		<div
 			className={classNames(
-				'form-group',
-				validateError ? 'form-group-error' : null,
-				validateSuccess ? 'form-group-success' : null,
+				"form-group",
+				validateError ? "form-group-error" : null,
+				validateSuccess ? "form-group-success" : null,
 				className
 			)}
 		>
@@ -81,27 +100,34 @@ const SelectFormik: React.FunctionComponent<ISelectFormikProps> = props => {
 				{label}
 			</Label>
 
-			<Select
-				isClearable={false}
-				isMultiple={multiple}
-				isDisabled={disabled}
-				placeholder={placeholder}
-				primaryColor={null}
-				//@ts-ignore
-				value={optionSelected || selected}
-				//@ts-ignore
-				onChange={handleChange}
-				// @ts-ignore
-				options={options}
-				classNames={{
-					menuButton: ({ isDisabled }) =>
-						`flex text-sm text-gray-500 border border-gray-300 rounded shadow-sm transition-all duration-300 focus:outline-none ${
-							isDisabled
-								? 'bg-gray-200'
-								: 'bg-gray-50 hover:border-gray-400 focus:border-blue-500 focus:ring focus:ring-blue-500/20'
-						}`,
-				}}
-			/>
+			<ContainerReactSelect sm={sm} style={{ height: "34px" }}>
+				<Select
+					isClearable={false}
+					isMultiple={multiple}
+					isDisabled={disabled}
+					placeholder={placeholder}
+					noOptionsMessage={placeholder}
+					primaryColor={null}
+					//@ts-ignore
+					value={valueReactSelect}
+					//@ts-ignore
+					onChange={handleChange}
+					// @ts-ignore
+					options={options}
+					classNames={{
+						menuButton: ({ isDisabled }) =>
+							`flex text-sm text-gray-500 border border-gray-300 shadow-sm transition-all duration-300 focus:outline-none ${
+								isDisabled
+									? "bg-gray-200"
+									: "bg-gray-50 hover:border-gray-400 focus:border-blue-500 focus:ring focus:ring-blue-500/20"
+							} ${sm ? "!h-[34px]" : ""} ${
+								classNameContainerSelect?.includes?.("rounded")
+									? classNameContainerSelect
+									: null
+							}`,
+					}}
+				/>
+			</ContainerReactSelect>
 		</div>
 	);
 };
