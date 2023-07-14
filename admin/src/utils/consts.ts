@@ -7,8 +7,8 @@ export const APP_NAME = "Teslo";
 export const APP_PHONE = "042105012";
 export const APP_EMAIL = "teslo@teslo.com";
 export const DAY_DURATION = 86400000;
-export const API_URL = import.meta.env.VITE_API_URL;
-export const PF = import.meta.env.VITE_API_URL + "files";
+export const API_URL = "https://teslo-production.up.railway.app/"; // import.meta.env.VITE_API_URL;
+export const PF = API_URL + "files";
 
 export const breakpoints = {
   mobile: 0,
@@ -29,9 +29,7 @@ export const formatter = new Intl.NumberFormat("en", {
 export interface PageProps {
   path: string;
   authoritys: ValidRol[] | "*";
-  component: React.MemoExoticComponent<
-    React.LazyExoticComponent<React.FunctionComponent<any>>
-  >;
+  component: React.MemoExoticComponent<React.LazyExoticComponent<React.FunctionComponent<any>>>;
   fnPath?(query: string | number): string;
 }
 
@@ -44,23 +42,13 @@ export const protectedRoutes = {
   users: {
     path: "/users",
     component: React.memo(React.lazy(() => import("@/app/users"))),
-    authoritys: [
-      ValidRoles.ADMIN,
-      ValidRoles.SUPER_USER,
-      ValidRoles.SELLER,
-      ValidRoles.SUPERVISOR,
-    ],
+    authoritys: [ValidRoles.ADMIN, ValidRoles.SUPER_USER, ValidRoles.SELLER, ValidRoles.SUPERVISOR],
   } as PageProps,
   viewUser: {
     path: "/users/:id",
     component: React.memo(React.lazy(() => import("@/app/users/ViewUser"))),
     fnPath: (id: string) => `/users/${id}`,
-    authoritys: [
-      ValidRoles.ADMIN,
-      ValidRoles.SUPER_USER,
-      ValidRoles.SELLER,
-      ValidRoles.SUPERVISOR,
-    ],
+    authoritys: [ValidRoles.ADMIN, ValidRoles.SUPER_USER, ValidRoles.SELLER, ValidRoles.SUPERVISOR],
   } as PageProps,
   products: {
     path: "/products",
@@ -80,9 +68,7 @@ export const protectedRoutes = {
   } as PageProps,
   viewProduct: {
     path: "/products/:id",
-    component: React.memo(
-      React.lazy(() => import("@/app/products/ViewProduct"))
-    ),
+    component: React.memo(React.lazy(() => import("@/app/products/ViewProduct"))),
     fnPath: (query: string) => `/products/${query}`,
     authoritys: "*",
   } as PageProps,
@@ -105,9 +91,7 @@ export const protectedRoutes = {
   viewCategory: {
     fnPath: (query: string | number) => `/categories/${query}`,
     path: "/categories/:id",
-    component: React.memo(
-      React.lazy(() => import("@/app/categories/ViewCategory"))
-    ),
+    component: React.memo(React.lazy(() => import("@/app/categories/ViewCategory"))),
     authoritys: "*",
   } as PageProps,
   profile: {
@@ -128,12 +112,7 @@ export const protectedRoutes = {
   editOrder: {
     path: "/orders/edit/:id",
     component: React.memo(React.lazy(() => import("@/app/orders-edit"))),
-    authoritys: [
-      ValidRoles.ADMIN,
-      ValidRoles.SELLER,
-      ValidRoles.SUPERVISOR,
-      ValidRoles.SUPER_USER,
-    ],
+    authoritys: [ValidRoles.ADMIN, ValidRoles.SELLER, ValidRoles.SUPERVISOR, ValidRoles.SUPER_USER],
     fnPath: (id: string | number) => `/orders/edit/${id}`,
   } as PageProps,
   invoiceOrder: {
