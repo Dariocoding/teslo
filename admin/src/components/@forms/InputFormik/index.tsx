@@ -23,6 +23,9 @@ interface IInputFormikProps {
 	onFocus?: () => void;
 	onBlur?: () => void;
 	onChange?: () => void;
+	allowNegative?: boolean;
+	allowedDecimalSeparators?: boolean;
+	decimalScale?: number;
 }
 
 const InputFormik: React.FunctionComponent<IInputFormikProps> = props => {
@@ -44,6 +47,8 @@ const InputFormik: React.FunctionComponent<IInputFormikProps> = props => {
 		onFocus = () => null,
 		onBlur = () => null,
 		onChange,
+		allowNegative = false,
+		decimalScale = 3,
 	} = props;
 	const { errors, values, touched, setFieldValue, handleBlur } = useFormikContext();
 	const isInputNumber = type === "number";
@@ -85,6 +90,8 @@ const InputFormik: React.FunctionComponent<IInputFormikProps> = props => {
 					placeholder={placeholder}
 					name={name}
 					id={name}
+					allowNegative={allowNegative}
+					decimalScale={decimalScale}
 				/>
 			) : (
 				<Field

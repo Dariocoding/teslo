@@ -8,8 +8,10 @@ import EnterpriseForm from "./forms/EnterpriseForm";
 import { useModalStore } from "@/store";
 import { useIntl } from "react-intl";
 import { translate } from "@/i18n";
+import AuthorityCheck from "@/components/AuthorityCheck";
 
 const UserPrefixesForm = React.lazy(() => import("./forms/UserPrefixesForm"));
+const DeveloperOptionsModal = React.lazy(() => import("./forms/DeveloperOptions"));
 
 interface IConfigPageProps {}
 
@@ -28,8 +30,20 @@ const ConfigPage: React.FC<IConfigPageProps> = (props) => {
     });
   }
 
+  function openModalDeveloperOptions() {
+    setModal({
+      title: "Developer Options",
+      children: (
+        <React.Suspense fallback={<></>}>
+          <DeveloperOptionsModal />
+        </React.Suspense>
+      ),
+    });
+  }
+
   const onClickOption = (id: DataOption["id"]) => {
     if (id === "user-prefixes") return openModalUserPrefixes;
+    if (id === "developer-options") return openModalDeveloperOptions;
     return null;
   };
 
@@ -56,7 +70,9 @@ const ConfigPage: React.FC<IConfigPageProps> = (props) => {
         <div className="lg:col-span-2">
           <div className="grid lg:grid-cols-2 gap-4">
             {dataOptions.map((option, idx) => (
-              <Card {...option} key={idx} onClick={(() => onClickOption(option.id))()} />
+              <AuthorityCheck validRoles={option.permission}>
+                <Card {...option} key={idx} onClick={(() => onClickOption(option.id))()} />
+              </AuthorityCheck>
             ))}
           </div>
         </div>

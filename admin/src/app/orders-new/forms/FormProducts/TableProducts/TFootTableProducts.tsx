@@ -1,7 +1,7 @@
 import { useCartStore, useConfigApp, useConfigEnterpriseStore } from "@/store";
 import * as React from "react";
 import { useOrdersFormContext } from "../../FormContainer";
-import { DetailOrderTemp } from "@teslo/interfaces";
+import { DetailOrder, DetailOrderTemp } from "@teslo/interfaces";
 import { formatter } from "@/utils";
 import { FaTimes } from "react-icons/fa";
 import Swal from "sweetalert2";
@@ -22,9 +22,17 @@ const TfootTableProducts: React.FunctionComponent<ITfootTableProductsProps> = pr
 	const { values, setValues } = useOrdersFormContext();
 	const colSpan = colors.enableClothesShopping ? COLSPANENABLECLOTHES : COLSPANDISABLEDCLOTHES;
 
-	const subtotal = values.products.reduce((prev: number, curr: DetailOrderTemp) => {
+	const subtotalTempProducts = values.products.reduce((prev: number, curr: DetailOrderTemp) => {
 		return prev + curr.product.price * curr.qty;
 	}, 0);
+	const subtotalOrderProducts = values.detailOrderProducts.reduce(
+		(prev: number, curr: DetailOrder) => {
+			return prev + curr.total * curr.quantity;
+		},
+		0
+	);
+
+	const subtotal = subtotalTempProducts + subtotalOrderProducts;
 
 	const IVA = ((subtotal * configEnterprise.iva) / 100).toFixed(2);
 	const total = subtotal + parseFloat(IVA);
@@ -59,11 +67,11 @@ const TfootTableProducts: React.FunctionComponent<ITfootTableProductsProps> = pr
 				<td colSpan={colSpan} className="text-right font-semibold pl-2 pr-4 py-3">
 					{translate("orders.label.subtotal")}:
 				</td>
-				<td className="text-center">{formatter.format(subtotal)}</td>
+				<td className="text-center">{formatter.format(subtotal || 0)}</td>
 			</tr>
 			<tr>
 				<td colSpan={colSpan} className="text-right font-semibold pl-2 pr-4 py-3">
-					I.V.A ({configEnterprise.iva || 0}%):
+					I.V.A ({values?.order?.iva || configEnterprise?.iva || 0}%):
 				</td>
 				<td className="text-center">{formatter.format(+IVA)}</td>
 			</tr>
@@ -71,7 +79,7 @@ const TfootTableProducts: React.FunctionComponent<ITfootTableProductsProps> = pr
 				<td colSpan={colSpan} className="text-right font-semibold pl-2 pr-4 py-3">
 					{translate("orders.label.total")}:
 				</td>
-				<td className="text-center">{formatter.format(+total)}</td>
+				<td className="text-center">{formatter.format(+(total || 0))}</td>
 			</tr>
 			<tr>
 				<td colSpan={colSpan + 1} className="px-2 py-3">

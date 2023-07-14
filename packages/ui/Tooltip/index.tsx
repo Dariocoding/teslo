@@ -5,44 +5,53 @@ import "react-tooltip/dist/react-tooltip.css";
 import RenderIf from "../RenderIf";
 
 interface Props {
-	children?: React.ReactNode;
-	message?: string;
-	placement?: PlacesType;
-	className?: string;
-	onClick?(): void;
-	sm?: boolean;
+  children?: React.ReactNode;
+  message?: string;
+  placement?: PlacesType;
+  className?: string;
+  onClick?(): void;
+  sm?: boolean;
+  classNameTooltip?: string;
 }
 
-const ToolTip: React.FunctionComponent<Props> = props => {
-	const { children, message, placement = "top", className, onClick, sm = false } = props;
-	const [tooltip, showTooltip] = React.useState(true);
-	const id = useId();
+const ToolTip: React.FunctionComponent<Props> = (props) => {
+  const {
+    children,
+    message,
+    placement = "top",
+    className,
+    onClick,
+    sm = false,
+    classNameTooltip,
+  } = props;
+  const [tooltip, showTooltip] = React.useState(true);
+  const id = useId();
 
-	return (
-		<React.Fragment>
-			<span
-				id={id}
-				className={classNames("inline-block", className)}
-				onClick={onClick}
-				onMouseEnter={() => showTooltip(true)}
-				onMouseLeave={() => {
-					showTooltip(false);
-					setTimeout(() => showTooltip(true), 50);
-				}}
-			>
-				{children}
-			</span>
+  return (
+    <React.Fragment>
+      <span
+        id={id}
+        className={classNames("inline-block", className)}
+        onClick={onClick}
+        onMouseEnter={() => showTooltip(true)}
+        onMouseLeave={() => {
+          showTooltip(false);
+          setTimeout(() => showTooltip(true), 50);
+        }}
+      >
+        {children}
+      </span>
 
-			<RenderIf isTrue={tooltip}>
-				<ReactTooltip
-					anchorId={id}
-					place={placement}
-					content={message}
-					className={sm ? "text-xs" : ""}
-				/>
-			</RenderIf>
-		</React.Fragment>
-	);
+      <RenderIf isTrue={tooltip}>
+        <ReactTooltip
+          anchorId={id}
+          place={placement}
+          content={message}
+          className={classNames(sm && "text-xs", classNameTooltip)}
+        />
+      </RenderIf>
+    </React.Fragment>
+  );
 };
 
 export default ToolTip;

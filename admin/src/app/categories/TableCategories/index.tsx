@@ -19,20 +19,34 @@ const ModalDeleteCategory = React.lazy(() => import("./ModalDeleteCategory"));
 
 interface ITableCategoriesProps {}
 
-const TableCategories: React.FunctionComponent<ITableCategoriesProps> = (props) => {
+const TableCategories: React.FunctionComponent<ITableCategoriesProps> = (
+  props
+) => {
   const {} = props;
   const { formatMessage } = useIntl();
-  const [showModalDeleteCategory, setShowModalDeleteCategory] = React.useState(false);
-  const [stateCategoryDelete, setStateCategoryDelete] = React.useState<Category>(null);
-  const [isLoadingDeleteCategory, setIsLoadingDeleteCategory] = React.useState(null);
-  const { data: categories, setData, isFetching, refetch } = useFetchCategories();
+  const [showModalDeleteCategory, setShowModalDeleteCategory] =
+    React.useState(false);
+  const [stateCategoryDelete, setStateCategoryDelete] =
+    React.useState<Category>(null);
+  const [isLoadingDeleteCategory, setIsLoadingDeleteCategory] =
+    React.useState(null);
+  const {
+    data: categories,
+    setData,
+    isFetching,
+    refetch,
+  } = useFetchCategories();
 
   const setModal = useModalStore((state) => state.setModal);
   const closeModal = useModalStore((state) => state.closeModal);
 
   const onUpdateCategory = (category: Category) => {
     const onSuccess = (data: Category) => {
-      setData(categories.map((c) => (c.idcategory === data.idcategory ? { ...c, ...data } : c)));
+      setData(
+        categories.map((c) =>
+          c.idcategory === data.idcategory ? { ...c, ...data } : c
+        )
+      );
       closeModal();
     };
 
@@ -77,12 +91,19 @@ const TableCategories: React.FunctionComponent<ITableCategoriesProps> = (props) 
     try {
       setIsLoadingDeleteCategory(true);
       await categoriesService.deleteCategory(stateCategoryDelete.idcategory);
-      setData(categories.filter((c) => c.idcategory !== stateCategoryDelete.idcategory));
+      setData(
+        categories.filter(
+          (c) => c.idcategory !== stateCategoryDelete.idcategory
+        )
+      );
       onCloseModalDelete();
       toast.success(formatMessage({ id: "categories.deleted.success" }));
     } catch (error) {
       console.log(error);
-      toast.error(error.response.data.message || formatMessage({ id: "categories.deleted.error" }));
+      toast.error(
+        error.response.data.message ||
+          formatMessage({ id: "categories.deleted.error" })
+      );
     } finally {
       setIsLoadingDeleteCategory(false);
     }
@@ -94,13 +115,25 @@ const TableCategories: React.FunctionComponent<ITableCategoriesProps> = (props) 
         placeholder={<TablePlaceholder />}
         buttons={
           <div className="flex items-center justify-start">
-            <AuthorityCheck validRoles={[ValidRoles.ADMIN, ValidRoles.SUPER_USER]}>
-              <button className="btn btn-primary btn-xs" onClick={onCreateCategory}>
+            <AuthorityCheck
+              validRoles={[
+                ValidRoles.ADMIN,
+                ValidRoles.SUPER_USER,
+                ValidRoles.SUPERVISOR,
+              ]}
+            >
+              <button
+                className="btn btn-primary btn-xs"
+                onClick={onCreateCategory}
+              >
                 <FaPlus />
               </button>
             </AuthorityCheck>
 
-            <button className="btn btn-outline-alternative btn-xs" onClick={() => refetch()}>
+            <button
+              className="btn btn-outline-alternative btn-xs"
+              onClick={() => refetch()}
+            >
               <AiOutlineReload />
             </button>
           </div>

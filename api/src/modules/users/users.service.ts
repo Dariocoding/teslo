@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException, BadRequestException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { FindOperator, Not, Repository } from "typeorm";
+import { ArrayContains, FindOperator, FindOptionsWhere, Not, Repository } from "typeorm";
 import { User } from "./entities/user.entity";
 import * as bcrypt from "bcryptjs";
 import { handleDBErrors } from "src/common/utils/handleDBErros";
@@ -8,168 +8,169 @@ import { isUUID } from "class-validator";
 import { validateEmail } from "src/common/utils";
 import { MailService } from "src/mail/mail.service";
 import {
-	RecoverPasswordDto,
-	RequestPasswordEmailDto,
-	CreateUserDto,
-	UpdateUserDto,
-	OptionsQueryGetUser,
+  RecoverPasswordDto,
+  RequestPasswordEmailDto,
+  CreateUserDto,
+  UpdateUserDto,
+  OptionsQueryGetUser,
 } from "./dto";
 import { v4 as UUID } from "uuid";
 import { ConfigService } from "@nestjs/config";
 import { Order } from "../orders/entities/order.entity";
 import { DetailOrder } from "../orders/entities/detail.order.entity";
+import { JwtPayload } from "../auth/interfaces";
+import { ValidRol, ValidRoles } from "@teslo/interfaces";
 
 @Injectable()
 export class UsersService {
-	constructor(
-		@InjectRepository(User)
-		private readonly userRepository: Repository<User>,
-		private readonly mailService: MailService,
-		private readonly configService: ConfigService,
-		@InjectRepository(Order)
-		private readonly orderRepository: Repository<Order>,
-		@InjectRepository(DetailOrder)
-		private readonly detailOrderRepository: Repository<DetailOrder>
-	) {}
+  constructor(
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>,
+    private readonly mailService: MailService,
+    private readonly configService: ConfigService,
+    @InjectRepository(Order)
+    private readonly orderRepository: Repository<Order>,
+    @InjectRepository(DetailOrder)
+    private readonly detailOrderRepository: Repository<DetailOrder>
+  ) {}
 
-	async create(createUserDto: CreateUserDto) {
-		if (!createUserDto.password) {
-			createUserDto.password = await bcrypt.hash(UUID(), 10);
-		}
+  async create(createUserDto: CreateUserDto) {
+    if (!createUserDto.password) {
+      createUserDto.password = await bcrypt.hash(UUID(), 10);
+    }
 
-		try {
-			const { password, ...userData } = createUserDto;
+    try {
+      const { password, ...userData } = createUserDto;
 
-			const user = this.userRepository.create({
-				...userData,
-				password: this.hashPassword(password),
-			});
+      const user = this.userRepository.create({
+        ...userData,
+        password: this.hashPassword(password),
+      });
 
-			await this.userRepository.save(user);
-			delete user.password;
+      await this.userRepository.save(user);
+      delete user.password;
 
-			return user;
-		} catch (error) {
-			handleDBErrors(error);
-		}
-	}
+      return user;
+    } catch (error) {
+      handleDBErrors(error);
+    }
+  }
 
-	findAll() {
-		return this.userRepository.find({
-			where: { isDeleted: Not(true) as FindOperator<true> },
-			order: { dateCreated: "DESC" },
-		});
-	}
+  findAll(user: JwtPayload) {
+    let whereUserRoles: FindOptionsWhere<User> = {};
+    if (user.roles?.includes(ValidRoles.SELLER)) {
+      whereUserRoles.roles = ArrayContains<ValidRol>([ValidRoles.USER]);
+      console.log(whereUserRoles);
+    }
 
-	async findOne(term: string, optionsQueryGetUser?: OptionsQueryGetUser) {
-		const { prefix } = optionsQueryGetUser || {};
-		let user: User;
-		if (isUUID(term)) {
-			user = await this.userRepository.findOneBy({
-				iduser: term,
-				isDeleted: false,
-			});
-		} else if (validateEmail(term)) {
-			user = await this.userRepository.findOne({
-				where: { email: term.toLowerCase().trim(), isDeleted: false },
-			});
-		} else if (prefix) {
-			user = await this.userRepository.findOne({
-				where: { dni: term, isDeleted: false, prefix },
-			});
-		}
+    return this.userRepository.find({
+      where: { isDeleted: Not(true) as FindOperator<true>, ...whereUserRoles },
+      order: { dateCreated: "DESC" },
+    });
+  }
 
-		if (!user) throw new NotFoundException("User not found");
+  async findOne(term: string, optionsQueryGetUser?: OptionsQueryGetUser) {
+    const { prefix } = optionsQueryGetUser || {};
+    let user: User;
+    if (isUUID(term)) {
+      user = await this.userRepository.findOneBy({
+        iduser: term,
+        isDeleted: false,
+      });
+    } else if (validateEmail(term)) {
+      user = await this.userRepository.findOne({
+        where: { email: term.toLowerCase().trim(), isDeleted: false },
+      });
+    } else if (prefix) {
+      user = await this.userRepository.findOne({
+        where: { dni: term, isDeleted: false, prefix },
+      });
+    }
 
-		return user;
-	}
+    if (!user) throw new NotFoundException("User not found");
 
-	async findByEmailAndToken(email: string, token: string) {
-		const user = await this.userRepository.findOneBy({
-			email: email.trim().toLowerCase(),
-			token,
-		});
+    return user;
+  }
 
-		if (!user) throw new NotFoundException("User not found");
+  async findByIDUserAndToken(iduser: string, token: string) {
+    const user = await this.userRepository.findOneBy({ iduser, token });
 
-		return user;
-	}
+    if (!user) throw new NotFoundException("User not found");
 
-	async update(iduser: string, updateUserDto: UpdateUserDto, returnUser = true) {
-		try {
-			if (returnUser) {
-				await this.findOne(iduser);
-			}
+    return user;
+  }
 
-			if (updateUserDto.password) {
-				updateUserDto.password = this.hashPassword(updateUserDto.password);
-			}
+  async update(iduser: string, updateUserDto: UpdateUserDto, returnUser = true) {
+    try {
+      if (returnUser) {
+        await this.findOne(iduser);
+      }
 
-			if (updateUserDto.email) {
-				updateUserDto.email = updateUserDto.email.trim().toLocaleLowerCase();
-			}
+      if (updateUserDto.password) {
+        updateUserDto.password = this.hashPassword(updateUserDto.password);
+      }
 
-			await this.userRepository.update({ iduser }, updateUserDto);
+      if (updateUserDto.email) {
+        updateUserDto.email = updateUserDto.email.trim().toLocaleLowerCase();
+      }
 
-			if (returnUser) {
-				return this.findOne(iduser);
-			}
-		} catch (error) {
-			handleDBErrors(error);
-		}
-	}
+      await this.userRepository.update({ iduser }, updateUserDto);
 
-	async remove(iduser: string) {
-		const ordersUser = await this.orderRepository.find({ where: { user: { iduser } } });
-		// delete all orders details
-		await Promise.all(
-			ordersUser.map(async order => {
-				await this.detailOrderRepository.delete({ order: { idorder: order.idorder } });
-			})
-		);
-		// delete all orders
-		await this.orderRepository.delete({ user: { iduser } });
-		await this.userRepository.delete({ iduser });
-	}
+      if (returnUser) {
+        return this.findOne(iduser);
+      }
+    } catch (error) {
+      handleDBErrors(error);
+    }
+  }
 
-	async sendRequestPassword(requestPasswordEmailDto: RequestPasswordEmailDto) {
-		const { email } = requestPasswordEmailDto;
-		const user = await this.findOne(email);
+  async remove(iduser: string) {
+    const ordersUser = await this.orderRepository.find({ where: { user: { iduser } } });
+    // delete all orders details
+    await Promise.all(
+      ordersUser.map(async (order) => {
+        await this.detailOrderRepository.delete({ order: { idorder: order.idorder } });
+      })
+    );
+    // delete all orders
+    await this.orderRepository.delete({ user: { iduser } });
+    await this.userRepository.delete({ iduser });
+  }
 
-		const token = UUID();
+  async sendRequestPassword(requestPasswordEmailDto: RequestPasswordEmailDto) {
+    const { email } = requestPasswordEmailDto;
+    const user = await this.findOne(email);
+    const token = UUID();
+    await this.userRepository.update({ iduser: user.iduser }, { token });
+    const HOST_APP = this.configService.get("HOST_APP");
+    const url = `${HOST_APP}/recover/password/${token}/${user.iduser}`;
+    await this.mailService.forgetPassword({ urlRecovery: url, user });
+  }
 
-		await this.userRepository.update({ iduser: user.iduser }, { token });
+  async recoverPassword(recoverPasswordDto: RecoverPasswordDto) {
+    const { password, passwordConfirm, email, token, iduser } = recoverPasswordDto;
 
-		const HOST_APP = this.configService.get("HOST_APP");
-		const url = `${HOST_APP}/recover-password/${token}/${email}`;
+    if (password !== passwordConfirm) {
+      throw new BadRequestException("Passwords do not match");
+    }
 
-		await this.mailService.forgetPassword({ urlRecovery: url, user });
-	}
+    const user = await this.userRepository.findOneBy({
+      email,
+      token,
+      iduser,
+    });
 
-	async recoverPassword(recoverPasswordDto: RecoverPasswordDto) {
-		const { password, passwordConfirm, email, token, iduser } = recoverPasswordDto;
+    if (!user) {
+      throw new NotFoundException("This user does not exist or the tokens do not match");
+    }
 
-		if (password !== passwordConfirm) {
-			throw new BadRequestException("Passwords do not match");
-		}
+    await this.userRepository.update(
+      { iduser },
+      { token: null, password: this.hashPassword(password) }
+    );
+  }
 
-		const user = await this.userRepository.findOneBy({
-			email,
-			token,
-			iduser,
-		});
-
-		if (!user) {
-			throw new NotFoundException("This user does not exist or the tokens do not match");
-		}
-
-		await this.userRepository.update(
-			{ iduser },
-			{ token: null, password: this.hashPassword(password) }
-		);
-	}
-
-	private hashPassword(password: string) {
-		return bcrypt.hashSync(password, 10);
-	}
+  private hashPassword(password: string) {
+    return bcrypt.hashSync(password, 10);
+  }
 }

@@ -53,7 +53,14 @@ const FormEmail: React.FunctionComponent<IFormEmailProps> = (props) => {
           <InputFormik name="emailFrom" placeholder="Email From" label={"From"} />
           <InputFormik name="emailName" label={"Name"} placeholder="Email Name" />
           <InputFormik name="emailHost" label={"Host"} placeholder="Email Host" />
-          <InputFormik name="emailPort" label={"Port"} placeholder="Email Port" />
+          <InputFormik
+            name="emailPort"
+            type="number"
+            decimalScale={0}
+            decimalValues={false}
+            label={"Port"}
+            placeholder="Email Port"
+          />
         </div>
 
         <ButtonFormik full className="btn btn-sm btn-primary mb-0">

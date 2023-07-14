@@ -1,15 +1,15 @@
 import {
-	BeforeInsert,
-	BeforeUpdate,
-	Column,
-	CreateDateColumn,
-	Entity,
-	Generated,
-	JoinTable,
-	ManyToMany,
-	ManyToOne,
-	OneToMany,
-	PrimaryGeneratedColumn,
+  BeforeInsert,
+  BeforeUpdate,
+  Column,
+  CreateDateColumn,
+  Entity,
+  Generated,
+  JoinTable,
+  ManyToMany,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
 } from "typeorm";
 import { ApiProperty } from "@nestjs/swagger";
 import { ProductImage } from ".";
@@ -25,145 +25,145 @@ import { DetailTempOrder } from "src/modules/orders/entities/detailTemp.order.en
 
 @Entity({ name: "products" })
 export class Product {
-	@ApiProperty({
-		example: "cd533345-f1f3-48c9-a62e-7dc2da50c8f8",
-		description: "Product ID",
-		uniqueItems: true,
-	})
-	@PrimaryGeneratedColumn("uuid")
-	id?: string;
+  @ApiProperty({
+    example: "cd533345-f1f3-48c9-a62e-7dc2da50c8f8",
+    description: "Product ID",
+    uniqueItems: true,
+  })
+  @PrimaryGeneratedColumn("uuid")
+  id?: string;
 
-	@ApiProperty()
-	@Column({ nullable: true, unique: true, default: null })
-	customCode: string;
+  @ApiProperty()
+  @Column({ nullable: true, unique: true, default: null })
+  customCode: string;
 
-	@ApiProperty()
-	@Column()
-	@Generated("increment")
-	code: number;
+  @ApiProperty()
+  @Column()
+  @Generated("increment")
+  code: number;
 
-	@ApiProperty({
-		example: "T-Shirt Teslo",
-		description: "Product Title",
-		uniqueItems: true,
-	})
-	@Column("text", {
-		unique: true,
-	})
-	title?: string;
+  @ApiProperty({
+    example: "T-Shirt Teslo",
+    description: "Product Title",
+    uniqueItems: true,
+  })
+  @Column("text", {
+    unique: true,
+  })
+  title?: string;
 
-	@ApiProperty({})
-	@Column("text", {
-		unique: true,
-	})
-	slug?: string;
+  @ApiProperty({})
+  @Column("text", {
+    unique: true,
+  })
+  slug?: string;
 
-	@ApiProperty({
-		example: 0,
-		description: "Product price",
-	})
-	@Column("float", {
-		default: 0,
-	})
-	price?: number;
+  @ApiProperty({
+    example: 0,
+    description: "Product price",
+  })
+  @Column("float", {
+    default: 0,
+  })
+  price?: number;
 
-	@ApiProperty({
-		example: "Anim reprehenderit nulla in anim mollit minim irure commodo.",
-		description: "Product description",
-		default: null,
-	})
-	@Column({
-		type: "text",
-		nullable: true,
-	})
-	description?: string;
+  @ApiProperty({
+    example: "Anim reprehenderit nulla in anim mollit minim irure commodo.",
+    description: "Product description",
+    default: null,
+  })
+  @Column({
+    type: "text",
+    nullable: true,
+  })
+  description?: string;
 
-	@ApiProperty({
-		example: 10,
-		description: "Product stock",
-		default: 0,
-	})
-	@Column("int", {
-		default: 0,
-	})
-	stock?: number;
+  @ApiProperty({
+    example: 10,
+    description: "Product stock",
+    default: 0,
+  })
+  @Column("int", {
+    default: 0,
+  })
+  stock?: number;
 
-	@ApiProperty({
-		example: ARRSIZES,
-		description: "Product sizes",
-	})
-	@Column("text", { array: true })
-	sizes?: Size[];
+  @ApiProperty({
+    example: ARRSIZES,
+    description: "Product sizes",
+  })
+  @Column("text", { array: true })
+  sizes?: Size[];
 
-	@ApiProperty({
-		example: "women",
-		description: "Product gender",
-	})
-	@Column("text")
-	gender?: Gender;
+  @ApiProperty({
+    example: "women",
+    description: "Product gender",
+  })
+  @Column("text", { nullable: true })
+  gender?: Gender;
 
-	@ApiProperty()
-	@ManyToMany(() => Category, category => category.products, {
-		eager: true,
-		onDelete: "CASCADE",
-	})
-	categories: Category[];
+  @ApiProperty()
+  @ManyToMany(() => Category, (category) => category.products, {
+    eager: true,
+    onDelete: "CASCADE",
+  })
+  categories: Category[];
 
-	@ApiProperty()
-	@ManyToOne(() => Brand, brand => brand.products, { eager: true })
-	brand?: Brand;
+  @ApiProperty()
+  @ManyToOne(() => Brand, (brand) => brand.products, { eager: true })
+  brand?: Brand;
 
-	@ApiProperty()
-	@ManyToMany(() => Provider, provider => provider.products, {
-		eager: true,
-		onDelete: "CASCADE",
-	})
-	providers: Provider[];
+  @ApiProperty()
+  @ManyToMany(() => Provider, (provider) => provider.products, {
+    eager: true,
+    onDelete: "CASCADE",
+  })
+  providers: Provider[];
 
-	// images
-	@ApiProperty()
-	@OneToMany(() => ProductImage, productImage => productImage.product, {
-		cascade: true,
-		eager: true,
-	})
-	images?: string[] | ProductImage[];
+  // images
+  @ApiProperty()
+  @OneToMany(() => ProductImage, (productImage) => productImage.product, {
+    cascade: true,
+    eager: true,
+  })
+  images?: string[] | ProductImage[];
 
-	@ApiProperty()
-	@Column({ nullable: true, default: "" })
-	status?: StatusProduct;
+  @ApiProperty()
+  @Column({ nullable: true, default: "" })
+  status?: StatusProduct;
 
-	@ManyToOne(() => User, user => user.product)
-	user?: User;
+  @ManyToOne(() => User, (user) => user.product)
+  user?: User;
 
-	@OneToMany(() => DetailOrder, detail => detail.product)
-	detailOrders?: DetailOrder;
+  @OneToMany(() => DetailOrder, (detail) => detail.product)
+  detailOrders?: DetailOrder;
 
-	@OneToMany(() => DetailOrder, detail => detail.product, { cascade: true, onDelete: "CASCADE" })
-	detailTempOrders?: DetailTempOrder;
+  @OneToMany(() => DetailOrder, (detail) => detail.product, { cascade: true, onDelete: "CASCADE" })
+  detailTempOrders?: DetailTempOrder;
 
-	@OneToMany(() => DetailBill, detail => detail.product)
-	detailBills?: DetailBill;
+  @OneToMany(() => DetailBill, (detail) => detail.product)
+  detailBills?: DetailBill;
 
-	@CreateDateColumn({
-		name: "date_created",
-	})
-	dateCreated?: Date;
+  @CreateDateColumn({
+    name: "date_created",
+  })
+  dateCreated?: Date;
 
-	@BeforeInsert()
-	checkSlugInsert?() {
-		if (!this.slug) {
-			this.slug = this.title;
-		}
+  @BeforeInsert()
+  checkSlugInsert?() {
+    if (!this.slug) {
+      this.slug = this.title;
+    }
 
-		if (this.slug) {
-			this.slug = stringToSlug(this.slug);
-		}
-	}
+    if (this.slug) {
+      this.slug = stringToSlug(this.slug);
+    }
+  }
 
-	@BeforeUpdate()
-	checkSlugUpdate?() {
-		if (this.slug) {
-			this.slug = stringToSlug(this.slug);
-		}
-	}
+  @BeforeUpdate()
+  checkSlugUpdate?() {
+    if (this.slug) {
+      this.slug = stringToSlug(this.slug);
+    }
+  }
 }

@@ -27,7 +27,7 @@ export const useFormBill = (props: IFormBillProps) => {
 
 	const INITIAL_VALUES: BillDto = {
 		details: billToUpdate?.details || [newProduct],
-		status: billToUpdate?.status || ValidStatusOrder.PENDING,
+		status: billToUpdate?.status || ValidStatusOrder.COMPLETED,
 		total: billToUpdate?.total || 0,
 		delivery: billToUpdate?.delivery || 0,
 		tax: billToUpdate?.tax || 0,

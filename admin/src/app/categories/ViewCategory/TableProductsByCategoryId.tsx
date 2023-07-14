@@ -7,7 +7,9 @@ interface ITableProductsByCategoryIdProps {
   category: Category;
 }
 
-const TableProductsByCategoryId: React.FC<ITableProductsByCategoryIdProps> = (props) => {
+const TableProductsByCategoryId: React.FC<ITableProductsByCategoryIdProps> = (
+  props
+) => {
   const { category } = props;
   const {
     data: products,

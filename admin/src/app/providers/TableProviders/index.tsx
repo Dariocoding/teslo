@@ -1,7 +1,7 @@
 import DataTable from "@teslo/react-ui/DataTable";
 import * as React from "react";
 import { TablePlaceholder } from "@/components/placeholders";
-import { Provider } from "@teslo/interfaces";
+import { Provider, ValidRoles } from "@teslo/interfaces";
 import ActionsTableProviders from "./ActionsTable";
 import { FaPlus } from "react-icons/fa";
 import { useModalStore } from "@/store";
@@ -11,6 +11,7 @@ import { providersService } from "@teslo/services";
 import RenderIf from "@teslo/react-ui/RenderIf";
 import { useDefaultHeadingTableProviders } from "./useDefaultHeadingTableProviders";
 import { useIntl } from "react-intl";
+import AuthorityCheck from "@/components/AuthorityCheck";
 
 const ModalDeleteProvider = React.lazy(() => import("./ModalDeleteProvider"));
 
@@ -97,11 +98,15 @@ const TableProviders: React.FunctionComponent<ITableProvidersProps> = (props) =>
       <DataTable
         loading={isLoading}
         buttons={
-          <div className="justify-start items-center flex">
-            <button onClick={actions.create} type="button" className="btn btn-primary btn-xs">
-              <FaPlus />
-            </button>
-          </div>
+          <AuthorityCheck
+            validRoles={[ValidRoles.ADMIN, ValidRoles.SUPERVISOR, ValidRoles.SUPER_USER]}
+          >
+            <div className="justify-start items-center flex">
+              <button onClick={actions.create} type="button" className="btn btn-primary btn-xs">
+                <FaPlus />
+              </button>
+            </div>
+          </AuthorityCheck>
         }
         heading={useDefaultHeadingTableProviders()}
         data={providers.map(

@@ -53,7 +53,7 @@ export class ProductsService {
         categories: categories ? { idcategory: In(categories) } : null,
         status,
       },
-      order: { dateCreated: "DESC" },
+      order: { code: "DESC" },
     });
 
     return products.map((product) => ({
@@ -65,7 +65,7 @@ export class ProductsService {
   async findAll(where?: FindOptionsWhere<Product> | FindOptionsWhere<Product>[]) {
     const products = await this.productRepository.find({
       where,
-      order: { dateCreated: "DESC" },
+      order: { code: "DESC" },
     });
 
     return products.map((product) => ({
@@ -188,7 +188,7 @@ export class ProductsService {
     const query = this.productRepository.createQueryBuilder("product");
 
     try {
-      return await query.delete().where({}).execute();
+      await query.delete().where({}).execute();
     } catch (error) {
       handleDBErrors(error);
     }

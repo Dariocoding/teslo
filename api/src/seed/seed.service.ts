@@ -1,5 +1,5 @@
-import { Inject, Injectable } from "@nestjs/common";
-import { Repository } from "typeorm";
+import { Injectable, BadRequestException } from "@nestjs/common";
+import { DataSource, Repository } from "typeorm";
 import { InjectRepository } from "@nestjs/typeorm";
 import { initialData } from "./data/seed-data";
 import { User } from "../modules/users/entities/user.entity";
@@ -13,239 +13,350 @@ import { Brand } from "src/modules/brands/entities/brand.entity";
 import { Provider } from "src/modules/providers/entities/provider.entity";
 import { ConfigEnterprise } from "src/modules/config-enterprise/entities/config-enterprise.entity";
 import { ConfigApp } from "src/modules/config-app/entities/config-app.entity";
-import { Bill } from "src/modules/bills/entities";
 import { BillsService } from "src/modules/bills/bills.service";
 import { DetailTempOrder } from "src/modules/orders/entities/detailTemp.order.entity";
+import * as fs from "fs";
+import * as path from "path";
 
 @Injectable()
 export class SeedService {
-	constructor(
-		private readonly productsService: ProductsService,
+  constructor(
+    private readonly productsService: ProductsService,
 
-		@InjectRepository(User)
-		private readonly userRepository: Repository<User>,
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>,
 
-		@InjectRepository(Category)
-		private readonly categoryRepository: Repository<Category>,
+    @InjectRepository(Category)
+    private readonly categoryRepository: Repository<Category>,
 
-		@InjectRepository(Brand)
-		private readonly brandRepository: Repository<Brand>,
+    @InjectRepository(Brand)
+    private readonly brandRepository: Repository<Brand>,
 
-		@InjectRepository(Provider)
-		private readonly providerRepository: Repository<Provider>,
+    @InjectRepository(Provider)
+    private readonly providerRepository: Repository<Provider>,
 
-		@InjectRepository(Order)
-		private readonly orderRepository: Repository<Order>,
+    @InjectRepository(Order)
+    private readonly orderRepository: Repository<Order>,
 
-		@InjectRepository(DetailOrder)
-		private readonly detailRepository: Repository<DetailOrder>,
+    @InjectRepository(DetailOrder)
+    private readonly detailRepository: Repository<DetailOrder>,
 
-		@InjectRepository(PaymentMethod)
-		private readonly paymentMethod: Repository<PaymentMethod>,
+    @InjectRepository(PaymentMethod)
+    private readonly paymentMethod: Repository<PaymentMethod>,
 
-		@InjectRepository(ConfigEnterprise)
-		private readonly configEnterpriseRepository: Repository<ConfigEnterprise>,
+    @InjectRepository(ConfigEnterprise)
+    private readonly configEnterpriseRepository: Repository<ConfigEnterprise>,
 
-		@InjectRepository(ConfigApp)
-		private readonly configAppRepository: Repository<ConfigApp>,
+    @InjectRepository(ConfigApp)
+    private readonly configAppRepository: Repository<ConfigApp>,
 
-		@InjectRepository(DetailTempOrder)
-		private readonly detailTempOrderRepository: Repository<DetailTempOrder>,
+    @InjectRepository(DetailTempOrder)
+    private readonly detailTempOrderRepository: Repository<DetailTempOrder>,
 
-		private readonly billsService: BillsService
-	) {}
+    private readonly billsService: BillsService,
 
-	async runSeed() {
-		await this.deleteTables();
-		const [adminUser, category, paymentMethod, brands, providers, configEnterprise] =
-			await Promise.all([
-				this.insertUsers(),
-				this.insertCategories(),
-				this.insertPaymentMethods(),
-				this.insertBrands(),
-				this.insertProviders(),
-				this.insertConfigEnterprise(),
-				this.insertConfigApp(),
-			]);
+    private readonly dataSource: DataSource
+  ) {}
 
-		const products = await this.insertNewProducts(adminUser, category, brands[0], providers);
+  async runSeed() {
+    await this.deleteTables({ truncateTables: true });
+    const [adminUser, category, paymentMethod, brands, providers, configEnterprise] =
+      await Promise.all([
+        this.insertUsers(),
+        this.insertCategories(),
+        this.insertPaymentMethods(),
+        this.insertBrands(),
+        this.insertProviders(),
+        this.insertConfigEnterprise(),
+        this.insertConfigApp(),
+      ]);
 
-		await this.insertOrders(products[0], adminUser, paymentMethod);
-		return "SEED EXECUTED";
-	}
+    const products = await this.insertNewProducts(adminUser, category, brands[0], providers);
 
-	private async deleteTables() {
-		await this.detailTempOrderRepository.delete({});
-		await this.billsService.removeAll();
-		await this.detailRepository.delete({});
-		await this.orderRepository.delete({});
-		await this.paymentMethod.delete({});
-		await this.productsService.deleteAllProducts();
+    await this.insertOrders(products[0], adminUser, paymentMethod);
+    return "SEED EXECUTED";
+  }
 
-		const queryBuilderCategory = this.categoryRepository.createQueryBuilder();
-		const queryBuilderUser = this.userRepository.createQueryBuilder();
-		const queryBuilderBrand = this.brandRepository.createQueryBuilder();
-		const queryBuilderProviders = this.providerRepository.createQueryBuilder();
-		const queryBuilderConfigEnterprise = this.configEnterpriseRepository.createQueryBuilder();
+  async deleteTables(options?: {
+    deleteUsers?: boolean;
+    truncateTables?: boolean;
+    removeConfigData?: boolean;
+    deleteBrandCategories?: boolean;
+  }) {
+    const {
+      deleteUsers = true,
+      truncateTables = false,
+      removeConfigData = true,
+      deleteBrandCategories = true,
+    } = options || {};
+    await this.detailTempOrderRepository.delete({});
+    await this.billsService.removeAll();
+    await this.detailRepository.delete({});
+    await this.orderRepository.delete({});
+    await this.paymentMethod.delete({});
+    await this.productsService.deleteAllProducts();
 
-		const queryBuilderConfigApp = this.configAppRepository.createQueryBuilder();
+    const queryBuilderCategory = this.categoryRepository.createQueryBuilder();
+    const queryBuilderUser = this.userRepository.createQueryBuilder();
+    const queryBuilderBrand = this.brandRepository.createQueryBuilder();
+    const queryBuilderProviders = this.providerRepository.createQueryBuilder();
+    const queryBuilderConfigEnterprise = this.configEnterpriseRepository.createQueryBuilder();
+    const queryBuilderConfigApp = this.configAppRepository.createQueryBuilder();
 
-		await Promise.all([
-			queryBuilderUser.delete().where({}).execute(),
-			queryBuilderCategory.delete().where({}).execute(),
-			queryBuilderBrand.delete().where({}).execute(),
-			queryBuilderConfigEnterprise.delete().where({}).execute(),
-			queryBuilderProviders.delete().where({}).execute(),
-			queryBuilderConfigApp.delete().where({}).execute(),
-		]);
-	}
+    await Promise.all([
+      deleteUsers && queryBuilderUser.delete().where({}).execute(),
+      deleteBrandCategories && queryBuilderCategory.delete().where({}).execute(),
+      deleteBrandCategories && queryBuilderBrand.delete().where({}).execute(),
+      removeConfigData && queryBuilderConfigEnterprise.delete().where({}).execute(),
+      queryBuilderProviders.delete().where({}).execute(),
+      removeConfigData && queryBuilderConfigApp.delete().where({}).execute(),
+    ]);
 
-	private async insertUsers() {
-		const seedUsers = initialData.users;
+    if (truncateTables) {
+      const sequencesArr: string[][] = [
+        ["products", "code"],
+        ["payment-methods", "idpaymentmethod"],
+        ["product_images", "id"],
+        ["orders", "idorder"],
+        ["detail-order", "id"],
+        ["detail-temp-order", "id"],
+      ];
+      let pg_get_serial_sequences = sequencesArr.reduce(
+        (prev, curr) =>
+          prev +
+          `pg_get_serial_sequence('${curr[0]}','${curr[1]}') AS ${curr[0].replaceAll("-", "")}${
+            curr[1]
+          },`,
+        ""
+      );
+      pg_get_serial_sequences = pg_get_serial_sequences.substring(
+        0,
+        pg_get_serial_sequences.length - 1
+      );
 
-		const users: User[] = [];
+      const query = `SELECT ${pg_get_serial_sequences} ;`;
+      const sequences: any = (await this.dataSource.query(query))[0];
+      const keysSequences = Object.keys(sequences);
+      for (let i = 0; i < keysSequences.length; i++) {
+        const keySequence = keysSequences[i];
+        const query = `ALTER SEQUENCE ${sequences[keySequence]} RESTART WITH 1;`;
+        await this.dataSource.query(query);
+      }
+    }
+  }
 
-		seedUsers.forEach(user => {
-			users.push(this.userRepository.create(user));
-		});
+  private async insertUsers() {
+    const seedUsers = initialData.users;
 
-		const dbUsers = await this.userRepository.save(seedUsers);
+    const users: User[] = [];
 
-		return dbUsers[0];
-	}
+    seedUsers.forEach((user) => {
+      users.push(this.userRepository.create(user));
+    });
 
-	private async insertCategories() {
-		const categories = initialData.categories;
+    const dbUsers = await this.userRepository.save(seedUsers);
 
-		const insertPromises: Category[] = [];
+    return dbUsers[0];
+  }
 
-		categories.forEach(category => {
-			insertPromises.push(this.categoryRepository.create(category));
-		});
+  private async insertCategories() {
+    const categories = initialData.categories;
 
-		const dbCategories = await this.categoryRepository.save(insertPromises);
-		return dbCategories;
-	}
+    const insertPromises: Category[] = [];
 
-	private async insertNewProducts(
-		user: User,
-		categories: Category[],
-		brand: Brand,
-		providers: Provider[]
-	): Promise<Product[]> {
-		await this.productsService.deleteAllProducts();
+    categories.forEach((category) => {
+      insertPromises.push(this.categoryRepository.create(category));
+    });
 
-		const products = initialData.products;
+    const dbCategories = await this.categoryRepository.save(insertPromises);
+    return dbCategories;
+  }
 
-		const insertPromises = [];
+  private async insertNewProducts(
+    user: User,
+    categories: Category[],
+    brand: Brand,
+    providers: Provider[]
+  ): Promise<Product[]> {
+    await this.productsService.deleteAllProducts();
 
-		products.forEach(product => {
-			insertPromises.push(
-				this.productsService.create(
-					{
-						...product,
-						categories: [categories[Math.floor(Math.random() * categories.length)]],
-						providers,
-						brand,
-					},
-					user
-				)
-			);
-		});
+    const products = initialData.products;
 
-		return Promise.all(insertPromises);
-	}
+    const insertPromises = [];
 
-	private async insertPaymentMethods() {
-		const paymentMethods = initialData.payments;
+    products.forEach((product) => {
+      insertPromises.push(
+        this.productsService.create(
+          {
+            ...product,
+            categories: [categories[Math.floor(Math.random() * categories.length)]],
+            providers,
+            brand,
+          },
+          user
+        )
+      );
+    });
 
-		const payments = await Promise.all(
-			paymentMethods.map(paymentMethod => {
-				const paymentMeth = this.paymentMethod.create(paymentMethod);
-				return this.paymentMethod.save(paymentMeth);
-			})
-		);
-		return payments[0];
-	}
+    return Promise.all(insertPromises);
+  }
 
-	private async insertOrders(product: Product, user: User, paymentMethod: PaymentMethod) {
-		const initialOrders = initialData.orders;
-		const initialConfigEnterprise = initialData.configEnterprise;
+  private async insertPaymentMethods() {
+    const paymentMethods = initialData.payments;
 
-		const orders = initialOrders.map(async order => {
-			const detail = order.detail.map(d => ({
-				...d,
-				product,
-				title: product.title,
-			}));
-			const subtotal = order.detail.reduce(
-				(prev, curr) => prev + curr.quantity * curr.total,
-				0
-			);
-			const IVA = ((subtotal * initialConfigEnterprise.iva) / 100).toFixed(2);
-			const total = subtotal + parseFloat(IVA);
-			const newOrder = this.orderRepository.create({
-				...order,
-				detail,
-				user,
-				paymentMethod,
-				iva: initialConfigEnterprise.iva,
-				total,
-				subtotal,
-			});
-			return await this.orderRepository.save(newOrder);
-		});
+    const payments = await Promise.all(
+      paymentMethods.map((paymentMethod) => {
+        const paymentMeth = this.paymentMethod.create(paymentMethod);
+        return this.paymentMethod.save(paymentMeth);
+      })
+    );
+    return payments[0];
+  }
 
-		return Promise.all(orders);
-	}
+  private async insertOrders(product: Product, user: User, paymentMethod: PaymentMethod) {
+    const initialOrders = initialData.orders;
+    const initialConfigEnterprise = initialData.configEnterprise;
 
-	private async insertBrands(): Promise<Brand[]> {
-		const brands = initialData.brands;
-		const insertPromises: Brand[] = [];
+    const orders = initialOrders.map(async (order) => {
+      const detail = order.detail.map((d) => ({
+        ...d,
+        product,
+        title: product.title,
+      }));
+      const subtotal = order.detail.reduce((prev, curr) => prev + curr.quantity * curr.total, 0);
+      const IVA = ((subtotal * initialConfigEnterprise.iva) / 100).toFixed(2);
+      const total = subtotal + parseFloat(IVA);
+      const newOrder = this.orderRepository.create({
+        ...order,
+        detail,
+        user,
+        paymentMethod,
+        iva: initialConfigEnterprise.iva,
+        total,
+        subtotal,
+        userSell: user,
+      });
+      return await this.orderRepository.save(newOrder);
+    });
 
-		brands.forEach(brand => {
-			insertPromises.push(this.brandRepository.create(brand));
-		});
+    return Promise.all(orders);
+  }
 
-		const dbBrands = await this.brandRepository.save(insertPromises);
-		return dbBrands;
-	}
+  private async insertBrands(): Promise<Brand[]> {
+    const brands = initialData.brands;
+    const insertPromises: Brand[] = [];
 
-	private async insertProviders(): Promise<Provider[]> {
-		const providers = initialData.providers;
-		const insertPromises: Provider[] = [];
+    brands.forEach((brand) => {
+      insertPromises.push(this.brandRepository.create(brand));
+    });
 
-		providers.forEach(brand => {
-			insertPromises.push(this.providerRepository.create(brand));
-		});
+    const dbBrands = await this.brandRepository.save(insertPromises);
+    return dbBrands;
+  }
 
-		const dbProviders = await this.providerRepository.save(insertPromises);
-		return dbProviders;
-	}
+  private async insertProviders(): Promise<Provider[]> {
+    const providers = initialData.providers;
+    const insertPromises: Provider[] = [];
 
-	private async insertConfigEnterprise() {
-		const configEnterprise = [initialData.configEnterprise];
+    providers.forEach((brand) => {
+      insertPromises.push(this.providerRepository.create(brand));
+    });
 
-		const insertPromises: ConfigEnterprise[] = [];
+    const dbProviders = await this.providerRepository.save(insertPromises);
+    return dbProviders;
+  }
 
-		configEnterprise.forEach(config => {
-			insertPromises.push(this.configEnterpriseRepository.create(config));
-		});
+  private async insertConfigEnterprise() {
+    const configEnterprise = [initialData.configEnterprise];
 
-		const dbConfigEnterprise = await this.configEnterpriseRepository.save(insertPromises);
-		return dbConfigEnterprise[0];
-	}
+    const insertPromises: ConfigEnterprise[] = [];
 
-	private async insertConfigApp() {
-		const configApp = [initialData.configApp];
+    configEnterprise.forEach((config) => {
+      insertPromises.push(this.configEnterpriseRepository.create(config));
+    });
 
-		const insertPromises: ConfigApp[] = [];
+    const dbConfigEnterprise = await this.configEnterpriseRepository.save(insertPromises);
+    return dbConfigEnterprise[0];
+  }
 
-		configApp.forEach(config => {
-			insertPromises.push(this.configAppRepository.create(config));
-		});
+  private async insertConfigApp() {
+    const configApp = [initialData.configApp];
 
-		const dbConfigApp = await this.configAppRepository.save(insertPromises);
-		return dbConfigApp[0];
-	}
+    const insertPromises: ConfigApp[] = [];
+
+    configApp.forEach((config) => {
+      insertPromises.push(this.configAppRepository.create(config));
+    });
+
+    const dbConfigApp = await this.configAppRepository.save(insertPromises);
+    return dbConfigApp[0];
+  }
+
+  async seedProductsAngabParts() {
+    await this.deleteTables({
+      deleteUsers: false,
+      truncateTables: true,
+      removeConfigData: false,
+      deleteBrandCategories: false,
+    });
+    interface Product {
+      customCode: string;
+      brand: string;
+      img: string;
+      category: string;
+      title: string;
+      description: string;
+    }
+
+    const urlProduct = path.join(process.cwd(), "dist", "seed", "data", "products.txt");
+    const products = JSON.parse(fs.readFileSync(urlProduct, "utf8")) as Product[];
+    const user = await this.userRepository.findOne({
+      where: { email: "darioflores170@gmail.com" },
+    });
+    console.log(products.length);
+    await Promise.all(
+      products.map(async (p) => {
+        try {
+          const category = await this.categoryRepository.findOne({
+            where: { title: p.category.trim() },
+          });
+
+          if (!category) {
+            throw new BadRequestException("Category not found");
+          }
+
+          const brand = await this.brandRepository.findOne({ where: { title: p.brand.trim() } });
+
+          if (!brand) {
+            throw new BadRequestException("Brand not found");
+          }
+
+          await this.productsService.create(
+            {
+              categories: [category],
+              brand,
+              customCode: p.customCode,
+              title: p.title,
+              description: p.description,
+              images: p.img === "foto_default.jpg" ? [] : [p.img],
+              providers: [],
+              sizes: [],
+              gender: null,
+              stock: getRandomInt(1, 20),
+              price: getRandomInt(10, 100),
+            },
+            user
+          );
+        } catch (error) {
+          console.log(error);
+        }
+      })
+    );
+  }
+}
+
+function getRandomInt(min: number, max: number) {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
 }

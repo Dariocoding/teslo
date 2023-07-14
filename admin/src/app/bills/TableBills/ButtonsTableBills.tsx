@@ -2,7 +2,7 @@ import { validPaths } from "@/utils";
 import RenderIf from "@teslo/react-ui/RenderIf";
 import * as React from "react";
 import { FaPlus, FaSearch } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, createSearchParams, useNavigate, useSearchParams } from "react-router-dom";
 import { AiOutlineReload } from "react-icons/ai";
 import { DatePicker } from "react-rainbow-components";
 import dayjs from "dayjs";
@@ -19,9 +19,14 @@ interface IButtonsTableBillsProps {
 
 const ButtonsTableBills: React.FunctionComponent<IButtonsTableBillsProps> = props => {
 	const { showSelects, setIsLoadingTable, setBills } = props;
-
-	const [from, setFrom] = React.useState<Date>(new Date());
-	const [to, setTo] = React.useState<Date>(new Date());
+	const navigate = useNavigate();
+	const [searchParams] = useSearchParams();
+	const [from, setFrom] = React.useState<Date>(
+		searchParams.get("from") ? new Date(searchParams.get("from")) : new Date()
+	);
+	const [to, setTo] = React.useState<Date>(
+		searchParams.get("to") ? new Date(searchParams.get("to")) : new Date()
+	);
 
 	const fetchData = React.useCallback(async () => {
 		try {
@@ -31,6 +36,13 @@ const ButtonsTableBills: React.FunctionComponent<IButtonsTableBillsProps> = prop
 
 			setIsLoadingTable(true);
 			const bills = await billsService.findBills({ from, to });
+			navigate({
+				pathname: validPaths.bills.path,
+				search: createSearchParams({
+					from: from.toISOString(),
+					to: to.toISOString(),
+				}).toString(),
+			});
 			setBills(bills.data);
 		} catch (error) {
 			console.log(error);

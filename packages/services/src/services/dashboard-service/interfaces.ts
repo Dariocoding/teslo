@@ -35,3 +35,18 @@ export interface FindPaymentMethodsByYearMonth {
 export interface FindStatisticQuery {
 	status: StatusOrder;
 }
+
+export interface FindBillsByYearAndMonthDto {
+	year: number;
+
+	month: string;
+
+	total: string;
+
+	bills: Array<{ day: number; total: string; quantity: number }>;
+}
+
+export interface FindBillsByYearDto {
+	year: number;
+	bills: { num_month: number; sell: number }[];
+}

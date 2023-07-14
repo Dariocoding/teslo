@@ -22,7 +22,7 @@ const ActionsBrand: React.FunctionComponent<IActionsBrandProps> = (props) => {
       <Link to={protectedRoutes.viewBrand.fnPath(brand.idbrand)} className="btn btn-success btn-xs">
         <FaEye />
       </Link>
-      <AuthorityCheck validRoles={[ValidRoles.ADMIN, ValidRoles.SUPER_USER]}>
+      <AuthorityCheck validRoles={[ValidRoles.ADMIN, ValidRoles.SUPER_USER, ValidRoles.SUPERVISOR]}>
         <button className="btn btn-primary btn-xs" onClick={handleClickUpdate}>
           <FaPen />
         </button>

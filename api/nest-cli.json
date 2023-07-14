@@ -5,7 +5,8 @@
   "entryFile": "main",
   "compilerOptions": {
     "assets": [
-      "mail/templates/**/*"
+      "mail/templates/**/*",
+      "seed/data/**/*"
     ],
     "watchAssets": true
   }

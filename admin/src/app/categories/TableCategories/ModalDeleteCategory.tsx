@@ -11,7 +11,9 @@ interface IModalDeleteCategoryProps {
   isLoading: boolean;
 }
 
-const ModalDeleteCategory: React.FunctionComponent<IModalDeleteCategoryProps> = (props) => {
+const ModalDeleteCategory: React.FunctionComponent<
+  IModalDeleteCategoryProps
+> = (props) => {
   const {
     category = {},
     showModalDeleteCategory,

@@ -1,6 +1,6 @@
 import DataTable, { HeaderDataTable } from "@teslo/react-ui/DataTable";
 import RenderIf from "@teslo/react-ui/RenderIf";
-import { PaymentMethod } from "@teslo/interfaces";
+import { PaymentMethod, ValidRoles } from "@teslo/interfaces";
 import { paymentMethodService } from "@teslo/services";
 import classNames from "classnames";
 import * as React from "react";
@@ -15,6 +15,7 @@ import { TablePlaceholder } from "@/components/placeholders";
 import { useIntl } from "react-intl";
 import ActionsPaymentMethods from "./ActionsPaymentMethods";
 import ContainerFormPaymentMethod from "./ContainerFormPaymentMethod";
+import AuthorityCheck from "@/components/AuthorityCheck";
 
 interface ITablePaymentMethodsProps {
   heading?: HeaderDataTable[];
@@ -96,14 +97,18 @@ const TablePaymentMethods: React.FunctionComponent<ITablePaymentMethodsProps> = 
           <DataTable
             placeholder={<TablePlaceholder />}
             buttons={
-              <div className="flex items-center justify-start">
-                <button className="btn btn-primary btn-xs" onClick={createPaymentMethod}>
-                  <FaPlus />
-                </button>
-                <button className="btn btn-outline-alternative btn-xs" onClick={() => refetch()}>
-                  <AiOutlineReload />
-                </button>
-              </div>
+              <AuthorityCheck
+                validRoles={[ValidRoles.ADMIN, ValidRoles.SUPER_USER, ValidRoles.SUPERVISOR]}
+              >
+                <div className="flex items-center justify-start">
+                  <button className="btn btn-primary btn-xs" onClick={createPaymentMethod}>
+                    <FaPlus />
+                  </button>
+                  <button className="btn btn-outline-alternative btn-xs" onClick={() => refetch()}>
+                    <AiOutlineReload />
+                  </button>
+                </div>
+              </AuthorityCheck>
             }
             loading={isFetching}
             data={paymentMethods.map((paymentMethod) => ({

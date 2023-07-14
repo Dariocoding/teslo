@@ -16,9 +16,15 @@ import { usersService } from "@teslo/services";
 import { FaUser } from "react-icons/fa";
 import { useIntl } from "react-intl";
 import { translate } from "@/i18n";
+import AuthorityCheck from "@/components/AuthorityCheck";
 
 interface IViewUserPageProps {}
-const validRolesActions = [ValidRoles.ADMIN, ValidRoles.SUPER_USER] as ValidRol[];
+const validRolesActions = [
+  ValidRoles.ADMIN,
+  ValidRoles.SUPER_USER,
+  ValidRoles.SUPERVISOR,
+  ValidRoles.SELLER,
+] as ValidRol[];
 
 const ViewUserPage: React.FunctionComponent<IViewUserPageProps> = (props) => {
   const {} = props;
@@ -48,11 +54,20 @@ const ViewUserPage: React.FunctionComponent<IViewUserPageProps> = (props) => {
   if (!Object.keys(user).length) return <Loader loading={true} />;
 
   const canUseActions =
-    (user.iduser !== authUser.iduser &&
-      !user.roles?.includes(ValidRoles.SUPER_USER) &&
-      user.roles?.includes(ValidRoles.ADMIN) &&
-      authUser.roles?.includes(ValidRoles.SUPER_USER)) ||
-    user.roles?.includes(ValidRoles.USER);
+    ((user.iduser !== authUser.iduser &&
+      (((user.roles.includes(ValidRoles.SUPER_USER) ||
+        user.roles.includes(ValidRoles.ADMIN) ||
+        user.roles.includes(ValidRoles.SUPERVISOR) ||
+        user.roles.includes(ValidRoles.SELLER)) &&
+        authUser.roles?.includes(ValidRoles.SUPER_USER)) ||
+        ((user.roles.includes(ValidRoles.ADMIN) ||
+          user.roles.includes(ValidRoles.SUPERVISOR) ||
+          user.roles.includes(ValidRoles.SELLER)) &&
+          authUser.roles.includes(ValidRoles.ADMIN)) ||
+        ((user.roles.includes(ValidRoles.SUPERVISOR) || user.roles.includes(ValidRoles.SELLER)) &&
+          authUser.roles.includes(ValidRoles.SUPERVISOR)))) ||
+      user.roles.includes(ValidRoles.USER)) &&
+    !user.roles.includes(ValidRoles.SUPER_USER);
 
   const isValidRol = authUser.roles?.some((role) => validRolesActions.includes(role));
 
@@ -77,6 +92,8 @@ const ViewUserPage: React.FunctionComponent<IViewUserPageProps> = (props) => {
         extraInitialValuesFormUpdate={{
           isActive: user.isActive,
           roles: user.roles,
+          dni: user.dni,
+          prefix: user.prefix,
         }}
         extraInputsFormFormUpdate={
           <>
@@ -88,28 +105,32 @@ const ViewUserPage: React.FunctionComponent<IViewUserPageProps> = (props) => {
               ]}
             />
 
-            <SelectFormik
-              multiple={true}
-              name="roles"
-              options={[
-                {
-                  value: ValidRoles.ADMIN,
-                  label: translate("users.admin"),
-                },
-                {
-                  value: ValidRoles.USER,
-                  label: translate("users.customer"),
-                },
-              ]}
-              onChange={(items: OptionReactSelect[], lastState) => {
-                if (!items) return lastState;
-                const copyItems = [...items];
-                if (copyItems.length === 2) {
-                  copyItems.shift();
-                }
-                return copyItems.map((item) => item.value);
-              }}
-            />
+            <AuthorityCheck
+              validRoles={[ValidRoles.ADMIN, ValidRoles.SUPERVISOR, ValidRoles.SUPER_USER]}
+            >
+              <SelectFormik
+                multiple={true}
+                name="roles"
+                options={[
+                  {
+                    value: ValidRoles.ADMIN,
+                    label: translate("users.admin"),
+                  },
+                  {
+                    value: ValidRoles.USER,
+                    label: translate("users.customer"),
+                  },
+                ]}
+                onChange={(items: OptionReactSelect[], lastState) => {
+                  if (!items) return lastState;
+                  const copyItems = [...items];
+                  if (copyItems.length === 2) {
+                    copyItems.shift();
+                  }
+                  return copyItems.map((item) => item.value);
+                }}
+              />
+            </AuthorityCheck>
           </>
         }
       />

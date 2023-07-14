@@ -56,7 +56,7 @@ const ProfileLayout: React.FunctionComponent<IProfileLayoutProps> = (props) => {
               </div>
               <RenderIf isTrue={canUseActions}>
                 <AuthorityCheck validRoles={validRolesActions}>
-                  <div className="mt-6 pt-10 pb-4 border-t border-blueGray-200 text-center">
+                  <div className="pt-4 pb-4 border-t border-blueGray-200 text-center">
                     <Tabs className="mb-6" selectedValue={selected} setSelectedValue={setSelected}>
                       <Tab value={"profile-data"}>Profile data</Tab>
                       {/* 				<Tab

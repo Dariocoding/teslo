@@ -1,5 +1,6 @@
+import AuthorityCheck from "@/components/AuthorityCheck";
 import { translate } from "@/i18n";
-import { Brand } from "@teslo/interfaces";
+import { Brand, ValidRoles } from "@teslo/interfaces";
 import dayjs from "dayjs";
 import * as React from "react";
 import { FaPen, FaTrash } from "react-icons/fa";
@@ -19,15 +20,19 @@ const HeaderViewBrand: React.FunctionComponent<IHeaderViewBrandProps> = (props) 
         <div className="flex items-center justify-center mb-4">
           <h6>{brand.title}</h6>
         </div>
-        <div className="flex flex-col justify-end w-full h-full items-end">
-          <button onClick={onUpdate} className="mx-auto w-full btn btn-primary btn-sm">
-            {translate("app.edit")} <FaPen className="ml-2" />
-          </button>
+        <AuthorityCheck
+          validRoles={[ValidRoles.ADMIN, ValidRoles.SUPER_USER, ValidRoles.SUPERVISOR]}
+        >
+          <div className="flex flex-col justify-end w-full h-full items-end">
+            <button onClick={onUpdate} className="mx-auto w-full btn btn-primary btn-sm">
+              {translate("app.edit")} <FaPen className="ml-2" />
+            </button>
 
-          <button className="mx-auto w-full btn btn-danger btn-sm" onClick={onDelete}>
-            {translate("app.delete")} <FaTrash className="ml-2" />
-          </button>
-        </div>
+            <button className="mx-auto w-full btn btn-danger btn-sm" onClick={onDelete}>
+              {translate("app.delete")} <FaTrash className="ml-2" />
+            </button>
+          </div>
+        </AuthorityCheck>
       </div>
       <div className="tile lg:col-span-8">
         <h4 className="mb-6">{brand.title}</h4>

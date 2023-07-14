@@ -36,7 +36,7 @@ const EditBillPage: React.FunctionComponent<IEditBillPageProps> = props => {
 				{ to: validPaths.bills.path, label: translate("bills.title") },
 				{ label: translate("bills.edit.title") },
 			]}
-			title={translate("dashboard.edit.title")}
+			title={translate("bills.edit.title")}
 			icon={<MdEditSquare />}
 		>
 			<LoadedSetBill

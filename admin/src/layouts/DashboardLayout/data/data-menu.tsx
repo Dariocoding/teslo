@@ -7,10 +7,11 @@ import {
   FaUsers,
   FaStore,
   FaCogs,
-  FaPeopleCarry,
   FaFileInvoiceDollar,
 } from "react-icons/fa";
-import VerticalMenuIcon, { IVerticalMenuIconProps } from "../VerticalMenu/VerticalMenuIcon";
+import VerticalMenuIcon, {
+  IVerticalMenuIconProps,
+} from "../VerticalMenu/VerticalMenuIcon";
 import { translate } from "@/i18n";
 
 export interface IMenuItem {
@@ -25,6 +26,7 @@ export interface IMenuItem {
 export interface SubNavItem {
   title: () => string;
   path: string;
+  permissions: ValidRol[] | "*";
 }
 
 const MenuItems: IMenuItem[] = [
@@ -45,7 +47,12 @@ const MenuItems: IMenuItem[] = [
         <FaUsers />
       </VerticalMenuIcon>
     ),
-    permissions: [ValidRoles.ADMIN, ValidRoles.SUPER_USER],
+    permissions: [
+      ValidRoles.ADMIN,
+      ValidRoles.SUPER_USER,
+      ValidRoles.SUPERVISOR,
+      ValidRoles.SELLER,
+    ],
     path: validPaths.users.path,
   },
 
@@ -58,10 +65,30 @@ const MenuItems: IMenuItem[] = [
     ),
     permissions: "*",
     subNav: [
-      { title: () => translate("sidebar.products"), path: validPaths.products.path },
-      { title: () => translate("sidebar.categories"), path: validPaths.categories.path },
-      { title: () => translate("sidebar.brands"), path: validPaths.brands.path },
-      { title: () => translate("sidebar.providers"), path: validPaths.providers.path },
+      {
+        title: () => translate("sidebar.products"),
+        path: validPaths.products.path,
+        permissions: "*",
+      },
+      {
+        title: () => translate("sidebar.categories"),
+        path: validPaths.categories.path,
+        permissions: "*",
+      },
+      {
+        title: () => translate("sidebar.brands"),
+        path: validPaths.brands.path,
+        permissions: "*",
+      },
+      {
+        title: () => translate("sidebar.providers"),
+        path: validPaths.providers.path,
+        permissions: [
+          ValidRoles.ADMIN,
+          ValidRoles.SUPERVISOR,
+          ValidRoles.SUPER_USER,
+        ],
+      },
     ],
   },
 
@@ -74,8 +101,16 @@ const MenuItems: IMenuItem[] = [
     ),
     permissions: "*",
     subNav: [
-      { title: () => translate("sidebar.orders"), path: validPaths.orders.path },
-      { title: () => translate("sidebar.newOrder"), path: validPaths.newOrder.path },
+      {
+        title: () => translate("sidebar.orders"),
+        path: validPaths.orders.path,
+        permissions: "*",
+      },
+      {
+        title: () => translate("sidebar.newOrder"),
+        path: validPaths.newOrder.path,
+        permissions: "*",
+      },
     ],
   },
 
@@ -86,10 +121,22 @@ const MenuItems: IMenuItem[] = [
         <FaFileInvoiceDollar />
       </VerticalMenuIcon>
     ),
-    permissions: "*",
+    permissions: [
+      ValidRoles.ADMIN,
+      ValidRoles.SUPERVISOR,
+      ValidRoles.SUPER_USER,
+    ],
     subNav: [
-      { title: () => translate("sidebar.bills"), path: validPaths.bills.path },
-      { title: () => translate("sidebar.newBill"), path: validPaths.newBill.path },
+      {
+        title: () => translate("sidebar.bills"),
+        path: validPaths.bills.path,
+        permissions: "*",
+      },
+      {
+        title: () => translate("sidebar.newBill"),
+        path: validPaths.newBill.path,
+        permissions: "*",
+      },
     ],
   },
 
@@ -100,7 +147,11 @@ const MenuItems: IMenuItem[] = [
         <FaCogs />
       </VerticalMenuIcon>
     ),
-    permissions: [ValidRoles.ADMIN, ValidRoles.SUPER_USER],
+    permissions: [
+      ValidRoles.ADMIN,
+      ValidRoles.SUPER_USER,
+      ValidRoles.SUPERVISOR,
+    ],
     path: validPaths.settings.path,
   },
 ];

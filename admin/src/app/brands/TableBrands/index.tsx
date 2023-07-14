@@ -98,7 +98,9 @@ const DataTableBrands: React.FunctionComponent<IDataTableBrandsProps> = (props) 
         placeholder={<TablePlaceholder />}
         buttons={
           <div className="flex items-center justify-start">
-            <AuthorityCheck validRoles={[ValidRoles.ADMIN, ValidRoles.SUPER_USER]}>
+            <AuthorityCheck
+              validRoles={[ValidRoles.ADMIN, ValidRoles.SUPER_USER, ValidRoles.SUPERVISOR]}
+            >
               <button className="btn btn-primary btn-xs" onClick={onCreateBrand}>
                 <FaPlus />
               </button>

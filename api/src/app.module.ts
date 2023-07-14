@@ -18,64 +18,64 @@ import { ConfigEnterpriseModule } from "./modules/config-enterprise/config-enter
 import { ConfigAppModule } from "./modules/config-app/config-app.module";
 import { BillsModule } from "./modules/bills/bills.module";
 import { ExcelModule } from "./excel/excel.module";
-import { PdfModule } from './pdf/pdf.module';
+import { PdfModule } from "./pdf/pdf.module";
 
 @Module({
-	imports: [
-		ConfigModule.forRoot({ isGlobal: true }),
+  imports: [
+    ConfigModule.forRoot({ isGlobal: true }),
 
-		TypeOrmModule.forRoot({
-			ssl: process.env.STAGE === "prod",
-			extra: {
-				ssl: process.env.STAGE === "prod" ? { rejectUnauthorized: false } : null,
-			},
-			type: "postgres",
-			host: process.env.DB_HOST,
-			port: +process.env.DB_PORT,
-			database: process.env.DB_NAME,
-			username: process.env.DB_USERNAME,
-			password: process.env.DB_PASSWORD,
-			autoLoadEntities: true,
-			synchronize: true,
-			logging: false,
-		}),
+    TypeOrmModule.forRoot({
+      ssl: process.env.STAGE === "prod",
+      extra: {
+        ssl: process.env.STAGE === "prod" ? { rejectUnauthorized: false } : null,
+      },
+      type: "postgres",
+      host: process.env.DB_HOST,
+      port: +process.env.DB_PORT,
+      database: process.env.DB_NAME,
+      username: process.env.DB_USERNAME,
+      password: process.env.DB_PASSWORD,
+      autoLoadEntities: true,
+      synchronize: true,
+      logging: false,
+    }),
 
-		ProductsModule,
+    ProductsModule,
 
-		CommonModule,
+    CommonModule,
 
-		SeedModule,
+    SeedModule,
 
-		FilesModule,
+    FilesModule,
 
-		AuthModule,
+    AuthModule,
 
-		UsersModule,
+    UsersModule,
 
-		CategoriesModule,
+    CategoriesModule,
 
-		MailModule,
+    MailModule,
 
-		OrdersModule,
+    OrdersModule,
 
-		DashboardModule,
+    DashboardModule,
 
-		PaymentMethodsModule,
+    PaymentMethodsModule,
 
-		BrandsModule,
+    BrandsModule,
 
-		ProvidersModule,
+    ProvidersModule,
 
-		ConfigEnterpriseModule,
+    ConfigEnterpriseModule,
 
-		ConfigAppModule,
+    ConfigAppModule,
 
-		BillsModule,
+    BillsModule,
 
-		ExcelModule,
+    ExcelModule,
 
-		PdfModule,
-	],
-	providers: [],
+    PdfModule,
+  ],
+  providers: [],
 })
 export class AppModule {}

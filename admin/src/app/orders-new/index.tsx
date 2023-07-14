@@ -4,14 +4,11 @@ import { useCartStore } from "@/store";
 
 interface IOrdersNewProps {}
 
-const OrdersNew: React.FunctionComponent<IOrdersNewProps> = props => {
-	const {} = props;
-	const { cart } = useCartStore();
-	return (
-		<React.Fragment>
-			<FormContainerOrder tempProducts={cart} />
-		</React.Fragment>
-	);
+const OrdersNew: React.FunctionComponent<IOrdersNewProps> = (props) => {
+  const {} = props;
+  const { cart } = useCartStore();
+  console.log({ cart });
+  return <FormContainerOrder tempProducts={cart} />;
 };
 
 export default OrdersNew;

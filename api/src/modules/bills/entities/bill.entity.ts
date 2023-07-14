@@ -1,5 +1,5 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { StatusOrder, ValidStatusOrder } from '@teslo/interfaces';
+import { ApiProperty } from "@nestjs/swagger";
+import { StatusOrder, ValidStatusOrder } from "@teslo/interfaces";
 import {
 	Column,
 	CreateDateColumn,
@@ -8,18 +8,18 @@ import {
 	OneToMany,
 	PrimaryGeneratedColumn,
 	UpdateDateColumn,
-} from 'typeorm';
-import { DetailBill } from './detail.bill.entity';
-import { Provider } from 'src/modules/providers/entities/provider.entity';
+} from "typeorm";
+import { DetailBill } from "./detail.bill.entity";
+import { Provider } from "src/modules/providers/entities/provider.entity";
 
-@Entity('bill')
+@Entity("bill")
 export class Bill {
 	@ApiProperty()
 	@PrimaryGeneratedColumn()
 	idbill: number;
 
 	@ApiProperty()
-	@CreateDateColumn()
+	@CreateDateColumn({ name: "date_created" })
 	dateCreated: Date;
 
 	@ApiProperty()
@@ -31,7 +31,7 @@ export class Bill {
 	status: StatusOrder;
 
 	@ApiProperty()
-	@Column({ default: '' })
+	@Column({ default: "" })
 	reference: string;
 
 	@ApiProperty()
@@ -39,15 +39,15 @@ export class Bill {
 	details: DetailBill[];
 
 	@ApiProperty()
-	@Column({ default: '' })
+	@Column({ default: "" })
 	description: string;
 
 	@ApiProperty()
-	@Column({ default: 0, type: 'float' })
+	@Column({ default: 0, type: "float" })
 	total: number;
 
 	@ApiProperty()
-	@Column({ default: 0, type: 'float' })
+	@Column({ default: 0, type: "float" })
 	subtotal: number;
 
 	@ManyToOne(() => Provider, provider => provider.bill, { eager: true })
@@ -55,10 +55,10 @@ export class Bill {
 	provider: Provider;
 
 	@ApiProperty()
-	@Column({ default: 0, type: 'float' })
+	@Column({ default: 0, type: "float" })
 	delivery: number;
 
 	@ApiProperty()
-	@Column({ default: 0, type: 'float' })
+	@Column({ default: 0, type: "float" })
 	tax: number;
 }

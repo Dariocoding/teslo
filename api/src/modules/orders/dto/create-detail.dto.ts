@@ -1,9 +1,15 @@
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiProperty, ApiPropertyOptional } from "@nestjs/swagger";
 import { ValidSizes } from "@teslo/interfaces";
-import { IsInt, IsNumber, IsObject, IsOptional, IsString, Min } from "class-validator";
+import { IsInt, IsNumber, IsObject, IsOptional, IsPositive, IsString, Min } from "class-validator";
 import { Product } from "src/modules/products/entities";
 
 export class CreateDetailDto {
+	@ApiPropertyOptional()
+	@IsNumber()
+	@IsPositive()
+	@IsOptional()
+	id?: number;
+
 	@ApiProperty()
 	@IsNumber()
 	@Min(0)

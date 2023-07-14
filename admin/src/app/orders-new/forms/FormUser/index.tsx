@@ -5,24 +5,24 @@ import ContentFormUser from "./ContentFormUser";
 import AdvanceFormUser from "./AdvanceFormUser";
 
 interface IFormUserNewOrderProps {
-	classNameContainer?: string;
+  classNameContainer?: string;
 }
 
-const FormUserNewOrder: React.FunctionComponent<IFormUserNewOrderProps> = props => {
-	const { classNameContainer } = props;
-	const [advanceConfig, setAdvanceConfig] = React.useState(false);
-	const toggleAdvanceConfig = () => setAdvanceConfig(!advanceConfig);
+const FormUserNewOrder: React.FunctionComponent<IFormUserNewOrderProps> = (props) => {
+  const { classNameContainer } = props;
+  const [advanceConfig, setAdvanceConfig] = React.useState(false);
+  const toggleAdvanceConfig = () => setAdvanceConfig(!advanceConfig);
 
-	return (
-		<div className={classNames("tile", classNameContainer)}>
-			<RenderIf isTrue={!advanceConfig}>
-				<ContentFormUser toggleAdvanceConfig={toggleAdvanceConfig} />
-			</RenderIf>
-			<RenderIf isTrue={advanceConfig}>
-				<AdvanceFormUser toggleAdvanceConfig={toggleAdvanceConfig} />
-			</RenderIf>
-		</div>
-	);
+  return (
+    <div className={classNames("tile", classNameContainer)}>
+      <RenderIf isTrue={!advanceConfig}>
+        <ContentFormUser toggleAdvanceConfig={toggleAdvanceConfig} />
+      </RenderIf>
+      <RenderIf isTrue={advanceConfig}>
+        <AdvanceFormUser toggleAdvanceConfig={toggleAdvanceConfig} />
+      </RenderIf>
+    </div>
+  );
 };
 
 export default FormUserNewOrder;

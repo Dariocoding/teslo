@@ -11,38 +11,40 @@ import { translate } from "@/i18n";
 
 interface IProductsPageProps {}
 
-const ProductsPage: React.FunctionComponent<IProductsPageProps> = props => {
-	const {} = props;
-	const { data: products, setData, isFetching, refetch } = useFetchProducts();
-	const { data: categories, isFetching: isFetchingCategories } = useFetchCategories();
-	const { data: providers, isFetching: isFetchingProviders } = useFetchProviders();
-	const { data: brands, isFetching: isFetchingBrands } = useFetchBrands();
-	return (
-		<HeaderDashboard
-			to={validPaths.home.path}
-			icon={<FaBoxes />}
-			title={translate("products.title")}
-			breadcrumbs={[
-				{ label: translate("dashboard.title"), to: validPaths.home.path },
-				{ label: translate("products.title") },
-			]}
-		>
-			<div className="tile">
-				<TableProducts
-					products={products}
-					setProducts={setData}
-					isFetching={isFetching}
-					refetch={refetch}
-					providers={providers}
-					categories={categories}
-					brands={brands}
-					loadingBrands={isFetchingBrands}
-					loadingCategories={isFetchingCategories}
-					loadingProviders={isFetchingProviders}
-				/>
-			</div>
-		</HeaderDashboard>
-	);
+const ProductsPage: React.FunctionComponent<IProductsPageProps> = (props) => {
+  const {} = props;
+  const { data: products, setData, isFetching, refetch } = useFetchProducts();
+  const { data: categories, isFetching: isFetchingCategories } =
+    useFetchCategories();
+  const { data: providers, isFetching: isFetchingProviders } =
+    useFetchProviders();
+  const { data: brands, isFetching: isFetchingBrands } = useFetchBrands();
+  return (
+    <HeaderDashboard
+      to={validPaths.home.path}
+      icon={<FaBoxes />}
+      title={translate("products.title")}
+      breadcrumbs={[
+        { label: translate("dashboard.title"), to: validPaths.home.path },
+        { label: translate("products.title") },
+      ]}
+    >
+      <div className="tile">
+        <TableProducts
+          products={products}
+          setProducts={setData}
+          isFetching={isFetching}
+          refetch={refetch}
+          providers={providers}
+          categories={categories}
+          brands={brands}
+          loadingBrands={isFetchingBrands}
+          loadingCategories={isFetchingCategories}
+          loadingProviders={isFetchingProviders}
+        />
+      </div>
+    </HeaderDashboard>
+  );
 };
 
 export default React.memo(ProductsPage);

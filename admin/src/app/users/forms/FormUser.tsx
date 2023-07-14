@@ -18,181 +18,181 @@ import { capitalize } from "@/utils";
 import Selects from "./Selects";
 
 interface IFormUserProps {
-	onSuccess?(user: User): void;
-	user?: User;
-	defaultValidRole?: ValidRol[];
+  onSuccess?(user: User): void;
+  user?: User;
+  defaultValidRole?: ValidRol[];
 }
 
-const FormUser: React.FunctionComponent<IFormUserProps> = props => {
-	const { onSuccess, defaultValidRole = [ValidRoles.USER], user: userToUpdate } = props;
-	const status = userToUpdate ? "update" : "create";
-	const { formatMessage } = useIntl();
-	const { configEnterprise } = useConfigEnterpriseStore();
-	const [errorMessage, setErrorMessage] = useTimeOutMessage(5000);
+const FormUser: React.FunctionComponent<IFormUserProps> = (props) => {
+  const { onSuccess, defaultValidRole = [ValidRoles.USER], user: userToUpdate } = props;
+  const status = userToUpdate ? "update" : "create";
+  const { formatMessage } = useIntl();
+  const { configEnterprise } = useConfigEnterpriseStore();
+  const [errorMessage, setErrorMessage] = useTimeOutMessage(5000);
 
-	if (!configEnterprise.prefixes?.length) {
-		toast.error("You have no prefixes configured!, please configure them manually");
-		throw new Error("You have no prefixes configured!, please configure them manually");
-	}
+  if (!configEnterprise.prefixes?.length) {
+    toast.error("You have no prefixes configured!, please configure them manually");
+    throw new Error("You have no prefixes configured!, please configure them manually");
+  }
 
-	const INITIAL_VALUES: UserDto = {
-		firstName: userToUpdate?.firstName || "",
-		lastName: userToUpdate?.lastName || "",
-		email: userToUpdate?.email || "",
-		phone: userToUpdate?.phone || "",
-		...(userToUpdate?.password && { password: userToUpdate?.password }),
+  const INITIAL_VALUES: UserDto = {
+    firstName: userToUpdate?.firstName || "",
+    lastName: userToUpdate?.lastName || "",
+    email: userToUpdate?.email || "",
+    phone: userToUpdate?.phone || "",
+    ...(userToUpdate?.password && { password: userToUpdate?.password }),
 
-		isActive: userToUpdate?.isActive ?? true,
-		roles: userToUpdate?.roles || defaultValidRole,
-		prefix: userToUpdate?.prefix || configEnterprise.prefixes[0],
-		dni: userToUpdate?.dni || "",
-	};
+    isActive: userToUpdate?.isActive ?? true,
+    roles: userToUpdate?.roles || defaultValidRole,
+    prefix: userToUpdate?.prefix || configEnterprise.prefixes[0],
+    dni: userToUpdate?.dni || "",
+  };
 
-	const onSubmit = async (values: UserDto) => {
-		try {
-			if (!includesRolUser(values)) {
-				values.prefix = null;
-				values.dni = null;
-			} else {
-				if (!values.prefix.trim() || !values.dni.trim()) {
-					toast.error(formatMessage({ id: "users.error.dni.empty" }));
-					return;
-				}
-			}
-			let req: AxiosResponse<User>;
-			if (status === "create") {
-				req = await usersService.createUser(values);
-				toast.success(formatMessage({ id: "users.add.success" }));
-			} else if (status === "update") {
-				req = await usersService.updateUser(userToUpdate.iduser, values);
-				toast.success(formatMessage({ id: "users.edit.success" }));
-			}
-			if (onSuccess) onSuccess(req.data);
-		} catch (error) {
-			console.log(error);
-			const message: string = error.response?.data?.message;
-			if (message.includes("Ya existe la llave (email)")) {
-				setErrorMessage(formatMessage({ id: "users.error.email.alreadyExist" }));
-			} else if (message.includes("Ya existe la llave (dni)")) {
-				setErrorMessage(formatMessage({ id: "users.error.dni.alreadyExist" }));
-			} else {
-				setErrorMessage(
-					error.response.data.message ||
-						(status === "create"
-							? formatMessage({ id: "users.add.error" })
-							: formatMessage({ id: "users.edit.error" }))
-				);
-			}
-		}
-	};
+  const onSubmit = async (values: UserDto) => {
+    try {
+      if (!includesRolUser(values)) {
+        values.prefix = null;
+        values.dni = null;
+      } else {
+        if (!values.prefix.trim() || !values.dni.trim()) {
+          toast.error(formatMessage({ id: "users.error.dni.empty" }));
+          return;
+        }
+      }
+      let req: AxiosResponse<User>;
+      if (status === "create") {
+        req = await usersService.createUser(values);
+        toast.success(formatMessage({ id: "users.add.success" }));
+      } else if (status === "update") {
+        req = await usersService.updateUser(userToUpdate.iduser, values);
+        toast.success(formatMessage({ id: "users.edit.success" }));
+      }
+      if (onSuccess) onSuccess(req.data);
+    } catch (error) {
+      console.log(error);
+      const message: string = error.response?.data?.message;
+      if (message.includes("Ya existe la llave (email)")) {
+        setErrorMessage(formatMessage({ id: "users.error.email.alreadyExist" }));
+      } else if (message.includes("Ya existe la llave (dni)")) {
+        setErrorMessage(formatMessage({ id: "users.error.dni.alreadyExist" }));
+      } else {
+        setErrorMessage(
+          error.response.data.message ||
+            (status === "create"
+              ? formatMessage({ id: "users.add.error" })
+              : formatMessage({ id: "users.edit.error" }))
+        );
+      }
+    }
+  };
 
-	const validationSchema = yup.object({
-		firstName: yup.string().required(translate("users.error.firstName.required")),
-		lastName: yup.string().required(translate("users.error.lastName.required")),
-		email: yup
-			.string()
-			.required(translate("users.error.email.required"))
-			.email(translate("users.error.email.invalid")),
-		...(status === "create" && {
-			password: yup
-				.string()
-				.required(translate("users.error.password.required"))
-				.min(6, translate("users.error.password.invalidLength")),
-		}),
-		...(status === "update" && {
-			password: yup.string().min(6, translate("users.error.password.invalidLength")),
-		}),
-	});
+  const validationSchema = yup.object({
+    firstName: yup.string().required(translate("users.error.firstName.required")),
+    lastName: yup.string().required(translate("users.error.lastName.required")),
+    email: yup
+      .string()
+      .required(translate("users.error.email.required"))
+      .email(translate("users.error.email.invalid")),
+    ...(status === "create" && {
+      password: yup
+        .string()
+        .required(translate("users.error.password.required"))
+        .min(6, translate("users.error.password.invalidLength")),
+    }),
+    ...(status === "update" && {
+      password: yup.string().min(6, translate("users.error.password.invalidLength")),
+    }),
+  });
 
-	return (
-		<Formik<UserDto>
-			initialValues={INITIAL_VALUES}
-			onSubmit={onSubmit}
-			validationSchema={validationSchema}
-		>
-			{({ values }) => (
-				<Form>
-					<RenderIf isTrue={errorMessage}>
-						<Alert type="danger" className="mb-6">
-							{errorMessage}
-						</Alert>
-					</RenderIf>
+  return (
+    <Formik<UserDto>
+      initialValues={INITIAL_VALUES}
+      onSubmit={onSubmit}
+      validationSchema={validationSchema}
+    >
+      {({ values }) => (
+        <Form>
+          <RenderIf isTrue={errorMessage}>
+            <Alert type="danger" className="mb-6">
+              {errorMessage}
+            </Alert>
+          </RenderIf>
 
-					<RenderIf isTrue={includesRolUser(values)}>
-						<div className="grid lg:grid-cols-4 lg:gap-4">
-							<div className="lg:col-span-3">
-								<div className="flex items-center">
-									<SelectFormik
-										options={configEnterprise.prefixes.map(value => ({
-											label: capitalize(value),
-											value,
-										}))}
-										name="prefix"
-										label={translate("users.label.prefix")}
-										className="mr-1.5"
-									/>
-									<InputFormik
-										label={translate("users.label.dni")}
-										name={"dni"}
-										placeholder={translate("users.placeholder.dni")}
-										required
-										className="w-full"
-										showError={false}
-										showSuccess={false}
-									/>
-								</div>
-							</div>
-						</div>
-					</RenderIf>
+          <RenderIf isTrue={includesRolUser(values)}>
+            <div className="grid lg:grid-cols-4 lg:gap-4">
+              <div className="lg:col-span-3">
+                <div className="flex items-center">
+                  <SelectFormik
+                    options={configEnterprise.prefixes.map((value) => ({
+                      label: capitalize(value),
+                      value,
+                    }))}
+                    name="prefix"
+                    label={translate("users.label.prefix")}
+                    className="mr-1.5"
+                  />
+                  <InputFormik
+                    label={translate("users.label.dni")}
+                    name={"dni"}
+                    placeholder={translate("users.placeholder.dni")}
+                    required
+                    className="w-full"
+                    showError={false}
+                    showSuccess={false}
+                  />
+                </div>
+              </div>
+            </div>
+          </RenderIf>
 
-					<div className="grid lg:grid-cols-2 lg:gap-4">
-						<InputFormik
-							label={translate("users.label.firstName")}
-							name={"firstName"}
-							placeholder={translate("users.placeholder.firstName")}
-							required
-						/>
+          <div className="grid lg:grid-cols-2 lg:gap-4">
+            <InputFormik
+              label={translate("users.label.firstName")}
+              name={"firstName"}
+              placeholder={translate("users.placeholder.firstName")}
+              required
+            />
 
-						<InputFormik
-							label={translate("users.label.lastName")}
-							name={"lastName"}
-							placeholder={translate("users.placeholder.lastName")}
-							required
-						/>
-					</div>
+            <InputFormik
+              label={translate("users.label.lastName")}
+              name={"lastName"}
+              placeholder={translate("users.placeholder.lastName")}
+              required
+            />
+          </div>
 
-					<InputFormik
-						label={translate("users.label.email")}
-						name={"email"}
-						placeholder={translate("users.placeholder.email")}
-						required
-					/>
+          <InputFormik
+            label={translate("users.label.email")}
+            name={"email"}
+            placeholder={translate("users.placeholder.email")}
+            required
+          />
 
-					<InputFormik
-						label={translate("users.label.phone")}
-						name={"phone"}
-						placeholder={translate("users.placeholder.phone")}
-					/>
+          <InputFormik
+            label={translate("users.label.phone")}
+            name={"phone"}
+            placeholder={translate("users.placeholder.phone")}
+          />
 
-					<InputFormik
-						type={"password"}
-						label={translate("users.label.password")}
-						name={"password"}
-						required
-						placeholder={translate("users.placeholder.password")}
-					/>
+          <InputFormik
+            type={"password"}
+            label={translate("users.label.password")}
+            name={"password"}
+            required
+            placeholder={translate("users.placeholder.password")}
+          />
 
-					<Selects />
+          <Selects />
 
-					<ButtonFormik full className="btn-primary btn-sm">
-						{status === "create" ? translate("users.add") : translate("users.edit")}
-					</ButtonFormik>
-				</Form>
-			)}
-		</Formik>
-	);
+          <ButtonFormik full className="btn-primary btn-sm">
+            {status === "create" ? translate("users.add") : translate("users.edit")}
+          </ButtonFormik>
+        </Form>
+      )}
+    </Formik>
+  );
 };
 
 export default FormUser;
 
-const includesRolUser = (values: UserDto) => values.roles.includes(ValidRoles.USER);
+export const includesRolUser = (values: UserDto) => values.roles?.includes?.(ValidRoles.USER);

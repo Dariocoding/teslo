@@ -1,6 +1,8 @@
 import { Order, User } from "@teslo/interfaces";
 import { axiosClient } from "../../config/axios";
 import {
+	FindBillsByYearAndMonthDto,
+	FindBillsByYearDto,
 	FindOrdersAnioResponse,
 	FindOrdersByAnioMonthResponse,
 	FindPaymentMethodsByYearMonth,
@@ -42,6 +44,23 @@ export const dashboardService = {
 		axiosClient.get<User[]>("/dashboard/getTenUsers", { ...(config || {}) }),
 	getLastTenOrders: (config?: AxiosRequestConfig) =>
 		axiosClient.get<Order[]>("/dashboard/getTenOrders", { ...(config || {}) }),
+
+	findBillsByMonthAndYear: (
+		year: number,
+		month: number,
+		config?: AxiosRequestConfig,
+		params?: FindStatisticQuery
+	) =>
+		axiosClient.get<FindBillsByYearAndMonthDto>(`/dashboard/findBills/${year}/${month}`, {
+			...(config || {}),
+			params,
+		}),
+
+	findAllBillsByYear: (year: number, config?: AxiosRequestConfig, params?: FindStatisticQuery) =>
+		axiosClient.get<FindBillsByYearDto>(`/dashboard/findAllBills/${year}`, {
+			...(config || {}),
+			params,
+		}),
 };
 
 export * from "./interfaces";

@@ -71,7 +71,9 @@ const DefaultItem: React.FunctionComponent<IDefaultItemProps> = (props) => {
         <Collapse isOpened={isExpanded}>
           <div>
             {item.subNav.map((nav, idx) => (
-              <LinkSubNavItem item={nav} key={idx} />
+              <AuthorityCheck key={idx} validRoles={nav.permissions}>
+                <LinkSubNavItem item={nav} key={idx} />
+              </AuthorityCheck>
             ))}
           </div>
         </Collapse>
@@ -118,7 +120,9 @@ const CollapsedItem: React.FunctionComponent<ICollapsedItemProps> = (props) => {
         }
       >
         {item.subNav.map((subNavItem, idx) => (
-          <SubNavDropdownItem item={subNavItem} key={idx} />
+          <AuthorityCheck validRoles={subNavItem.permissions}>
+            <SubNavDropdownItem item={subNavItem} key={idx} />
+          </AuthorityCheck>
         ))}
       </Dropdown>
     </ToolTip>

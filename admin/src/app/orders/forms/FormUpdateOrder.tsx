@@ -45,7 +45,9 @@ const FormUpdateOrder: React.FunctionComponent<IFormUpdateOrderProps> = props =>
 		}
 	}
 
-	const optionsStatus: OptionReactSelect[] = ARRSTATUSORDER.map(status => ({
+	const optionsStatus: OptionReactSelect[] = ARRSTATUSORDER.filter(
+		status => status !== "cancelled"
+	).map(status => ({
 		value: status,
 		label: capitalize(libOrdersStatus()[status]),
 	}));
@@ -53,7 +55,7 @@ const FormUpdateOrder: React.FunctionComponent<IFormUpdateOrderProps> = props =>
 	return (
 		<Formik initialValues={initialValues} onSubmit={onSubmit}>
 			<Form>
-				<div className="table-responsive">
+				<div className="">
 					<table className="table">
 						<tbody>
 							<tr>
@@ -86,6 +88,8 @@ const FormUpdateOrder: React.FunctionComponent<IFormUpdateOrderProps> = props =>
 										className="my-2"
 										name="status"
 										options={optionsStatus}
+										disabled={order.status === "cancelled"}
+										placeholder="Select status"
 									/>
 								</td>
 							</tr>
@@ -98,6 +102,7 @@ const FormUpdateOrder: React.FunctionComponent<IFormUpdateOrderProps> = props =>
 										className="my-2"
 										name="paymentMethod"
 										options={optionsPayment}
+										disabled={order.status === "cancelled"}
 									/>
 								</td>
 							</tr>

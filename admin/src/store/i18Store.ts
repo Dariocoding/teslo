@@ -10,7 +10,7 @@ export interface Ii18Store {
 export const useI18Store = create(
   persist<Ii18Store>(
     (set) => ({
-      locale: ValidLocales.ENGLISH.locale,
+      locale: ValidLocales.SPANISH.locale,
       setLocale: (locale: string) => set({ locale }),
     }),
     { name: "i18Store" }

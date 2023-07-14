@@ -5,16 +5,16 @@ import { RiBillFill } from "react-icons/ri";
 import DataTableBills from "./TableBills";
 import { useFetchBills } from "./hooks/useFetchBills";
 import { translate } from "@/i18n";
+import { useSearchParams } from "react-router-dom";
 
 interface IBillsPageProps {}
 
 const BillsPage: React.FunctionComponent<IBillsPageProps> = props => {
 	const {} = props;
-	const {
-		data: bills,
-		setData: setBills,
-		isLoading,
-	} = useFetchBills({ from: new Date(), to: new Date() });
+	const [searchParams] = useSearchParams();
+	const from = (searchParams.get("from") || new Date()) as Date;
+	const to = (searchParams.get("to") || new Date()) as Date;
+	const { data: bills, setData: setBills, isLoading } = useFetchBills({ from, to });
 
 	return (
 		<HeaderDashboard
