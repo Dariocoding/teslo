@@ -6,7 +6,6 @@
   "workspaces": [
     "api",
     "admin",
-    "site",
     "packages/*"
   ],
   "scripts": {
@@ -34,10 +33,6 @@
     "package:dev:services": "npm run compile:dev --workspace=packages/services",
     "package:dev:ui": "npm run compile:dev --workspace=packages/ui",
     "compile:packages:dev": "npm-run-all --parallel package:dev:interfaces package:dev:services package:dev:ui"
-  },
-  "engines": {
-    "npm": "please-use-yarn",
-    "yarn": ">= 1.19.1"
   },
   "devDependencies": {
     "@types/node": "^18.13.0",
