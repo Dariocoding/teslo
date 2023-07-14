@@ -21,8 +21,8 @@ const Modal = React.lazy(() => import("@teslo/react-ui/Modal"));
 interface IAppProps {}
 
 const at = localStorage.getItem("at");
-tokenAuth(at);
 setAxiosBaseURL(API_URL);
+tokenAuth(at);
 
 const defaultToastOptions: DefaultToastOptions = {
   position: "bottom-right",
