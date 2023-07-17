@@ -25,14 +25,13 @@
     "all:dev:admin:api": "npm-run-all --parallel compile:packages:dev dev:admin dev:api",
     "all:dev:site": "npm-run-all --parallel compile:packages dev:site",
     "all:dev:site:api": "npm-run-all --parallel compile:packages:dev dev:site dev:api",
-    "compile:packages": "npm run compile --workspace=packages/interfaces && npm run compile --workspace=packages/services && npm run compile --workspace=packages/ui",
+    "compile:packages": "npm run compile --workspace=packages/interfaces && npm run compile --workspace=packages/services",
     "vercel:admin": "npm run compile:packages && npm run build:admin",
     "vercel:site": "npm run compile:packages && npm run build:site",
     "all:dev:apps": "npm-run-all --parallel compile:packages dev:site dev:admin",
     "package:dev:interfaces": "npm run compile:dev --workspace=packages/interfaces",
     "package:dev:services": "npm run compile:dev --workspace=packages/services",
-    "package:dev:ui": "npm run compile:dev --workspace=packages/ui",
-    "compile:packages:dev": "npm-run-all --parallel package:dev:interfaces package:dev:services package:dev:ui"
+    "compile:packages:dev": "npm-run-all --parallel package:dev:interfaces package:dev:services"
   },
   "devDependencies": {
     "@types/node": "^20.4.2",
