@@ -1,5 +1,5 @@
 import * as React from "react";
-/* import { Document, PDFViewer, Page, View, Text } from "@react-pdf/renderer"; */
+import { Document, PDFViewer, Page, View, Text } from "@react-pdf/renderer";
 import { Product } from "@teslo/interfaces";
 import MyBarCode from "../../shared/MyBarCode";
 
@@ -9,8 +9,8 @@ interface IPdfBarCodeProps {
 
 const PdfBarCode: React.FunctionComponent<IPdfBarCodeProps> = (props) => {
   const { product } = props;
-  return null;
-  /*    <PDFViewer style={{ height: "500px", width: "100%" }}>
+  return (
+    <PDFViewer style={{ height: "500px", width: "100%" }}>
       <Document>
         <Page size="A4">
           <View
@@ -26,7 +26,8 @@ const PdfBarCode: React.FunctionComponent<IPdfBarCodeProps> = (props) => {
           </View>
         </Page>
       </Document>
-    </PDFViewer> */
+    </PDFViewer>
+  );
 };
 
 export default PdfBarCode;

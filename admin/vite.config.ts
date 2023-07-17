@@ -64,14 +64,6 @@ export default (props) => {
     ...loadEnv(mode, topEnvFileLocation),
   };
 
-  console.log({
-    commonjs: commonjs({
-      include: [/node_modules/, /packages/],
-      requireReturnsDefault: "auto", // <---- this solves default issue
-    }),
-    replace: replace({ preventAssignment: true }),
-  });
-
   return defineConfig({
     plugins: [
       react(),
