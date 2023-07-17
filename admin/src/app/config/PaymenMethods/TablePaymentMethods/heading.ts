@@ -1,5 +1,5 @@
 import { translate } from "@/i18n";
-import { HeaderDataTable } from "@teslo/react-ui/DataTable";
+import { HeaderDataTable } from "@/components/ui/DataTable";
 
 const defaultHeadingPaymentMethods = (): HeaderDataTable[] => [
   { title: "ID", field: "idpaymentmethod", center: true },

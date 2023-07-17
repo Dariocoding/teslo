@@ -2,7 +2,7 @@ import { formatter } from "@/utils";
 import { DetailOrder, DetailOrderTemp } from "@teslo/interfaces";
 import * as React from "react";
 import TdActions from "./TdActions";
-import RenderIf from "@teslo/react-ui/RenderIf";
+import RenderIf from "@/components/ui/RenderIf";
 import InputFormik from "@/components/@forms/InputFormik";
 import TdSizeProduct from "./TdSizeProduct";
 import { useTrTempProduct } from "./useTrTempProduct";

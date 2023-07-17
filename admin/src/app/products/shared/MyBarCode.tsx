@@ -1,4 +1,4 @@
-import { View } from "@react-pdf/renderer";
+/* import { View } from "@react-pdf/renderer"; */
 import { Product } from "@teslo/interfaces";
 import JsBarcode from "jsbarcode";
 import * as React from "react";
@@ -20,8 +20,9 @@ const MyBarCode: React.FunctionComponent<IMyBarCodeProps> = (props) => {
   const barWidthRatio = barWidth / barHeight;
   const realHeight = customHeight || 40;
   const heightRatio = barHeight / realHeight;
+  return null;
   return (
-    <View
+    /*     <View
       style={{
         display: "flex",
         flexDirection: "row",
@@ -42,7 +43,8 @@ const MyBarCode: React.FunctionComponent<IMyBarCodeProps> = (props) => {
           }}
         />
       ))}
-    </View>
+    </View> */
+    null
   );
 };
 

@@ -1,6 +1,6 @@
 import { translate } from "@/i18n";
-import Alert from "@teslo/react-ui/Alert";
-import RenderIf from "@teslo/react-ui/RenderIf";
+import Alert from "@/components/ui/Alert";
+import RenderIf from "@/components/ui/RenderIf";
 import * as React from "react";
 import { AiOutlineLoading } from "react-icons/ai";
 

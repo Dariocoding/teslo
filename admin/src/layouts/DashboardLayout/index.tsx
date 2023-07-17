@@ -2,7 +2,7 @@ import * as React from "react";
 import HeaderDashboard from "./HeaderDashboard";
 import SidebarDashboard from "./SidebarDashboard";
 import { useAuthStore, useCartStore, useConfigApp } from "@/store";
-import RenderIf from "@teslo/react-ui/RenderIf";
+import RenderIf from "@/components/ui/RenderIf";
 import classNames from "classnames";
 import useResponsive from "@/utils/hooks/useResponsive";
 import axios from "axios";

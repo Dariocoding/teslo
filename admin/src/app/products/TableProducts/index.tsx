@@ -1,8 +1,8 @@
-import DataTable, { HeaderDataTable } from "@teslo/react-ui/DataTable";
+import DataTable, { HeaderDataTable } from "@/components/ui/DataTable";
 import * as React from "react";
 import defaultHeadingProducts from "./heading";
 import mapProducts from "./mapProducts";
-import RenderIf from "@teslo/react-ui/RenderIf";
+import RenderIf from "@/components/ui/RenderIf";
 import { Brand, Category, Product, Provider } from "@teslo/interfaces";
 import { TablePlaceholder } from "@/components/placeholders";
 import ButtonsTableProduct from "./ButtonsTable";

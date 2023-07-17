@@ -1,6 +1,6 @@
 import { translate } from "@/i18n";
 import { useConfigApp } from "@/store";
-import RenderIf from "@teslo/react-ui/RenderIf";
+import RenderIf from "@/components/ui/RenderIf";
 import classNames from "classnames";
 import React from "react";
 import { useIntl } from "react-intl";

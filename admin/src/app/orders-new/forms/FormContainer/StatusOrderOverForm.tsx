@@ -5,7 +5,7 @@ import classNames from "classnames";
 import { FaCheckCircle } from "react-icons/fa";
 import { ARRSTATUSORDER, ValidStatusOrder } from "@teslo/interfaces";
 import styled from "styled-components";
-import RenderIf from "@teslo/react-ui/RenderIf";
+import RenderIf from "@/components/ui/RenderIf";
 import { RiMoneyDollarCircleFill, RiGitRepositoryFill } from "react-icons/ri";
 
 interface IStatusOrderOverFormProps {}

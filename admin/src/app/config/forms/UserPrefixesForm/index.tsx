@@ -1,7 +1,7 @@
 import { useConfigEnterpriseStore } from "@/store";
 import * as React from "react";
 import { BsArrowReturnLeft } from "react-icons/bs";
-import RenderIf from "@teslo/react-ui/RenderIf";
+import RenderIf from "@/components/ui/RenderIf";
 import { Form, Formik, FormikHelpers } from "formik";
 import * as yup from "yup";
 import InputFormik from "@/components/@forms/InputFormik";

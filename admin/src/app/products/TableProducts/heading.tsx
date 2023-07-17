@@ -1,17 +1,15 @@
 import { translate } from "@/i18n";
 import { useConfigApp } from "@/store";
 import { Product } from "@teslo/interfaces";
-import Checkbox from "@teslo/react-ui/Checkbox";
-import { HeaderDataTable } from "@teslo/react-ui/DataTable";
+import Checkbox from "@/components/ui/Checkbox";
+import { HeaderDataTable } from "@/components/ui/DataTable";
 
 interface UseDefaultHeadingProducts {
   currentItemsSelected: string[];
   setCurrentItemsSelected: (items: string[]) => void;
 }
 
-const useDefaultHeadingProducts = (
-  propsHook: UseDefaultHeadingProducts
-): HeaderDataTable[] => {
+const useDefaultHeadingProducts = (propsHook: UseDefaultHeadingProducts): HeaderDataTable[] => {
   const { colors } = useConfigApp();
   const { enableClothesShopping } = colors;
 
@@ -100,11 +98,7 @@ const CheckBoxSelectAllProducts = (props: ICheckBoxSelectAllProductProps) => {
 
   return (
     <div className="flex items-center justify-center">
-      <Checkbox
-        isChecked={isSelected}
-        onChange={handleSelectAll}
-        enableMarginRight={false}
-      />
+      <Checkbox isChecked={isSelected} onChange={handleSelectAll} enableMarginRight={false} />
     </div>
   );
 };

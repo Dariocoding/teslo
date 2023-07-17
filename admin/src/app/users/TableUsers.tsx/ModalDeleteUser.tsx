@@ -1,4 +1,4 @@
-import ConfirmModal from "@teslo/react-ui/Modal/ConfirmModal";
+import ConfirmModal from "@/components/ui/Modal/ConfirmModal";
 import { User } from "@teslo/interfaces";
 import * as React from "react";
 import { translate } from "@/i18n";

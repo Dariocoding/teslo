@@ -1,7 +1,7 @@
 import { capitalize } from "@/utils";
-import Dropdown from "@teslo/react-ui/Dropdown";
-import DropdownItem from "@teslo/react-ui/Dropdown/DropdownItem";
-import ToolTip from "@teslo/react-ui/Tooltip";
+import Dropdown from "@/components/ui/Dropdown";
+import DropdownItem from "@/components/ui/Dropdown/DropdownItem";
+import ToolTip from "@/components/ui/Tooltip";
 import classNames from "classnames";
 import * as React from "react";
 import { toast } from "react-hot-toast";

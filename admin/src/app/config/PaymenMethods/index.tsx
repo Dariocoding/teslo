@@ -1,4 +1,4 @@
-import RenderIf from "@teslo/react-ui/RenderIf";
+import RenderIf from "@/components/ui/RenderIf";
 import HeaderDashboard from "@/layouts/HeaderDashboardLayout";
 import { protectedRoutes } from "@/utils";
 import * as React from "react";

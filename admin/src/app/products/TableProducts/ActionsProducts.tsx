@@ -1,13 +1,13 @@
 import { PF, protectedRoutes } from "@/utils";
 import { Product, Size, ValidRoles } from "@teslo/interfaces";
-import Dropdown from "@teslo/react-ui/Dropdown";
-import DropdownItem from "@teslo/react-ui/Dropdown/DropdownItem";
+import Dropdown from "@/components/ui/Dropdown";
+import DropdownItem from "@/components/ui/Dropdown/DropdownItem";
 import * as React from "react";
 import { FaCog, FaPen, FaShoppingCart, FaTrash } from "react-icons/fa";
 import { IoMdFlash } from "react-icons/io";
 import { useNavigate } from "react-router-dom";
 import { useNotificationAddToCart } from "@/components/ui/NotificationAddToCart/useNotificationAddToCart";
-import RenderIf from "@teslo/react-ui/RenderIf";
+import RenderIf from "@/components/ui/RenderIf";
 import { translate } from "@/i18n";
 import { HiViewGrid } from "react-icons/hi";
 import { AiOutlineBarcode } from "react-icons/ai";
@@ -21,20 +21,11 @@ export interface IActionsProductsProps {
   onViewBarCode(product: Product): void;
 }
 
-const ActionsProducts: React.FunctionComponent<IActionsProductsProps> = (
-  props
-) => {
-  const {
-    product,
-    onDeleteProduct,
-    onUpdateProduct,
-    onQuickEditProduct,
-    onViewBarCode,
-  } = props;
+const ActionsProducts: React.FunctionComponent<IActionsProductsProps> = (props) => {
+  const { product, onDeleteProduct, onUpdateProduct, onQuickEditProduct, onViewBarCode } = props;
   const notifyCart = useNotificationAddToCart();
   const navigate = useNavigate();
-  const handleClickViewProduct = () =>
-    navigate(protectedRoutes.viewProduct.fnPath(product.id));
+  const handleClickViewProduct = () => navigate(protectedRoutes.viewProduct.fnPath(product.id));
   const handleClickUpdateProduct = () => onUpdateProduct(product);
   const handleClickDeleteProduct = () => onDeleteProduct(product);
   const handleClickQuickEditProduct = () => onQuickEditProduct(product);
@@ -65,11 +56,7 @@ const ActionsProducts: React.FunctionComponent<IActionsProductsProps> = (
             displayButton={<FaShoppingCart />}
             classNameButton="btn btn-warning btn-xs mb-0"
           >
-            <DropdownItem
-              enableHoverClasses={false}
-              enablePaddings={false}
-              className=""
-            >
+            <DropdownItem enableHoverClasses={false} enablePaddings={false} className="">
               <div className="flex items-center text-sm">
                 {product.sizes.map((size, i) => (
                   <span
@@ -122,11 +109,7 @@ const ActionsProducts: React.FunctionComponent<IActionsProductsProps> = (
           {translate("products.actions.viewBarCode")}
         </DropdownItem>
         <AuthorityCheck
-          validRoles={[
-            ValidRoles.ADMIN,
-            ValidRoles.SUPER_USER,
-            ValidRoles.SUPERVISOR,
-          ]}
+          validRoles={[ValidRoles.ADMIN, ValidRoles.SUPER_USER, ValidRoles.SUPERVISOR]}
         >
           <DropdownItem
             className="flex items-center justify-start gap-1 text-sm"

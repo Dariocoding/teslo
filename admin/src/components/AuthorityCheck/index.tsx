@@ -1,7 +1,7 @@
 import { useAuthStore } from "@/store";
 import { ValidRol } from "@teslo/interfaces";
 import * as React from "react";
-import RenderIf from "@teslo/react-ui/RenderIf";
+import RenderIf from "@/components/ui/RenderIf";
 import { useNavigate } from "react-router-dom";
 
 interface IAuthorityCheckProps {

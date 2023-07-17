@@ -1,3 +1,4 @@
+import * as React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import "./styles/index.css";
@@ -10,6 +11,8 @@ import "unfonts.css";
 import { queryClient } from "./utils";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { ErrorBoundary } from "react-error-boundary";
+
+React;
 
 function fallbackRender({ error }) {
   // Call resetErrorBoundary() to reset the error boundary and retry the render.

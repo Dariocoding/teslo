@@ -23,7 +23,7 @@ import { ordersService } from "@teslo/services";
 import ReferenceOverForm from "./ReferenceOverForm";
 import { useIntl } from "react-intl";
 import Swal from "sweetalert2";
-import RenderIf from "@teslo/react-ui/RenderIf";
+import RenderIf from "@/components/ui/RenderIf";
 import HeaderDashboard from "@/layouts/HeaderDashboardLayout";
 import { validPaths } from "@/utils";
 
@@ -109,8 +109,6 @@ const FormContainerOrder: React.FunctionComponent<IFormContainerOrderProps> = (p
         total,
         subtotal,
       };
-
-      console.log({ orderDetail: order.detail });
 
       await ordersService.updateOrder(values.order.idorder, order);
       Swal.fire(t({ id: "orders.edit.success" }), "", "success");

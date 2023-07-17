@@ -1,7 +1,7 @@
 import AuthorityCheck from "@/components/AuthorityCheck";
 import { TablePlaceholder } from "@/components/placeholders";
 import { Brand, ValidRoles } from "@teslo/interfaces";
-import DataTable from "@teslo/react-ui/DataTable";
+import DataTable from "@/components/ui/DataTable";
 import * as React from "react";
 import { FaPlus } from "react-icons/fa";
 import { AiOutlineReload } from "react-icons/ai";
@@ -10,7 +10,7 @@ import { useModalStore } from "@/store";
 import { brandsService } from "@teslo/services";
 import toast from "react-hot-toast";
 import { BrandTable } from "../config";
-import RenderIf from "@teslo/react-ui/RenderIf";
+import RenderIf from "@/components/ui/RenderIf";
 import dayjs from "dayjs";
 import ActionsBrand from "./ActionsBrand";
 import { useIntl } from "react-intl";

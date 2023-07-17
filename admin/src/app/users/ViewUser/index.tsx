@@ -1,6 +1,6 @@
 import SelectFormik, { OptionReactSelect } from "@/components/@forms/SelectFormik";
 import Loader from "@/components/ui/Loader";
-import RenderIf from "@teslo/react-ui/RenderIf";
+import RenderIf from "@/components/ui/RenderIf";
 import HeaderDashboard from "@/layouts/HeaderDashboardLayout";
 import ProfileLayout from "@/layouts/ProfileLayout";
 import { useAuthStore } from "@/store";

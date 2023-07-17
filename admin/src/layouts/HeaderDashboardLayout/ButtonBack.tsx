@@ -1,4 +1,4 @@
-import RenderIf from "@teslo/react-ui/RenderIf";
+import RenderIf from "@/components/ui/RenderIf";
 import * as React from "react";
 import { Link } from "react-router-dom";
 import { FaChevronLeft } from "react-icons/fa";

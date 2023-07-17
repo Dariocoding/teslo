@@ -1,6 +1,6 @@
 import AuthorityCheck from "@/components/AuthorityCheck";
-import RenderIf from "@teslo/react-ui/RenderIf";
-import { Tab, Tabs } from "@teslo/react-ui/Tabs";
+import RenderIf from "@/components/ui/RenderIf";
+import { Tab, Tabs } from "@/components/ui/Tabs";
 import { getMaximiumRol } from "@/utils/getMaximiumRol";
 import { User, UserDto, ValidRol } from "@teslo/interfaces";
 import * as React from "react";

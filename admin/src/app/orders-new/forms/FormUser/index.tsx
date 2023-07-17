@@ -1,6 +1,6 @@
 import * as React from "react";
 import classNames from "classnames";
-import RenderIf from "@teslo/react-ui/RenderIf";
+import RenderIf from "@/components/ui/RenderIf";
 import ContentFormUser from "./ContentFormUser";
 import AdvanceFormUser from "./AdvanceFormUser";
 

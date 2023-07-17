@@ -1,5 +1,5 @@
 import { translate } from "@/i18n";
-import Upload from "@teslo/react-ui/Upload";
+import Upload from "@/components/ui/Upload";
 import * as React from "react";
 import { FcImageFile } from "react-icons/fc";
 

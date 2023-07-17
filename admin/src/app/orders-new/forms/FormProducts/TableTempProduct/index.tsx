@@ -1,7 +1,7 @@
 import * as React from "react";
 import HeadingTable from "../HeadingTable";
 import InputFormik from "@/components/@forms/InputFormik";
-import RenderIf from "@teslo/react-ui/RenderIf";
+import RenderIf from "@/components/ui/RenderIf";
 import { formatter } from "@/utils";
 import TdSearchList from "./TdSearchList";
 import TdAddProduct from "./TdAddProduct";

@@ -1,5 +1,5 @@
 import { translate } from "@/i18n";
-import { HeaderDataTable } from "@teslo/react-ui/DataTable";
+import { HeaderDataTable } from "@/components/ui/DataTable";
 
 export const useDefaultHeadingTableProviders = (): HeaderDataTable[] => [
   { title: translate("providers.label.ID"), field: "idprovider" },

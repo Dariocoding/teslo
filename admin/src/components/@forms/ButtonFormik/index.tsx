@@ -1,5 +1,5 @@
-import RenderIf from "@teslo/react-ui/RenderIf";
-import Spinner from "@teslo/react-ui/Spinner";
+import RenderIf from "@/components/ui/RenderIf";
+import Spinner from "@/components/ui/Spinner";
 import classNames from "classnames";
 import { useFormikContext } from "formik";
 import * as React from "react";

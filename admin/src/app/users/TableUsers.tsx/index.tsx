@@ -1,5 +1,5 @@
-import DataTable, { HeaderDataTable } from "@teslo/react-ui/DataTable";
-import RenderIf from "@teslo/react-ui/RenderIf";
+import DataTable, { HeaderDataTable } from "@/components/ui/DataTable";
+import RenderIf from "@/components/ui/RenderIf";
 import { useModalStore } from "@/store";
 import { User, ValidRol } from "@teslo/interfaces";
 import { usersService } from "@teslo/services";

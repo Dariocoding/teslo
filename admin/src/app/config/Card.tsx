@@ -1,4 +1,4 @@
-import RenderIf from "@teslo/react-ui/RenderIf";
+import RenderIf from "@/components/ui/RenderIf";
 import classNames from "classnames";
 import { IconType } from "react-icons/lib";
 import { Link } from "react-router-dom";

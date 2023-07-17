@@ -1,6 +1,6 @@
 import { translate } from "@/i18n";
 import { Provider } from "@teslo/interfaces";
-import ConfirmModal from "@teslo/react-ui/Modal/ConfirmModal";
+import ConfirmModal from "@/components/ui/Modal/ConfirmModal";
 import * as React from "react";
 
 interface IModalDeleteProviderProps {

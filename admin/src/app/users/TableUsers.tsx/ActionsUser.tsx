@@ -2,7 +2,7 @@ import { protectedRoutes } from "@/utils";
 import * as React from "react";
 import { FaEye, FaPen, FaTrash } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import RenderIf from "@teslo/react-ui/RenderIf";
+import RenderIf from "@/components/ui/RenderIf";
 import { useAuthStore } from "@/store";
 import { ValidRoles, User } from "@teslo/interfaces";
 import AuthorityCheck from "@/components/AuthorityCheck";

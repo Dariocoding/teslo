@@ -1,7 +1,7 @@
 import { translate } from "@/i18n";
 import { validPaths } from "@/utils";
 import { Order } from "@teslo/interfaces";
-import RenderIf from "@teslo/react-ui/RenderIf";
+import RenderIf from "@/components/ui/RenderIf";
 import { ordersService } from "@teslo/services";
 import dayjs from "dayjs";
 import * as React from "react";

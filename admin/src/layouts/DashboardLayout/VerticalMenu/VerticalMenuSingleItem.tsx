@@ -1,6 +1,6 @@
 import AuthorityCheck from "@/components/AuthorityCheck";
-import RenderIf from "@teslo/react-ui/RenderIf";
-import ToolTip from "@teslo/react-ui/Tooltip";
+import RenderIf from "@/components/ui/RenderIf";
+import ToolTip from "@/components/ui/Tooltip";
 import useResponsive from "@/utils/hooks/useResponsive";
 import classNames from "classnames";
 import * as React from "react";

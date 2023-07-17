@@ -11,7 +11,7 @@ import { useModalStore } from "@/store";
 import { useFetchProvider } from "../hooks/useFetchProvider";
 import HeaderViewProvider from "./HeaderViewProvider";
 import ModalDeleteProvider from "../TableProviders/ModalDeleteProvider";
-import RenderIf from "@teslo/react-ui/RenderIf";
+import RenderIf from "@/components/ui/RenderIf";
 import TableProductsProviderId from "./TableProductsByProvider";
 import { translate } from "@/i18n";
 import { useIntl } from "react-intl";

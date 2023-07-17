@@ -1,5 +1,5 @@
 import AuthLayout from "@/layouts/AuthLayout";
-import RenderIf from "@teslo/react-ui/RenderIf";
+import RenderIf from "@/components/ui/RenderIf";
 import { AiOutlineLoading } from "react-icons/ai";
 import * as React from "react";
 import { Form, Formik } from "formik";

@@ -1,14 +1,14 @@
 import * as React from "react";
 import classNames from "classnames";
 import useResponsive from "@/utils/hooks/useResponsive";
-import RenderIf from "@teslo/react-ui/RenderIf";
+import RenderIf from "@/components/ui/RenderIf";
 import "./styles/_side-nav.css";
 import Logo from "../Logo";
 import { useDashboardStore } from "./store/dashboardStore";
 
 import { useConfigApp } from "@/store";
 
-const Drawer = React.lazy(() => import("@teslo/react-ui/Drawer"));
+const Drawer = React.lazy(() => import("@/components/ui/Drawer"));
 const VerticalMenuContent = React.lazy(() => import("./VerticalMenu/VerticalMenuContent"));
 const HorizontalMenu = React.lazy(() => import("./HorizontalMenu"));
 const VerticalMenu = React.lazy(() => import("./VerticalMenu"));

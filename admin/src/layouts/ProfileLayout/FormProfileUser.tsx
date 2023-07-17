@@ -6,7 +6,7 @@ import { translate } from "@/i18n";
 import { useAuthStore, useConfigEnterpriseStore } from "@/store";
 import { capitalize } from "@/utils";
 import { User, UserDto } from "@teslo/interfaces";
-import RenderIf from "@teslo/react-ui/RenderIf";
+import RenderIf from "@/components/ui/RenderIf";
 import { Form, Formik, FormikHelpers } from "formik";
 import * as React from "react";
 import toast from "react-hot-toast";

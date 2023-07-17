@@ -1,4 +1,4 @@
-import { Tab, Tabs } from "@teslo/react-ui/Tabs";
+import { Tab, Tabs } from "@/components/ui/Tabs";
 import HeaderDashboard from "@/layouts/HeaderDashboardLayout";
 import { User, ValidRol, ValidRoles } from "@teslo/interfaces";
 import * as React from "react";

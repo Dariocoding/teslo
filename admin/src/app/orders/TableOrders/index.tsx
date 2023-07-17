@@ -1,4 +1,4 @@
-import DataTable, { HeaderDataTable } from "@teslo/react-ui/DataTable";
+import DataTable, { HeaderDataTable } from "@/components/ui/DataTable";
 import { hideLoader, showLoader } from "@/components/ui/Loader";
 import { useModalStore } from "@/store";
 import { Order } from "@teslo/interfaces";

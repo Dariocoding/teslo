@@ -1,12 +1,12 @@
 import * as React from "react";
 import { Form, Formik } from "formik";
 import ButtonFormik from "@/components/@forms/ButtonFormik";
-import RenderIf from "@teslo/react-ui/RenderIf";
+import RenderIf from "@/components/ui/RenderIf";
 import { useConfigApp } from "@/store";
 import InputFormik from "@/components/@forms/InputFormik";
 import { LoginUserDto } from "@teslo/services";
 import classNames from "classnames";
-import Checkbox from "@teslo/react-ui/Checkbox";
+import Checkbox from "@/components/ui/Checkbox";
 import { User } from "@teslo/interfaces";
 import { translate } from "@/i18n";
 import RenderMessage from "./RenderMessage";

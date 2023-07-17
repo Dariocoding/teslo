@@ -12,11 +12,11 @@ import {
 } from "@teslo/interfaces";
 import classNames from "classnames";
 import SelectsTable from "./SelectsTable";
-import Checkbox from "@teslo/react-ui/Checkbox";
-import ToolTip from "@teslo/react-ui/Tooltip";
-import Dropdown from "@teslo/react-ui/Dropdown";
-import DropdownItem from "@teslo/react-ui/Dropdown/DropdownItem";
-import RenderIf from "@teslo/react-ui/RenderIf";
+import Checkbox from "@/components/ui/Checkbox";
+import ToolTip from "@/components/ui/Tooltip";
+import Dropdown from "@/components/ui/Dropdown";
+import DropdownItem from "@/components/ui/Dropdown/DropdownItem";
+import RenderIf from "@/components/ui/RenderIf";
 import { productsService } from "@teslo/services";
 import { hideLoader, showLoader } from "@/components/ui/Loader";
 import { formatter } from "@/utils";
@@ -135,21 +135,16 @@ const handleExportPdfProducts = async (currentItems: string[]) => {
     const data: GenerarPdfType = {
       name: "Products - " + dayjs().format("DD/MM/YYYY"),
       headers: ["Title", "Custom Cod.", "Cod.", "Price", "Stock", "Brand", "Categories", "Status"],
-      rows: products.data.map((product) => {
-        if (!product?.brand?.title) {
-          console.log({ product });
-        }
-        return [
-          product?.title,
-          product?.customCode || "",
-          product?.code.toString(),
-          product?.price ? formatter.format(product?.price) : "0",
-          product?.stock ? product?.stock.toString() : (0).toString(),
-          product?.brand?.title || "",
-          product?.categories.map((category) => category.title).join(", "),
-          product?.status || "",
-        ];
-      }),
+      rows: products.data.map((product) => [
+        product?.title,
+        product?.customCode || "",
+        product?.code.toString(),
+        product?.price ? formatter.format(product?.price) : "0",
+        product?.stock ? product?.stock.toString() : (0).toString(),
+        product?.brand?.title || "",
+        product?.categories.map((category) => category.title).join(", "),
+        product?.status || "",
+      ]),
     };
     const { baseFetchPdf } = await import("@/app/config/exportsAppData/utils");
     await baseFetchPdf(data, "Products");

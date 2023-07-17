@@ -1,4 +1,4 @@
-import DataTable from "@teslo/react-ui/DataTable";
+import DataTable from "@/components/ui/DataTable";
 import * as React from "react";
 import { TablePlaceholder } from "@/components/placeholders";
 import { Provider, ValidRoles } from "@teslo/interfaces";
@@ -8,7 +8,7 @@ import { useModalStore } from "@/store";
 import FormProvider from "../forms/FormProvider";
 import { toast } from "react-hot-toast";
 import { providersService } from "@teslo/services";
-import RenderIf from "@teslo/react-ui/RenderIf";
+import RenderIf from "@/components/ui/RenderIf";
 import { useDefaultHeadingTableProviders } from "./useDefaultHeadingTableProviders";
 import { useIntl } from "react-intl";
 import AuthorityCheck from "@/components/AuthorityCheck";

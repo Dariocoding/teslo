@@ -4,7 +4,7 @@ import * as React from "react";
 import { BsDatabaseFillCheck } from "react-icons/bs";
 import FormEmail, { UpdateEmailDto } from "./FormEmail";
 import FormChatGpt, { UpdateChatgptDto } from "./FormChatGpt";
-import RenderIf from "@teslo/react-ui/RenderIf";
+import RenderIf from "@/components/ui/RenderIf";
 import { configAppService } from "@teslo/services";
 import { translate } from "@/i18n";
 

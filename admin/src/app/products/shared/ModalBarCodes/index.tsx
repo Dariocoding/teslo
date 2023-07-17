@@ -1,7 +1,7 @@
 import { Product } from "@teslo/interfaces";
-import Modal from "@teslo/react-ui/Modal";
+import Modal from "@/components/ui/Modal";
 import * as React from "react";
-import { Document, PDFViewer, Page, View, Text } from "@react-pdf/renderer";
+/* import { Document, PDFViewer, Page, View, Text } from "@react-pdf/renderer"; */
 import MyBarCode from "../MyBarCode";
 
 interface IModalBarCodesProps {
@@ -17,7 +17,7 @@ const ModalBarCodes: React.FunctionComponent<IModalBarCodesProps> = (props) => {
 
   return (
     <Modal size="lg" title={"Bar Codes"} showModal={showModal} onClose={onClose}>
-      <PDFViewer style={{ height: "500px", width: "100%" }}>
+      {/*   <PDFViewer style={{ height: "500px", width: "100%" }}>
         <Document title="BarCodes">
           {listOfProducts.map((products) => (
             <Page size="A4">
@@ -61,7 +61,7 @@ const ModalBarCodes: React.FunctionComponent<IModalBarCodesProps> = (props) => {
             </Page>
           ))}
         </Document>
-      </PDFViewer>
+      </PDFViewer> */}
     </Modal>
   );
 };

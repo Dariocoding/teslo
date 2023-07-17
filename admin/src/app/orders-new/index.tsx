@@ -7,7 +7,6 @@ interface IOrdersNewProps {}
 const OrdersNew: React.FunctionComponent<IOrdersNewProps> = (props) => {
   const {} = props;
   const { cart } = useCartStore();
-  console.log({ cart });
   return <FormContainerOrder tempProducts={cart} />;
 };
 

@@ -1,5 +1,5 @@
 import { translate } from "@/i18n";
-import { HeaderDataTable } from "@teslo/react-ui/DataTable";
+import { HeaderDataTable } from "@/components/ui/DataTable";
 
 export const useHeadingUsers = (showDni: boolean): HeaderDataTable[] => {
   let headers: HeaderDataTable[] = [
@@ -21,15 +21,9 @@ export const useHeadingUsers = (showDni: boolean): HeaderDataTable[] => {
   ];
 
   if (showDni) {
-    headers = [
-      { title: translate("users.label.dni"), field: "dniFormatted" },
-      ...headers,
-    ];
+    headers = [{ title: translate("users.label.dni"), field: "dniFormatted" }, ...headers];
   } else {
-    headers = [
-      { title: translate("users.label.ID"), field: "iduser" },
-      ...headers,
-    ];
+    headers = [{ title: translate("users.label.ID"), field: "iduser" }, ...headers];
   }
 
   return headers;

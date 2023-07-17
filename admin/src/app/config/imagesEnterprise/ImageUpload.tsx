@@ -1,5 +1,5 @@
 import Logo, { ILogoProps } from "@/layouts/Logo";
-import Upload, { IUploadProps } from "@teslo/react-ui/Upload";
+import Upload, { IUploadProps } from "@/components/ui/Upload";
 import { useFormikContext } from "formik";
 import * as React from "react";
 import { FcImageFile } from "react-icons/fc";

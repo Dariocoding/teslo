@@ -6,11 +6,11 @@ import { IMenuItem, SubNavItem } from "../data/data-menu";
 import { Collapse } from "react-collapse";
 import { useDashboardStore } from "../store/dashboardStore";
 import { Link, useNavigate } from "react-router-dom";
-import Dropdown from "@teslo/react-ui/Dropdown";
-import DropdownItem from "@teslo/react-ui/Dropdown/DropdownItem";
+import Dropdown from "@/components/ui/Dropdown";
+import DropdownItem from "@/components/ui/Dropdown/DropdownItem";
 import useResponsive from "@/utils/hooks/useResponsive";
 import { useConfigApp } from "@/store";
-import ToolTip from "@teslo/react-ui/Tooltip";
+import ToolTip from "@/components/ui/Tooltip";
 
 interface IDefaultItemProps {
   item: IMenuItem;

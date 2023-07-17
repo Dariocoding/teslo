@@ -1,4 +1,4 @@
-import RenderIf from "@teslo/react-ui/RenderIf";
+import RenderIf from "@/components/ui/RenderIf";
 import * as React from "react";
 import { ITrTempProductProps } from "./TrTempProduct";
 import SelectFormik from "@/components/@forms/SelectFormik";
@@ -20,7 +20,6 @@ const TdSizeProduct: React.FunctionComponent<ITdSizeProductProps> = (props) => {
     ? `detailOrderProducts[${idx}].size`
     : `products[${idx}].size`;
 
-  console.log({ values });
   return (
     <RenderIf isTrue={colors.enableClothesShopping}>
       <td className="px-2 py-3 text-center">

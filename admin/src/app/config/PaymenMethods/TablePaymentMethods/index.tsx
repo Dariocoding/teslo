@@ -1,5 +1,5 @@
-import DataTable, { HeaderDataTable } from "@teslo/react-ui/DataTable";
-import RenderIf from "@teslo/react-ui/RenderIf";
+import DataTable, { HeaderDataTable } from "@/components/ui/DataTable";
+import RenderIf from "@/components/ui/RenderIf";
 import { PaymentMethod, ValidRoles } from "@teslo/interfaces";
 import { paymentMethodService } from "@teslo/services";
 import classNames from "classnames";

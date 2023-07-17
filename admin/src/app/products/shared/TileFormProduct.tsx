@@ -2,7 +2,7 @@ import { TablePlaceholder } from "@/components/placeholders";
 import { translate } from "@/i18n";
 import { validPaths } from "@/utils";
 import { Brand, Category } from "@teslo/interfaces";
-import RenderIf from "@teslo/react-ui/RenderIf";
+import RenderIf from "@/components/ui/RenderIf";
 import * as React from "react";
 import { useIntl } from "react-intl";
 import { Link } from "react-router-dom";

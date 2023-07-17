@@ -1,6 +1,6 @@
 import { TablePlaceholder } from "@/components/placeholders";
 import { Bill, ValidStatusOrder } from "@teslo/interfaces";
-import DataTable from "@teslo/react-ui/DataTable";
+import DataTable from "@/components/ui/DataTable";
 import * as React from "react";
 import defaultHeadingBills from "./heading";
 import { formatter } from "@/utils";

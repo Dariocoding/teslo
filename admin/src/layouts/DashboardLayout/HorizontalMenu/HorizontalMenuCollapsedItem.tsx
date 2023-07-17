@@ -1,8 +1,8 @@
 import * as React from "react";
 import { IMenuItem, SubNavItem } from "../data/data-menu";
 import HorizontalMenuSpan from "./HorizontalMenuSpan";
-import Dropdown from "@teslo/react-ui/Dropdown";
-import DropdownItem from "@teslo/react-ui/Dropdown/DropdownItem";
+import Dropdown from "@/components/ui/Dropdown";
+import DropdownItem from "@/components/ui/Dropdown/DropdownItem";
 import { useNavigate } from "react-router-dom";
 import { FaCircleNotch } from "react-icons/fa";
 import AuthorityCheck from "@/components/AuthorityCheck";
@@ -12,9 +12,7 @@ interface IHorizontalMenuCollapsedItemProps {
   idx?: number;
 }
 
-const HorizontalMenuCollapsedItem: React.FC<
-  IHorizontalMenuCollapsedItemProps
-> = (props) => {
+const HorizontalMenuCollapsedItem: React.FC<IHorizontalMenuCollapsedItemProps> = (props) => {
   const { item } = props;
   return (
     <Dropdown
@@ -22,7 +20,7 @@ const HorizontalMenuCollapsedItem: React.FC<
       displayButton={<HorizontalMenuSpan item={item} idx={props.idx} />}
     >
       {item.subNav.map((item, idx) => (
-        <AuthorityCheck validRoles={item.permissions}>
+        <AuthorityCheck validRoles={item.permissions} key={idx}>
           <CollpasedItem item={item} key={idx} />
         </AuthorityCheck>
       ))}

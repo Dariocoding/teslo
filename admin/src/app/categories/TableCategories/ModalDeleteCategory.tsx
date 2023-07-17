@@ -1,4 +1,4 @@
-import ConfirmModal from "@teslo/react-ui/Modal/ConfirmModal";
+import ConfirmModal from "@/components/ui/Modal/ConfirmModal";
 import { Category } from "@teslo/interfaces";
 import * as React from "react";
 import { translate } from "@/i18n";
@@ -11,9 +11,7 @@ interface IModalDeleteCategoryProps {
   isLoading: boolean;
 }
 
-const ModalDeleteCategory: React.FunctionComponent<
-  IModalDeleteCategoryProps
-> = (props) => {
+const ModalDeleteCategory: React.FunctionComponent<IModalDeleteCategoryProps> = (props) => {
   const {
     category = {},
     showModalDeleteCategory,

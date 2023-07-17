@@ -1,4 +1,4 @@
-import RenderIf from "@teslo/react-ui/RenderIf";
+import RenderIf from "@/components/ui/RenderIf";
 import { PF, formatter, validPaths } from "@/utils";
 import { Product, ValidRoles } from "@teslo/interfaces";
 import dayjs from "dayjs";
@@ -9,7 +9,7 @@ import { translate } from "@/i18n";
 import { Lightbox } from "react-modal-image";
 import { IoMdFlash } from "react-icons/io";
 import { useBarCodeProduct } from "../hooks/useBarCodeProduct";
-import ToolTip from "@teslo/react-ui/Tooltip";
+import ToolTip from "@/components/ui/Tooltip";
 import { useIntl } from "react-intl";
 import AuthorityCheck from "@/components/AuthorityCheck";
 
@@ -19,9 +19,7 @@ interface IHeaderViewProductProps {
   onDeleteProduct: () => void;
 }
 
-const HeaderViewProduct: React.FunctionComponent<IHeaderViewProductProps> = (
-  props
-) => {
+const HeaderViewProduct: React.FunctionComponent<IHeaderViewProductProps> = (props) => {
   const { product, onDeleteProduct, onOpenQuickModal } = props;
   const { formatMessage: t } = useIntl();
   const [imageLightBoxUrl, setImageLightBoxUrl] = React.useState<string>(null);
@@ -29,9 +27,7 @@ const HeaderViewProduct: React.FunctionComponent<IHeaderViewProductProps> = (
     ? PF + "/product/" + product.images[0]
     : "/img/others/box.png";
 
-  const onClickContainerImages: React.MouseEventHandler<HTMLDivElement> = (
-    e
-  ) => {
+  const onClickContainerImages: React.MouseEventHandler<HTMLDivElement> = (e) => {
     const target = e.target as Element;
 
     if (target.tagName === "IMG") {
@@ -40,8 +36,7 @@ const HeaderViewProduct: React.FunctionComponent<IHeaderViewProductProps> = (
     }
   };
 
-  const { srcJsBarCode, copyImageJsBarCode, copied } =
-    useBarCodeProduct(product);
+  const { srcJsBarCode, copyImageJsBarCode, copied } = useBarCodeProduct(product);
 
   return (
     <div className="grid lg:grid-cols-12 lg:gap-8 gap-4">
@@ -52,11 +47,7 @@ const HeaderViewProduct: React.FunctionComponent<IHeaderViewProductProps> = (
           </div>
           <h6 className="text-center mb-1.5">{product.title}</h6>
           <AuthorityCheck
-            validRoles={[
-              ValidRoles.ADMIN,
-              ValidRoles.SUPERVISOR,
-              ValidRoles.SUPER_USER,
-            ]}
+            validRoles={[ValidRoles.ADMIN, ValidRoles.SUPERVISOR, ValidRoles.SUPER_USER]}
           >
             <div className="flex flex-col justify-end items-end h-full">
               <Link
@@ -71,8 +62,7 @@ const HeaderViewProduct: React.FunctionComponent<IHeaderViewProductProps> = (
                 className="mx-auto w-full btn bg-orange-500 hover:bg-orange-600 text-white btn-sm gap-2"
                 onClick={onOpenQuickModal}
               >
-                <IoMdFlash className="ml-2 text-lg" />{" "}
-                {translate("products.actions.quickEdit")}
+                <IoMdFlash className="ml-2 text-lg" /> {translate("products.actions.quickEdit")}
               </button>
 
               <button
@@ -80,8 +70,7 @@ const HeaderViewProduct: React.FunctionComponent<IHeaderViewProductProps> = (
                 className="mx-auto w-full btn btn-danger btn-sm gap-2"
                 onClick={onDeleteProduct}
               >
-                <FaTrash className="ml-2 text-lg" />{" "}
-                {translate("products.actions.delete")}
+                <FaTrash className="ml-2 text-lg" /> {translate("products.actions.delete")}
               </button>
             </div>
           </AuthorityCheck>
@@ -95,9 +84,7 @@ const HeaderViewProduct: React.FunctionComponent<IHeaderViewProductProps> = (
           </p>
 
           <p>
-            <span className="font-bold">
-              {translate("products.label.dateCreated")}:
-            </span>{" "}
+            <span className="font-bold">{translate("products.label.dateCreated")}:</span>{" "}
             {dayjs(product.dateCreated).format("DD/MM/YYYY HH:mm:ss")}
           </p>
 
@@ -106,8 +93,7 @@ const HeaderViewProduct: React.FunctionComponent<IHeaderViewProductProps> = (
           </p>
 
           <p>
-            <span className="font-bold">Price:</span>{" "}
-            {formatter.format(product.price)}
+            <span className="font-bold">Price:</span> {formatter.format(product.price)}
           </p>
 
           <p>
@@ -115,17 +101,13 @@ const HeaderViewProduct: React.FunctionComponent<IHeaderViewProductProps> = (
           </p>
 
           <p>
-            <span className="font-bold">
-              {translate("products.label.sizes")}:
-            </span>{" "}
+            <span className="font-bold">{translate("products.label.sizes")}:</span>{" "}
             {product.sizes?.join(", ")}
           </p>
 
           <RenderIf isTrue={product.status}>
             <p>
-              <span className="font-bold">
-                {translate("products.label.status")}:
-              </span>{" "}
+              <span className="font-bold">{translate("products.label.status")}:</span>{" "}
               {product.status}
             </p>
           </RenderIf>
@@ -140,9 +122,7 @@ const HeaderViewProduct: React.FunctionComponent<IHeaderViewProductProps> = (
           </RenderIf>
 
           <RenderIf isTrue={product.images?.length}>
-            <h5 className="text-center mb-2">
-              {translate("products.label.images")}
-            </h5>
+            <h5 className="text-center mb-2">{translate("products.label.images")}</h5>
             <div className="flex flex-wrap" onClick={onClickContainerImages}>
               {product.images?.map(Images)}
             </div>
@@ -150,19 +130,13 @@ const HeaderViewProduct: React.FunctionComponent<IHeaderViewProductProps> = (
         </div>
 
         <div className="flex items-center flex-col justify-start">
-          <h6 className="text-lg font-semibold">
-            {translate("products.label.barCode")}
-          </h6>
+          <h6 className="text-lg font-semibold">{translate("products.label.barCode")}</h6>
           <img src={srcJsBarCode} alt={`Product: ${product.title} Code bar`} />
           <div>
             <ToolTip
               className="btn btn-info btn-sm cursor-pointer"
               onClick={copyImageJsBarCode}
-              message={
-                copied
-                  ? `${t({ id: "app.copied" })} 🙌`
-                  : t({ id: "app.clickToCopy" })
-              }
+              message={copied ? `${t({ id: "app.copied" })} 🙌` : t({ id: "app.clickToCopy" })}
             >
               <span className="flex items-center gap-2">
                 {t({ id: "app.copy" })} <FaCopy />

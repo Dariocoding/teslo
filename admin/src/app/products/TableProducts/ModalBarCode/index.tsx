@@ -2,9 +2,9 @@ import { Product } from "@teslo/interfaces";
 import * as React from "react";
 import { FaCopy, FaFilePdf } from "react-icons/fa";
 import { useModalStore } from "@/store";
-import RenderIf from "@teslo/react-ui/RenderIf";
+import RenderIf from "@/components/ui/RenderIf";
 import { useBarCodeProduct } from "../../hooks/useBarCodeProduct";
-import ToolTip from "@teslo/react-ui/Tooltip";
+import ToolTip from "@/components/ui/Tooltip";
 import { useIntl } from "react-intl";
 
 const PdfBarCode = React.lazy(() => import("./PdfCode"));

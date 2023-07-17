@@ -2,7 +2,7 @@ import * as React from "react";
 import { BrowserRouter } from "react-router-dom";
 import AppRouter from "./components/router";
 import { PortalLoader, hideLoader } from "./components/ui/Loader";
-import RenderIf from "@teslo/react-ui/RenderIf";
+import RenderIf from "@/components/ui/RenderIf";
 import setAxiosBaseURL, {
   tokenAuth,
   configEnterpriseService,
@@ -16,7 +16,7 @@ import { IntlProvider } from "react-intl";
 import { useI18Store } from "./store/i18Store";
 import { ValidLocales, i18nTranslate } from "./i18n";
 
-const Modal = React.lazy(() => import("@teslo/react-ui/Modal"));
+const Modal = React.lazy(() => import("@/components/ui/Modal"));
 
 interface IAppProps {}
 

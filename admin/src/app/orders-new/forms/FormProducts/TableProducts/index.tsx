@@ -2,7 +2,7 @@ import * as React from "react";
 import HeadingTable from "../HeadingTable";
 import { useOrdersFormContext } from "../../FormContainer";
 import TrTempProduct from "./TrTempProduct";
-import RenderIf from "@teslo/react-ui/RenderIf";
+import RenderIf from "@/components/ui/RenderIf";
 import TfootTableProducts from "./TFootTableProducts";
 
 interface ITableProductsProps {}
