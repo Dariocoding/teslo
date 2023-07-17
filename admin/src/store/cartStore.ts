@@ -103,7 +103,6 @@ export const useCartStore = create<CartStoreValues>((set) => ({
     }
   },
   setCart(cart: DetailOrderTemp[]) {
-    console.log({ cart });
     set({ cart });
   },
 }));
