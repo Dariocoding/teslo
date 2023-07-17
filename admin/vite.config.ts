@@ -9,8 +9,8 @@ import commonjs from "@rollup/plugin-commonjs";
 import Unfonts from "unplugin-fonts";
 import { VitePWA, VitePWAOptions } from "vite-plugin-pwa";
 
-/* const topEnvFileLocation = path.join(__dirname, "..", ".env");
-dotenv.config({ path: topEnvFileLocation }); */
+const topEnvFileLocation = path.join(__dirname, "..", ".env");
+dotenv.config({ path: topEnvFileLocation });
 
 const manifestForPlugin: Partial<VitePWAOptions> = {
   registerType: "prompt",
@@ -55,24 +55,36 @@ const manifestForPlugin: Partial<VitePWAOptions> = {
 const externalPackages = ["@teslo/interfaces", "@teslo/services", "@teslo/react-ui"];
 
 // https://vitejs.dev/config/
-export default ({ mode }) => {
-  /*   process.env = {
+export default (props) => {
+  const { mode } = props;
+
+  process.env = {
     ...process.env,
     ...loadEnv(mode, topEnvFileLocation),
-  }; */
+  };
+
+  console.log({ VITE_HOST_DOMAIN: process.env.VITE_HOST_DOMAIN });
 
   return defineConfig({
+    /*  ...(process.env.VITE_HOST_DOMAIN ? { base: process.env.VITE_HOST_DOMAIN } : {}), */
+    /*  base: process.env.VITE_HOST_DOMAIN, */
     plugins: [
       react(),
       checker({ typescript: true }),
 
+      /* replace({ preventAssignment: true }),*/
       //@ts-ignore
-      replace({ preventAssignment: true }),
+      replace({
+        include: ["src/**/*.js"],
+        changed: "replaced",
+        preventAssignment: true,
+      }),
       //@ts-ignore
       commonjs({
         include: [/node_modules/, /packages/],
         requireReturnsDefault: "auto", // <---- this solves default issue
       }),
+      /*   */
       Unfonts.vite({
         custom: {
           families: [
@@ -99,6 +111,7 @@ export default ({ mode }) => {
     build: {
       commonjsOptions: {
         include: [...externalPackages],
+        exclude: [/./],
       },
       rollupOptions: {
         output: {
@@ -106,6 +119,12 @@ export default ({ mode }) => {
             vendor: ["react", "react-router-dom", "react-dom"],
             ...renderChunks(dependencies),
           },
+          entryFileNames: (assetInfo) => {
+            return "assets/js/[name].js";
+          },
+        },
+        input: {
+          app: "./index.html",
         },
       },
     },

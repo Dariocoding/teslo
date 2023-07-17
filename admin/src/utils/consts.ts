@@ -7,7 +7,7 @@ export const APP_NAME = "Teslo";
 export const APP_PHONE = "042105012";
 export const APP_EMAIL = "teslo@teslo.com";
 export const DAY_DURATION = 86400000;
-export const API_URL = "https://teslo-production.up.railway.app/"; // import.meta.env.VITE_API_URL;
+export const API_URL = import.meta.env.VITE_API_URL;
 export const PF = API_URL + "files";
 
 export const breakpoints = {

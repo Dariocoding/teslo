@@ -44,7 +44,7 @@ const TileFormProduct: React.FunctionComponent<ITileFormProductProps> = (props) 
   }
 
   return (
-    <div className="tile max-w-[500px] mx-auto">
+    <div className="tile mx-auto">
       <RenderIf isTrue={isLoading}>
         <TablePlaceholder />
       </RenderIf>
