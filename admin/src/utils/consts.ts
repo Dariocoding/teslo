@@ -11,6 +11,8 @@ export const DAY_DURATION = 86400000;
 export const API_URL = import.meta.env.VITE_API_URL;
 export const PF = API_URL + "files";
 
+/* console.log({ API_URL }); */
+
 export const breakpoints = {
   mobile: 0,
   sm: 640,

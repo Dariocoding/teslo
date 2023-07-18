@@ -75,56 +75,6 @@ const ViewUserPage: React.FunctionComponent<IViewUserPageProps> = (props) => {
           </RenderIf>
         </div>
       </div>
-      {/*  <ProfileLayout
-        user={user}
-        onSubmitUpdateUser={updateUser}
-        validRolesActions={validRolesActions}
-        canUseActions={canUseActions}
-        extraInitialValuesFormUpdate={{
-          isActive: user.isActive,
-          roles: user.roles,
-          dni: user.dni,
-          prefix: user.prefix,
-        }}
-        extraInputsFormFormUpdate={
-          <>
-            <SelectFormik
-              name="isActive"
-              options={[
-                { value: true, label: translate("users.label.status.active") },
-                { value: false, label: translate("users.label.status.inactive") },
-              ]}
-            />
-
-            <AuthorityCheck
-              validRoles={[ValidRoles.ADMIN, ValidRoles.SUPERVISOR, ValidRoles.SUPER_USER]}
-            >
-              <SelectFormik
-                multiple={true}
-                name="roles"
-                options={[
-                  {
-                    value: ValidRoles.ADMIN,
-                    label: translate("users.admin"),
-                  },
-                  {
-                    value: ValidRoles.USER,
-                    label: translate("users.customer"),
-                  },
-                ]}
-                onChange={(items: OptionReactSelect[], lastState) => {
-                  if (!items) return lastState;
-                  const copyItems = [...items];
-                  if (copyItems.length === 2) {
-                    copyItems.shift();
-                  }
-                  return copyItems.map((item) => item.value);
-                }}
-              />
-            </AuthorityCheck>
-          </>
-        }
-      /> */}
     </HeaderDashboard>
   );
 };
