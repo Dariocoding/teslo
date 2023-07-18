@@ -64,6 +64,8 @@ export default (props) => {
     ...loadEnv(mode, topEnvFileLocation),
   };
 
+  console.log({ VITE_API_URL: process.env.VITE_API_URL });
+
   return defineConfig({
     plugins: [
       react(),
