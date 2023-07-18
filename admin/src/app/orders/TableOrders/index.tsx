@@ -29,6 +29,7 @@ interface TableOrdersProps {
   showSelects?: boolean;
   fetchOrders?: (params: FindOrdersByDateDto) => Promise<AxiosResponse<Order[], any>>;
   navigateOnChageDateSelect?: boolean;
+  itemsPerPage?: number;
 }
 
 const TableOrders: React.FunctionComponent<TableOrdersProps> = (props) => {
@@ -44,6 +45,7 @@ const TableOrders: React.FunctionComponent<TableOrdersProps> = (props) => {
     showSelects,
     fetchOrders,
     navigateOnChageDateSelect,
+    itemsPerPage,
   } = props;
 
   const { formatMessage: t } = useIntl();
@@ -165,6 +167,7 @@ const TableOrders: React.FunctionComponent<TableOrdersProps> = (props) => {
 
   return (
     <DataTable
+      itemsPerPage={itemsPerPage || 50}
       placeholder={<TablePlaceholder />}
       buttons={
         <ButtonsTableOrders

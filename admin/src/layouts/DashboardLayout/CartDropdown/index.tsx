@@ -30,9 +30,7 @@ const CartDropdown: React.FunctionComponent<ICartDropdownProps> = (props) => {
           >
             <RenderIf isTrue={totalProducts <= 99 && cart.length}>
               <span className="w-[1.10rem] h-[1.10rem] flex items-center justify-center bg-blue-500 absolute -top-1 -right-1 rounded-full text-[11px] leading-none text-white font-medium">
-                <span className="mt-[1px]" suppressHydrationWarning>
-                  {totalProducts}
-                </span>
+                <span className="mt-[1px]">{totalProducts}</span>
               </span>
             </RenderIf>
 

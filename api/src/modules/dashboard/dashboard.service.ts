@@ -121,7 +121,6 @@ export class DashboardService {
     }
 
     const months = MONTHS();
-    console.log(SELECTINNERJOIN + WHERE + GROUP);
     const paymentMethods = await this.connection.query(SELECTINNERJOIN + WHERE + GROUP);
     return { year, month: months[month - 1], paymentMethods };
   }

@@ -3,6 +3,7 @@ import React from "react";
 import { settingsPages } from "@/app/config/config";
 import { providerPages } from "@/app/providers/config";
 import { billsPages } from "@/app/bills/config";
+import dayjs from "dayjs";
 export const APP_NAME = "Teslo";
 export const APP_PHONE = "042105012";
 export const APP_EMAIL = "teslo@teslo.com";
@@ -169,4 +170,14 @@ export const imageProduct = (product: Product) => {
   return product.images.length
     ? PF + "/product/" + product.images[product.images.length - 1]
     : "/img/others/box.png";
+};
+
+export const firstDayOfMonth = () => {
+  return dayjs(new Date())
+    .set("seconds", 0)
+    .set("minutes", 0)
+    .set("hours", 0)
+    .set("date", 1)
+    .set("milliseconds", 0)
+    .toDate();
 };

@@ -79,6 +79,7 @@ const AppGeneralTranslate = {
   "app.print": "Imprimir",
   "app.clean": "Limpiar",
   "app.areYouSureToDoThis": "¿Estás seguro de hacer esto?",
+  "app.remove": "Eliminar",
 };
 
 const AppSidebarTranslate = {

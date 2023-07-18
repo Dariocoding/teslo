@@ -17,16 +17,8 @@ const UsersPage: React.FunctionComponent<IUsersPageProps> = (props) => {
   const { user } = useAuthStore();
   const { data: users, setData, isFetching, refetch } = useFetcUsers();
 
-  const [selectedValue, setSelected] = React.useState<ValidRol>();
+  const [selectedValue, setSelected] = React.useState(ValidRoles.USER);
   const usersSelected = users.filter((user) => user?.roles?.includes?.(selectedValue));
-
-  React.useEffect(() => {
-    if (user?.roles?.includes?.(ValidRoles.SELLER)) {
-      setSelected(ValidRoles.USER);
-    } else {
-      setSelected(ValidRoles.ADMIN);
-    }
-  }, [user]);
 
   return (
     <HeaderDashboard

@@ -76,8 +76,6 @@ export class OrdersService {
       ...whereDateCreated,
     };
 
-    console.log({ where });
-
     return this.orderRepository.find({
       where,
       order: { idorder: "DESC" },
@@ -172,7 +170,6 @@ export class OrdersService {
         await Promise.all(
           detail.map(async (d) => {
             if (d.id) {
-              console.log({ ...d });
               await queryRunner.manager.update(DetailOrder, { id: d.id }, { ...d });
             } else {
               const newDetail = queryRunner.manager.create(DetailOrder, {

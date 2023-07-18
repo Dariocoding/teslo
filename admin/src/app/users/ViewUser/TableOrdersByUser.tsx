@@ -10,7 +10,13 @@ const TableOrdersByUser: React.FunctionComponent<ITableOrdersByUserProps> = (pro
   const { id } = props;
   const { data, setData, refetch, isFetching } = useFetchOrdersByUser(id);
   return (
-    <TableOrders orders={data} setOrders={setData} refetch={refetch} isFetching={isFetching} />
+    <TableOrders
+      itemsPerPage={10}
+      orders={data}
+      setOrders={setData}
+      refetch={refetch}
+      isFetching={isFetching}
+    />
   );
 };
 

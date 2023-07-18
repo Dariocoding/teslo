@@ -1,9 +1,6 @@
-import SelectFormik, { OptionReactSelect } from "@/components/@forms/SelectFormik";
 import Loader from "@/components/ui/Loader";
 import RenderIf from "@/components/ui/RenderIf";
 import HeaderDashboard from "@/layouts/HeaderDashboardLayout";
-import ProfileLayout from "@/layouts/ProfileLayout";
-import { useAuthStore } from "@/store";
 import classNames from "classnames";
 import * as React from "react";
 import { Navigate, useParams } from "react-router-dom";
@@ -16,22 +13,15 @@ import { usersService } from "@teslo/services";
 import { FaUser } from "react-icons/fa";
 import { useIntl } from "react-intl";
 import { translate } from "@/i18n";
-import AuthorityCheck from "@/components/AuthorityCheck";
+import CustomerProfile from "./CustomerProfile";
 
 interface IViewUserPageProps {}
-const validRolesActions = [
-  ValidRoles.ADMIN,
-  ValidRoles.SUPER_USER,
-  ValidRoles.SUPERVISOR,
-  ValidRoles.SELLER,
-] as ValidRol[];
 
 const ViewUserPage: React.FunctionComponent<IViewUserPageProps> = (props) => {
   const {} = props;
   const { formatMessage } = useIntl();
   const params = useParams();
   const { data: user, isFetching, setData, error } = useFetcUser(params.id);
-  const { user: authUser } = useAuthStore();
 
   if (isFetching) return <Loader loading={true} />;
 
@@ -53,24 +43,6 @@ const ViewUserPage: React.FunctionComponent<IViewUserPageProps> = (props) => {
 
   if (!Object.keys(user).length) return <Loader loading={true} />;
 
-  const canUseActions =
-    ((user.iduser !== authUser.iduser &&
-      (((user.roles.includes(ValidRoles.SUPER_USER) ||
-        user.roles.includes(ValidRoles.ADMIN) ||
-        user.roles.includes(ValidRoles.SUPERVISOR) ||
-        user.roles.includes(ValidRoles.SELLER)) &&
-        authUser.roles?.includes(ValidRoles.SUPER_USER)) ||
-        ((user.roles.includes(ValidRoles.ADMIN) ||
-          user.roles.includes(ValidRoles.SUPERVISOR) ||
-          user.roles.includes(ValidRoles.SELLER)) &&
-          authUser.roles.includes(ValidRoles.ADMIN)) ||
-        ((user.roles.includes(ValidRoles.SUPERVISOR) || user.roles.includes(ValidRoles.SELLER)) &&
-          authUser.roles.includes(ValidRoles.SUPERVISOR)))) ||
-      user.roles.includes(ValidRoles.USER)) &&
-    !user.roles.includes(ValidRoles.SUPER_USER);
-
-  const isValidRol = authUser.roles?.some((role) => validRolesActions.includes(role));
-
   return (
     <HeaderDashboard
       to={validPaths.users.path}
@@ -84,7 +56,26 @@ const ViewUserPage: React.FunctionComponent<IViewUserPageProps> = (props) => {
         },
       ]}
     >
-      <ProfileLayout
+      <div className="flex flex-col xl:flex-row gap-4">
+        <div>
+          <CustomerProfile user={user} setUser={setData} />
+        </div>
+        <div className="w-full">
+          <RenderIf
+            isTrue={
+              true
+              /* !user?.roles?.includes(ValidRoles.SUPER_USER) &&
+					!user?.roles?.includes(ValidRoles.ADMIN) */
+            }
+          >
+            <div className={classNames("tile")}>
+              <h6 className="mb-4">{translate("orders.title")}</h6>
+              <TableOrdersByUser id={params.id} />
+            </div>
+          </RenderIf>
+        </div>
+      </div>
+      {/*  <ProfileLayout
         user={user}
         onSubmitUpdateUser={updateUser}
         validRolesActions={validRolesActions}
@@ -133,18 +124,7 @@ const ViewUserPage: React.FunctionComponent<IViewUserPageProps> = (props) => {
             </AuthorityCheck>
           </>
         }
-      />
-      <RenderIf
-        isTrue={
-          true
-          /* !user?.roles?.includes(ValidRoles.SUPER_USER) &&
-					!user?.roles?.includes(ValidRoles.ADMIN) */
-        }
-      >
-        <div className={classNames("tile", canUseActions && isValidRol ? "mt-10" : "mt-64")}>
-          <TableOrdersByUser id={params.id} />
-        </div>
-      </RenderIf>
+      /> */}
     </HeaderDashboard>
   );
 };

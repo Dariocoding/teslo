@@ -1,4 +1,4 @@
-import { validPaths } from "@/utils";
+import { firstDayOfMonth, validPaths } from "@/utils";
 import RenderIf from "@/components/ui/RenderIf";
 import * as React from "react";
 import { FaPlus, FaSearch } from "react-icons/fa";
@@ -22,7 +22,7 @@ const ButtonsTableBills: React.FunctionComponent<IButtonsTableBillsProps> = (pro
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const [from, setFrom] = React.useState<Date>(
-    searchParams.get("from") ? new Date(searchParams.get("from")) : new Date()
+    searchParams.get("from") ? new Date(searchParams.get("from")) : firstDayOfMonth()
   );
   const [to, setTo] = React.useState<Date>(
     searchParams.get("to") ? new Date(searchParams.get("to")) : new Date()

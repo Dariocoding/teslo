@@ -19,9 +19,8 @@ interface IDataTableProps<T> {
   showAll?: boolean;
   onChangePage?(): void;
   render?(data: T[]): any[];
+  itemsPerPage?: number;
 }
-
-const itemsPerPage = 10;
 
 function DataTable<T = any>(props: React.PropsWithChildren<IDataTableProps<T>>) {
   const {
@@ -33,6 +32,7 @@ function DataTable<T = any>(props: React.PropsWithChildren<IDataTableProps<T>>) 
     showAll = false,
     onChangePage,
     render,
+    itemsPerPage = 10,
   } = props;
   const md = useMedia("(max-width: 768px)");
   const [q, setQ] = React.useState("");

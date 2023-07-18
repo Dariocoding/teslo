@@ -7,6 +7,7 @@ import "./styles/buttons.styles.css";
 import "./styles/typography.styles.css";
 import "./styles/form.styles.css";
 import "./styles/table.styles.css";
+import "./styles/_card.css";
 import "unfonts.css";
 import { queryClient } from "./utils";
 import { QueryClientProvider } from "@tanstack/react-query";

@@ -111,6 +111,7 @@ const TableUsers: React.FunctionComponent<ITableUsersProps> = (props) => {
   return (
     <>
       <DataTable
+        itemsPerPage={20}
         showResponsive={showResponsive}
         placeholder={<TablePlaceholder />}
         buttons={

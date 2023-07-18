@@ -37,7 +37,7 @@ const defaultToastOptions: DefaultToastOptions = {
       color: "#fff",
     },
   },
-  duration: 7500,
+  duration: 3000,
 };
 
 const App: React.FunctionComponent<IAppProps> = (props) => {

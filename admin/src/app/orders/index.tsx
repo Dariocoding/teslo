@@ -1,11 +1,12 @@
 import HeaderDashboard from "@/layouts/HeaderDashboardLayout";
-import { protectedRoutes, validPaths } from "@/utils";
+import { firstDayOfMonth, protectedRoutes, validPaths } from "@/utils";
 import * as React from "react";
 import { useFetchOrders } from "./hooks/useFetchOrders";
 import TableOrders from "./TableOrders";
 import { RiMoneyDollarCircleFill } from "react-icons/ri";
 import { useSearchParams } from "react-router-dom";
 import { translate } from "@/i18n";
+import dayjs from "dayjs";
 
 interface IOrdersPageProps {}
 
@@ -15,7 +16,7 @@ const OrdersPage: React.FunctionComponent<IOrdersPageProps> = (props) => {
   const fromUrl = searchParams.get("from");
   const toUrl = searchParams.get("to");
   const { data, isFetching, refetch, setData } = useFetchOrders({
-    from: fromUrl ? new Date(fromUrl) : new Date(),
+    from: fromUrl ? new Date(fromUrl) : firstDayOfMonth(),
     to: toUrl ? new Date(toUrl) : new Date(),
   });
 

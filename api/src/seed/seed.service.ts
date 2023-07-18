@@ -313,7 +313,6 @@ export class SeedService {
     const user = await this.userRepository.findOne({
       where: { email: "darioflores170@gmail.com" },
     });
-    console.log(products.length);
     await Promise.all(
       products.map(async (p) => {
         try {

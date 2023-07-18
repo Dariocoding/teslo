@@ -60,7 +60,6 @@ export class UsersService {
     let whereUserRoles: FindOptionsWhere<User> = {};
     if (user.roles?.includes(ValidRoles.SELLER)) {
       whereUserRoles.roles = ArrayContains<ValidRol>([ValidRoles.USER]);
-      console.log(whereUserRoles);
     }
 
     return this.userRepository.find({

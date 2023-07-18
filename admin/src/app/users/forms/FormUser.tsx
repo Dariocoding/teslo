@@ -13,18 +13,27 @@ import useTimeOutMessage from "@/utils/hooks/useTimeOutMessage";
 import { AxiosResponse } from "axios";
 import { useIntl } from "react-intl";
 import { translate } from "@/i18n";
-import { useConfigApp, useConfigEnterpriseStore } from "@/store";
+import { useConfigEnterpriseStore } from "@/store";
 import { capitalize } from "@/utils";
 import Selects from "./Selects";
+import classNames from "classnames";
 
 interface IFormUserProps {
   onSuccess?(user: User): void;
   user?: User;
   defaultValidRole?: ValidRol[];
+  fullWidthDni?: boolean;
+  renderRoles?: boolean;
 }
 
 const FormUser: React.FunctionComponent<IFormUserProps> = (props) => {
-  const { onSuccess, defaultValidRole = [ValidRoles.USER], user: userToUpdate } = props;
+  const {
+    onSuccess,
+    defaultValidRole = [ValidRoles.USER],
+    user: userToUpdate,
+    fullWidthDni,
+    renderRoles = true,
+  } = props;
   const status = userToUpdate ? "update" : "create";
   const { formatMessage } = useIntl();
   const { configEnterprise } = useConfigEnterpriseStore();
@@ -119,7 +128,7 @@ const FormUser: React.FunctionComponent<IFormUserProps> = (props) => {
           </RenderIf>
 
           <RenderIf isTrue={includesRolUser(values)}>
-            <div className="grid lg:grid-cols-4 lg:gap-4">
+            <div className={classNames(!fullWidthDni && "grid lg:grid-cols-4 lg:gap-4")}>
               <div className="lg:col-span-3">
                 <div className="flex items-center">
                   <SelectFormik
@@ -182,7 +191,7 @@ const FormUser: React.FunctionComponent<IFormUserProps> = (props) => {
             placeholder={translate("users.placeholder.password")}
           />
 
-          <Selects />
+          <Selects renderRoles={renderRoles} />
 
           <ButtonFormik full className="btn-primary btn-sm">
             {status === "create" ? translate("users.add") : translate("users.edit")}

@@ -51,6 +51,7 @@ const DataTableBills: React.FC<IDataTableBillsProps> = (props) => {
 
   return (
     <DataTable
+      itemsPerPage={20}
       buttons={
         <ButtonsTableBills
           setBills={setBills}

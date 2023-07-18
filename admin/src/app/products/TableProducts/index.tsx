@@ -62,6 +62,7 @@ const TableProducts: React.FunctionComponent<ITableProductsProps> = (props) => {
   return (
     <React.Fragment>
       <DataTable
+        itemsPerPage={20}
         onChangePage={() => setCurrentItemsSelected([])}
         render={(products) =>
           mapProducts({

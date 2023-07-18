@@ -14,10 +14,17 @@ interface IHorizontalMenuCollapsedItemProps {
 
 const HorizontalMenuCollapsedItem: React.FC<IHorizontalMenuCollapsedItemProps> = (props) => {
   const { item } = props;
+  const navigate = useNavigate();
   return (
     <Dropdown
       isRelativeContainer={false}
-      displayButton={<HorizontalMenuSpan item={item} idx={props.idx} />}
+      displayButton={
+        <HorizontalMenuSpan
+          onClick={() => item.path && navigate(item.path)}
+          item={item}
+          idx={props.idx}
+        />
+      }
     >
       {item.subNav.map((item, idx) => (
         <AuthorityCheck validRoles={item.permissions} key={idx}>

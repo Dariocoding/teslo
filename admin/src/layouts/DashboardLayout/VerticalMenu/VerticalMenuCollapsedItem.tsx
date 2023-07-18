@@ -36,13 +36,17 @@ const LinkSubNavItem: React.FC<{ item: SubNavItem }> = ({ item }) => {
 
 const DefaultItem: React.FunctionComponent<IDefaultItemProps> = (props) => {
   const { item } = props;
+  const navigate = useNavigate();
   const title = item.title();
   const isCollapsed = useDashboardStore((state) => state.isCollapsed);
   const setExpanded = useDashboardStore((state) => state.setExpanded);
   const expanded = useDashboardStore((state) => state.expanded);
   const { desktop } = useResponsive();
   const isExpanded = expanded === title;
-  const toggleExpand = () => setExpanded(isExpanded ? null : title);
+  const toggleExpand = () => {
+    !isExpanded && item.path && navigate(item.path);
+    setExpanded(isExpanded ? null : title);
+  };
   const { colors } = useConfigApp();
 
   return (

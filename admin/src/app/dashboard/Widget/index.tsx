@@ -69,7 +69,11 @@ const StatusCard = styled.div<{ backgroundHoverColor: string }>`
     width: 100%;
     padding-top: 100%;
     border-radius: 50%;
-    background-image: linear-gradient(to top right, #000, ${(props) => props.backgroundHoverColor});
+    background-image: linear-gradient(
+      to top right,
+      #ffffff,
+      ${(props) => props.backgroundHoverColor}
+    );
     position: absolute;
     left: -50%;
     top: 0;

@@ -23,7 +23,7 @@ const WidgetsDashboardAdmin: React.FunctionComponent<IWidgetsDashboardAdminProps
         value={totales.totalCategories}
         path={protectedRoutes.categories.path}
         colouredIcon={"#04ccd6"}
-        backgroundIcon="bg-cyan-900"
+        backgroundIcon="bg-cyan-600"
       />
 
       <WidgetDashboard
@@ -32,7 +32,7 @@ const WidgetsDashboardAdmin: React.FunctionComponent<IWidgetsDashboardAdminProps
         value={totales.totalProducts}
         path={protectedRoutes.products.path}
         colouredIcon={"#ff5252"}
-        backgroundIcon="bg-red-900"
+        backgroundIcon="bg-red-600"
       />
 
       <WidgetDashboard
@@ -40,8 +40,8 @@ const WidgetsDashboardAdmin: React.FunctionComponent<IWidgetsDashboardAdminProps
         Icon={FaUsers}
         value={totales.totalUsers}
         path={protectedRoutes.users.path}
-        colouredIcon={"#40407a"}
-        backgroundIcon="bg-purple-900"
+        colouredIcon={"#7474f7"}
+        backgroundIcon="bg-purple-600"
       />
 
       <WidgetDashboard
@@ -50,7 +50,7 @@ const WidgetsDashboardAdmin: React.FunctionComponent<IWidgetsDashboardAdminProps
         value={totales.totalOrders}
         path={protectedRoutes.orders.path}
         colouredIcon={"#3ae374"}
-        backgroundIcon="bg-green-900"
+        backgroundIcon="bg-green-600"
       />
     </React.Fragment>
   );

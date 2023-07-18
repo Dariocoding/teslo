@@ -1,17 +1,8 @@
 import { validPaths } from "@/utils";
 import { ValidRol, ValidRoles } from "@teslo/interfaces";
 import React from "react";
-import {
-  FaBoxes,
-  FaHome,
-  FaUsers,
-  FaStore,
-  FaCogs,
-  FaFileInvoiceDollar,
-} from "react-icons/fa";
-import VerticalMenuIcon, {
-  IVerticalMenuIconProps,
-} from "../VerticalMenu/VerticalMenuIcon";
+import { FaBoxes, FaHome, FaUsers, FaStore, FaCogs, FaFileInvoiceDollar } from "react-icons/fa";
+import VerticalMenuIcon, { IVerticalMenuIconProps } from "../VerticalMenu/VerticalMenuIcon";
 import { translate } from "@/i18n";
 
 export interface IMenuItem {
@@ -47,6 +38,7 @@ const MenuItems: IMenuItem[] = [
         <FaUsers />
       </VerticalMenuIcon>
     ),
+
     permissions: [
       ValidRoles.ADMIN,
       ValidRoles.SUPER_USER,
@@ -63,6 +55,7 @@ const MenuItems: IMenuItem[] = [
         <FaBoxes />
       </VerticalMenuIcon>
     ),
+    path: validPaths.products.path,
     permissions: "*",
     subNav: [
       {
@@ -83,11 +76,7 @@ const MenuItems: IMenuItem[] = [
       {
         title: () => translate("sidebar.providers"),
         path: validPaths.providers.path,
-        permissions: [
-          ValidRoles.ADMIN,
-          ValidRoles.SUPERVISOR,
-          ValidRoles.SUPER_USER,
-        ],
+        permissions: [ValidRoles.ADMIN, ValidRoles.SUPERVISOR, ValidRoles.SUPER_USER],
       },
     ],
   },
@@ -99,6 +88,7 @@ const MenuItems: IMenuItem[] = [
         <FaStore />
       </VerticalMenuIcon>
     ),
+    path: validPaths.orders.path,
     permissions: "*",
     subNav: [
       {
@@ -121,11 +111,8 @@ const MenuItems: IMenuItem[] = [
         <FaFileInvoiceDollar />
       </VerticalMenuIcon>
     ),
-    permissions: [
-      ValidRoles.ADMIN,
-      ValidRoles.SUPERVISOR,
-      ValidRoles.SUPER_USER,
-    ],
+    path: validPaths.bills.path,
+    permissions: [ValidRoles.ADMIN, ValidRoles.SUPERVISOR, ValidRoles.SUPER_USER],
     subNav: [
       {
         title: () => translate("sidebar.bills"),
@@ -147,11 +134,7 @@ const MenuItems: IMenuItem[] = [
         <FaCogs />
       </VerticalMenuIcon>
     ),
-    permissions: [
-      ValidRoles.ADMIN,
-      ValidRoles.SUPER_USER,
-      ValidRoles.SUPERVISOR,
-    ],
+    permissions: [ValidRoles.ADMIN, ValidRoles.SUPER_USER, ValidRoles.SUPERVISOR],
     path: validPaths.settings.path,
   },
 ];

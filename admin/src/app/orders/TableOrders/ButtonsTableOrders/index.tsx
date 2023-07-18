@@ -1,5 +1,5 @@
 import { translate } from "@/i18n";
-import { validPaths } from "@/utils";
+import { firstDayOfMonth, validPaths } from "@/utils";
 import { Order } from "@teslo/interfaces";
 import RenderIf from "@/components/ui/RenderIf";
 import { ordersService } from "@teslo/services";
@@ -12,6 +12,7 @@ import { Link, createSearchParams, useNavigate, useSearchParams } from "react-ro
 import SelectOrdersFromTo from "./SelectsFromToOrders";
 import { AxiosResponse } from "axios";
 import { FindOrdersByDateDto } from "@teslo/services/dist/services/orders-service/interfaces";
+import classNames from "classnames";
 
 interface IButtonsTableOrdersProps {
   refetch?(): void;
@@ -37,7 +38,7 @@ const ButtonsTableOrders: React.FunctionComponent<IButtonsTableOrdersProps> = (p
   const [searchParams] = useSearchParams();
   const fromUrl = searchParams.get("from");
   const toUrl = searchParams.get("to");
-  const [from, setFrom] = React.useState<Date>(fromUrl ? new Date(fromUrl) : new Date());
+  const [from, setFrom] = React.useState<Date>(fromUrl ? new Date(fromUrl) : firstDayOfMonth());
   const [to, setTo] = React.useState<Date>(toUrl ? new Date(new Date(toUrl)) : new Date());
 
   const fetchData = React.useCallback(async () => {
@@ -67,7 +68,12 @@ const ButtonsTableOrders: React.FunctionComponent<IButtonsTableOrdersProps> = (p
 
   return (
     <div className="w-full flex items-center justify-start flex-wrap pb-2 sm:flex-row flex-col sm:mb-0 mb-2">
-      <div className="flex items-end justify-start sm:h-[50px] sm:mb-0 mb-2">
+      <div
+        className={classNames(
+          "flex items-end justify-start sm:mb-0 mb-2",
+          showSelects && "sm:h-[50px]"
+        )}
+      >
         <Link to={validPaths.newOrder.path} className="btn btn-primary btn-xs mb-0">
           <FaPlus />
         </Link>
