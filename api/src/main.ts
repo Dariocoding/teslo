@@ -54,7 +54,7 @@ async function bootstrap() {
 
   app.enableCors();
 
-  await app.listen(process.env.PORT);
+  await app.listen(process.env.PORT, "0.0.0.0");
   logger.log(`App running on port ${process.env.PORT}`);
   logger.log(`Server ready at ${await app.getUrl()}`);
 }
