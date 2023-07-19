@@ -4,10 +4,16 @@ import { ValidationPipe, Logger } from "@nestjs/common";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import { SwaggerTheme } from "swagger-themes";
 import { AppModule } from "./app.module";
-import type { Request, Response, NextFunction } from "express";
+import { FastifyAdapter, NestFastifyApplication } from "@nestjs/platform-fastify";
+import * as compression from "compression";
+import * as os from "os";
+const cluster = require("node:cluster");
+const numCPUs = os.cpus().length;
+
+console.log({ numCPUs });
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, { cors: true });
+  const app = await NestFactory.create(AppModule, new FastifyAdapter({}));
   const logger = new Logger("Bootstrap");
 
   app.useGlobalPipes(
@@ -16,6 +22,7 @@ async function bootstrap() {
       forbidNonWhitelisted: true,
     })
   );
+  app.use(compression());
 
   const config = new DocumentBuilder()
     .setTitle("Teslo RESTFul API")
@@ -45,24 +52,23 @@ async function bootstrap() {
     },
   });
 
-  app.use((req: Request, res: Response, next: NextFunction) => {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header(
-      "Access-Control-Allow-Methods",
-      "GET, POST, OPTIONS, PUT, PATCH, DELETE"
-    );
-    res.header(
-      "Access-Control-Allow-Headers",
-      "x-access-token, Origin, X-Requested-With, Content-Type, Accept"
-    );
-
-    next();
-  });
-
   app.enableCors();
 
   await app.listen(process.env.PORT);
   logger.log(`App running on port ${process.env.PORT}`);
+  logger.log(`Server ready at ${await app.getUrl()}`);
 }
 
-bootstrap();
+if (cluster.isMaster) {
+  console.log(`Master server started on ${process.pid}`);
+  for (let i = 0; i < numCPUs; i++) {
+    cluster.fork();
+  }
+  cluster.on("exit", (worker, code, signal) => {
+    console.log(`Worker ${worker.process.pid} died. Restarting`);
+    cluster.fork();
+  });
+} else {
+  console.log(`Cluster server started on ${process.pid}`);
+  bootstrap();
+}

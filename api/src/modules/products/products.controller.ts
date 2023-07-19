@@ -21,7 +21,8 @@ import { FindOperator, ILike, In } from "typeorm";
 import { PaginationProductsDto } from "./dto/pagination.products.dto";
 import { CreateProductDto } from "./dto/create-product.dto";
 import { FiltersProductDto } from "./dto/filters.product.dto";
-
+/* import * as microprofiler from "microprofiler";
+ */
 @ApiTags("3 - Products")
 @Controller("products")
 export class ProductsController {

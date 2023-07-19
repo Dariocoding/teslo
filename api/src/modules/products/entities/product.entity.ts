@@ -115,7 +115,6 @@ export class Product {
 
   @ApiProperty()
   @ManyToMany(() => Provider, (provider) => provider.products, {
-    eager: true,
     onDelete: "CASCADE",
   })
   providers: Provider[];

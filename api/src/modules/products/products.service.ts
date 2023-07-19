@@ -1,6 +1,14 @@
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { ArrayContains, DataSource, FindOptionsWhere, In, Repository } from "typeorm";
+import {
+  ArrayContains,
+  DataSource,
+  FindOptionsRelations,
+  FindOptionsSelect,
+  FindOptionsWhere,
+  In,
+  Repository,
+} from "typeorm";
 import { CreateProductDto } from "./dto/create-product.dto";
 import { UpdateProductDto } from "./dto/update-product.dto";
 import { validate as isUUID } from "uuid";
@@ -10,6 +18,22 @@ import { handleDBErrors } from "src/common/utils/handleDBErros";
 import { stringToSlug } from "src/common/utils/string-to-slug";
 import { PaginationProductsDto } from "./dto/pagination.products.dto";
 import { FiltersProductDto } from "./dto/filters.product.dto";
+import { Provider } from "../providers/entities/provider.entity";
+import { Category } from "../categories/entities/category.entity";
+import { Brand } from "../brands/entities/brand.entity";
+
+const selectArrProducts: FindOptionsSelect<Product> = {
+  title: true,
+  price: true,
+  sizes: true,
+  slug: true,
+  status: true,
+  stock: true,
+  code: true,
+  customCode: true,
+  gender: true,
+  id: true,
+};
 
 @Injectable()
 export class ProductsService {
@@ -65,7 +89,9 @@ export class ProductsService {
   async findAll(where?: FindOptionsWhere<Product> | FindOptionsWhere<Product>[]) {
     const products = await this.productRepository.find({
       where,
+      select: selectArrProducts,
       order: { code: "DESC" },
+      relations: { providers: true },
     });
 
     return products.map((product) => ({
@@ -78,6 +104,7 @@ export class ProductsService {
     const products = await this.productRepository.find({
       where: { categories: { idcategory } },
       order: { dateCreated: "DESC" },
+      relations: { providers: true },
     });
 
     return products.map((product) => ({
@@ -90,6 +117,7 @@ export class ProductsService {
     const products = await this.productRepository.find({
       where: { brand: { idbrand } },
       order: { dateCreated: "DESC" },
+      relations: { providers: true },
     });
 
     return products.map((product) => ({
@@ -107,6 +135,7 @@ export class ProductsService {
         providers: providerID && { idprovider: providerID },
       },
       order: { dateCreated: "DESC" },
+      relations: { providers: true },
     });
 
     return products.map((product) => ({
@@ -119,6 +148,7 @@ export class ProductsService {
     const products = await this.productRepository.find({
       where: { providers: { idprovider } },
       order: { dateCreated: "DESC" },
+      relations: { providers: true },
     });
 
     return products.map((product) => ({
@@ -131,10 +161,14 @@ export class ProductsService {
     let product: Product;
 
     if (isUUID(term)) {
-      product = await this.productRepository.findOneBy({ id: term });
+      product = await this.productRepository.findOne({
+        where: { id: term },
+        relations: { providers: true },
+      });
     } else {
       product = await this.productRepository.findOne({
         where: [{ title: term.toUpperCase() }, { slug: stringToSlug(term) }],
+        relations: { providers: true },
       });
     }
 
