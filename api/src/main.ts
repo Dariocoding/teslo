@@ -4,8 +4,8 @@ import { ValidationPipe, Logger, INestApplication } from "@nestjs/common";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import { SwaggerTheme } from "swagger-themes";
 import { AppModule } from "./app.module";
-import { FastifyAdapter } from "@nestjs/platform-fastify";
-import { NestFastifyApplication } from "@nestjs/platform-fastify";
+/* import { FastifyAdapter } from "@nestjs/platform-fastify";
+import { NestFastifyApplication } from "@nestjs/platform-fastify"; */
 import * as compression from "compression";
 import * as os from "os";
 

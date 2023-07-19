@@ -37,7 +37,7 @@ import { PdfModule } from "./pdf/pdf.module";
       password: process.env.DB_PASSWORD,
       autoLoadEntities: true,
       synchronize: true,
-      logging: true,
+      logging: false,
     }),
 
     ProductsModule,
