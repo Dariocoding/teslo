@@ -96,6 +96,7 @@ export class DashboardService {
       where: { ...whereUser },
       order: { idorder: "DESC" },
       relations: { user: true },
+      take: 10,
     });
   }
 

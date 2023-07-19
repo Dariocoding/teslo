@@ -1,9 +1,9 @@
 import { Controller, Post, Res, Body, Query } from "@nestjs/common";
 import { PdfService } from "./pdf.service";
 import { ApiTags } from "@nestjs/swagger";
-import { Response } from "express";
 import PDFDocument from "pdfkit-table";
 import { GenerarPdfType } from "@teslo/interfaces";
+import { FastifyReply } from "fastify";
 
 type Table = Parameters<PDFDocument["table"]>[0];
 
@@ -13,7 +13,7 @@ export class PdfController {
   constructor(private readonly pdfService: PdfService) {}
 
   @Post("/table")
-  async generarExcel(@Res() res: Response, @Body() body: GenerarPdfType) {
+  async generarExcel(@Res() res: FastifyReply["raw"], @Body() body: GenerarPdfType) {
     const { name: title, headers, rows } = body;
     const doc = new PDFDocument({
       size: "A4",
@@ -35,6 +35,7 @@ export class PdfController {
     doc.on("data", buffers.push.bind(buffers));
     doc.on("end", () => {
       let pdfData = Buffer.concat(buffers);
+
       res
         .writeHead(200, {
           "Content-Length": Buffer.byteLength(pdfData),

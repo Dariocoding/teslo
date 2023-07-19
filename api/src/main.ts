@@ -1,28 +1,27 @@
 //@ts-check
 import { NestFactory } from "@nestjs/core";
-import { ValidationPipe, Logger } from "@nestjs/common";
+import { ValidationPipe, Logger, INestApplication } from "@nestjs/common";
 import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 import { SwaggerTheme } from "swagger-themes";
 import { AppModule } from "./app.module";
-import { FastifyAdapter, NestFastifyApplication } from "@nestjs/platform-fastify";
+import { FastifyAdapter } from "@nestjs/platform-fastify";
+import { NestFastifyApplication } from "@nestjs/platform-fastify";
 import * as compression from "compression";
 import * as os from "os";
+
 const cluster = require("node:cluster");
 const numCPUs = os.cpus().length;
 
-console.log({ numCPUs });
-
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, new FastifyAdapter({}));
+  const app = await NestFactory.create(AppModule, { cors: true });
   const logger = new Logger("Bootstrap");
-
+  /* 
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
       forbidNonWhitelisted: true,
     })
-  );
-  app.use(compression());
+  ); */
 
   const config = new DocumentBuilder()
     .setTitle("Teslo RESTFul API")
@@ -52,12 +51,15 @@ async function bootstrap() {
     },
   });
 
+  app.use(compression());
   app.enableCors();
 
-  await app.listen(process.env.PORT, "0.0.0.0");
+  await app.listen(process.env.PORT);
   logger.log(`App running on port ${process.env.PORT}`);
   logger.log(`Server ready at ${await app.getUrl()}`);
 }
+
+/* bootstrap(); */
 
 if (cluster.isMaster) {
   console.log(`Master server started on ${process.pid}`);
