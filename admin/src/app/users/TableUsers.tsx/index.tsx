@@ -13,9 +13,8 @@ import { translate } from "@/i18n";
 import { useIntl } from "react-intl";
 import { useHeadingUsers } from "./useHeadingUsers";
 import Swal from "sweetalert2";
-
-const FormUser = React.lazy(() => import("../forms/FormUser"));
-const ModalDeleteUser = React.lazy(() => import("./ModalDeleteUser"));
+import FormUser from "../forms/FormUser";
+import ModalDeleteUser from "./ModalDeleteUser";
 
 interface ITableUsersProps {
   users: User[];
@@ -79,11 +78,7 @@ const TableUsers: React.FunctionComponent<ITableUsersProps> = (props) => {
 
     setModal({
       title: formatMessage({ id: "users.edit" }),
-      children: (
-        <React.Suspense fallback={<></>}>
-          <FormUser user={user} onSuccess={onSuccess} />
-        </React.Suspense>
-      ),
+      children: <FormUser user={user} onSuccess={onSuccess} />,
       size: "md",
     });
   }
@@ -150,15 +145,13 @@ const TableUsers: React.FunctionComponent<ITableUsersProps> = (props) => {
       />
 
       <RenderIf isTrue={showModalDeleteUser}>
-        <React.Suspense fallback={<></>}>
-          <ModalDeleteUser
-            isLoading={isLoadingDeleteUser}
-            user={stateUserDelete}
-            showModalDeleteUser={showModalDeleteUser}
-            onAcceptDeleteUser={onAcceptDeleteUser}
-            onCloseModalDelete={onCloseModalDelete}
-          />
-        </React.Suspense>
+        <ModalDeleteUser
+          isLoading={isLoadingDeleteUser}
+          user={stateUserDelete}
+          showModalDeleteUser={showModalDeleteUser}
+          onAcceptDeleteUser={onAcceptDeleteUser}
+          onCloseModalDelete={onCloseModalDelete}
+        />
       </RenderIf>
     </>
   );

@@ -79,6 +79,7 @@ const AppGeneralTranslate = {
   "app.submit": "Submit",
   "app.print": "Print",
   "app.clean": "Clean",
+  "app.remove": "Remove",
   "app.areYouSureToDoThis": "Are you sure to do this.",
 };
 
