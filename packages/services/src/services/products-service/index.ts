@@ -1,6 +1,6 @@
 import { Product, ProductDto } from "@teslo/interfaces";
 import { axiosClient } from "../../config/axios";
-import { FiltersAllProductDto, PaginationProductsDto } from "./interfaces";
+import { FiltersAllProductDto, OptimizeProductDto, PaginationProductsDto } from "./interfaces";
 import { AxiosRequestConfig } from "axios";
 
 export const productsService = {
@@ -20,8 +20,8 @@ export const productsService = {
   selectProducts: (ids: string[]) => axiosClient.post<Product[]>("/products/select/", ids),
   updateProduct: (idproducto: string, productDto: ProductDto) =>
     axiosClient.put<Product>(`/products/${idproducto}`, productDto),
-  search: (term: string, config?: AxiosRequestConfig<string>) =>
-    axiosClient.get<Product[]>("/products/search/" + term, config),
+  search: (term: string, config?: AxiosRequestConfig<string>, params?: OptimizeProductDto) =>
+    axiosClient.get<Product[]>("/products/search/" + term, { ...(config || {}), params }),
   deleteProduct: (idproducto: string) => axiosClient.delete(`/products/${idproducto}`),
 };
 

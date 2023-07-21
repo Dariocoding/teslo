@@ -6,23 +6,23 @@ import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity("detail-temp-order")
 export class DetailTempOrder {
-	@ApiProperty()
-	@PrimaryGeneratedColumn()
-	id: number;
+  @ApiProperty()
+  @PrimaryGeneratedColumn()
+  id: number;
 
-	@ApiProperty({ type: () => User })
-	@ManyToOne(() => User, user => user.orders)
-	userOrder?: User;
+  @ApiProperty({ type: () => User })
+  @ManyToOne(() => User, (user) => user.orders)
+  userOrder?: User;
 
-	@ApiProperty({ type: () => Product })
-	@ManyToOne(() => Product, product => product.detailTempOrders, { eager: true })
-	product?: Product;
+  @ApiProperty({ type: () => Product })
+  @ManyToOne(() => Product, (product) => product.detailTempOrders)
+  product?: Product;
 
-	@ApiProperty()
-	@Column({ type: "float" })
-	qty: number;
+  @ApiProperty()
+  @Column({ type: "float" })
+  qty: number;
 
-	@ApiProperty()
-	@Column({ nullable: true })
-	size: Size;
+  @ApiProperty()
+  @Column({ nullable: true })
+  size: Size;
 }

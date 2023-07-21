@@ -21,6 +21,7 @@ import { FindOperator, ILike, In } from "typeorm";
 import { PaginationProductsDto } from "./dto/pagination.products.dto";
 import { CreateProductDto } from "./dto/create-product.dto";
 import { FiltersProductDto } from "./dto/filters.product.dto";
+import { OptimizeProduct } from "./dto/optimze-product.dto";
 /* import * as microprofiler from "microprofiler";
  */
 @ApiTags("3 - Products")
@@ -80,18 +81,21 @@ export class ProductsController {
 
   @Get("/search/:term")
   @ApiResponse({ status: HttpStatus.OK, type: Product, isArray: true })
-  searchProducts(@Param("term") term: string) {
+  searchProducts(@Param("term") term: string, @Query() query: OptimizeProduct) {
     const like = ILike("%" + term + "%");
-    return this.productsService.findAll([
-      { title: like },
-      { slug: like },
-      { categories: { title: like } },
-      { categories: { slug: like } },
-      { gender: like as FindOperator<Gender> },
-      { status: like as FindOperator<StatusProduct> },
-      +term ? { code: +term } : {},
-      { customCode: like },
-    ]);
+    return this.productsService.findAll(
+      [
+        { title: like },
+        { slug: like },
+        { categories: { title: like } },
+        { categories: { slug: like } },
+        { gender: like as FindOperator<Gender> },
+        { status: like as FindOperator<StatusProduct> },
+        +term ? { code: +term } : {},
+        { customCode: like },
+      ],
+      query.optimize === "true"
+    );
   }
 
   @Get(":term")

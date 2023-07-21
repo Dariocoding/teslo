@@ -15,6 +15,8 @@ import dayjs from "dayjs";
 import ActionsBrand from "./ActionsBrand";
 import { useIntl } from "react-intl";
 import { useDefaultHeadingTableBrands } from "./useDefaultHeadingTable";
+import { Link } from "react-router-dom";
+import { validPaths } from "@/utils";
 
 interface IDataTableBrandsProps {}
 
@@ -123,6 +125,11 @@ const DataTableBrands: React.FunctionComponent<IDataTableBrandsProps> = (props) 
                   onDeleteBrand={onDeleteBrand}
                   onUpdateBrand={onUpdateBrand}
                 />
+              ),
+              nameFormatted: (
+                <Link className="link-table" to={validPaths.viewBrand.fnPath(brand.idbrand)}>
+                  {brand.title}
+                </Link>
               ),
             } as BrandTable)
         )}

@@ -7,6 +7,8 @@ import { Brand, Category, Product, Provider } from "@teslo/interfaces";
 import { TablePlaceholder } from "@/components/placeholders";
 import ButtonsTableProduct from "./ButtonsTable";
 import { useActionsTableProducts } from "./useActionsTableProducts";
+import ModalDeleteProduct from "./ModalDeleteProduct";
+import { Lightbox } from "react-modal-image";
 
 export interface ITableProductsProps {
   products: Product[];
@@ -23,13 +25,13 @@ export interface ITableProductsProps {
   showSelects?: boolean;
 }
 
-const ModalDeleteProduct = React.lazy(() => import("./ModalDeleteProduct"));
 const ModalBarCodes = React.lazy(() => import("../shared/ModalBarCodes"));
 
 const TableProducts: React.FunctionComponent<ITableProductsProps> = (props) => {
   const [isLoadingTable, setIsLoadingTable] = React.useState(false);
   const [showModalBarCodes, setShowModalBarCodes] = React.useState(false);
   const [currentItemsSelected, setCurrentItemsSelected] = React.useState<string[]>([]);
+  const [productImageLightBox, setProductImageLightBox] = React.useState<string>(null);
 
   const {
     products,
@@ -73,6 +75,7 @@ const TableProducts: React.FunctionComponent<ITableProductsProps> = (props) => {
             onViewBarCode,
             currentItemsSelected,
             setCurrentItemsSelected,
+            setProductImageLightBox,
           })
         }
         placeholder={<TablePlaceholder />}
@@ -104,17 +107,15 @@ const TableProducts: React.FunctionComponent<ITableProductsProps> = (props) => {
         loading={isFetching || isLoadingTable}
         showResponsive={false}
       />
-      <RenderIf isTrue={showModalDeleteProduct}>
-        <React.Suspense fallback={<></>}>
-          <ModalDeleteProduct
-            onAcceptDeleteProduct={onAcceptDeleteProduct}
-            onCloseModalDelete={onCloseModalDelete}
-            showModalDeleteProduct={showModalDeleteProduct}
-            product={stateProductDelete}
-            isLoading={isLoadingDeleteProduct}
-          />
-        </React.Suspense>
-      </RenderIf>
+
+      <ModalDeleteProduct
+        onAcceptDeleteProduct={onAcceptDeleteProduct}
+        onCloseModalDelete={onCloseModalDelete}
+        showModalDeleteProduct={showModalDeleteProduct}
+        product={stateProductDelete}
+        isLoading={isLoadingDeleteProduct}
+      />
+
       <RenderIf isTrue={showModalBarCodes}>
         <React.Suspense fallback={<></>}>
           <ModalBarCodes
@@ -123,6 +124,17 @@ const TableProducts: React.FunctionComponent<ITableProductsProps> = (props) => {
             onClose={() => setShowModalBarCodes(false)}
           />
         </React.Suspense>
+      </RenderIf>
+
+      <RenderIf isTrue={productImageLightBox}>
+        <Lightbox
+          medium={productImageLightBox}
+          large={productImageLightBox}
+          small={productImageLightBox}
+          //@ts-ignore
+          onClose={() => setProductImageLightBox(null)}
+          alt={productImageLightBox}
+        />
       </RenderIf>
     </React.Fragment>
   );

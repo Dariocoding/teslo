@@ -12,8 +12,6 @@ import {
 } from "@teslo/interfaces";
 import classNames from "classnames";
 import SelectsTable from "./SelectsTable";
-import Checkbox from "@/components/ui/Checkbox";
-import ToolTip from "@/components/ui/Tooltip";
 import Dropdown from "@/components/ui/Dropdown";
 import DropdownItem from "@/components/ui/Dropdown/DropdownItem";
 import RenderIf from "@/components/ui/RenderIf";
@@ -22,7 +20,6 @@ import { hideLoader, showLoader } from "@/components/ui/Loader";
 import { formatter } from "@/utils";
 import dayjs from "dayjs";
 import { useConfigApp } from "@/store";
-import { useIntl } from "react-intl";
 import { VscJson } from "react-icons/vsc";
 import AuthorityCheck from "@/components/AuthorityCheck";
 
@@ -45,7 +42,6 @@ export interface IButtonsTableProductProps {
 const ButtonsTableProduct: React.FunctionComponent<IButtonsTableProductProps> = (props) => {
   const { onCreateProduct, showSelects = true, currenItemsSelected, setShowModalBarCodes } = props;
   const { colors } = useConfigApp();
-  const { formatMessage: t } = useIntl();
   const refetchData = React.useRef<Function>();
 
   return (

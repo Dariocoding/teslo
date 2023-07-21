@@ -104,13 +104,12 @@ export class Product {
 
   @ApiProperty()
   @ManyToMany(() => Category, (category) => category.products, {
-    eager: true,
     onDelete: "CASCADE",
   })
   categories: Category[];
 
   @ApiProperty()
-  @ManyToOne(() => Brand, (brand) => brand.products, { eager: true })
+  @ManyToOne(() => Brand, (brand) => brand.products)
   brand?: Brand;
 
   @ApiProperty()

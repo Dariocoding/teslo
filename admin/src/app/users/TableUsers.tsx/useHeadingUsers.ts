@@ -3,8 +3,7 @@ import { HeaderDataTable } from "@/components/ui/DataTable";
 
 export const useHeadingUsers = (showDni: boolean): HeaderDataTable[] => {
   let headers: HeaderDataTable[] = [
-    { title: translate("users.label.firstName"), field: "firstName" },
-    { title: translate("users.label.lastName"), field: "lastName" },
+    { title: translate("users.label.fullName"), field: "fullName" },
     { title: translate("users.label.email"), field: "email" },
     { title: translate("users.label.phone"), field: "phone" },
     {
@@ -12,11 +11,11 @@ export const useHeadingUsers = (showDni: boolean): HeaderDataTable[] => {
       field: "dateCreatedFormatted",
       center: true,
     },
-    {
+    /*     {
       title: translate("users.label.status"),
       field: "isActiveFormatted",
       center: true,
-    },
+    }, */
     { title: translate("users.label.actions"), field: "actions", center: true },
   ];
 

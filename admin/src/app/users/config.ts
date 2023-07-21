@@ -6,7 +6,7 @@ export interface UserTable extends User {
   userRol: string;
   isActiveFormatted: React.ReactNode;
   dateCreatedFormatted: string;
-  fullName: string;
+  fullName: React.ReactNode;
   dniFormatted: string;
 }
 

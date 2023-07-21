@@ -11,9 +11,7 @@ interface IActionsCategoryProps {
   onDeleteCategory(category: Category): void;
 }
 
-const ActionsCategory: React.FunctionComponent<IActionsCategoryProps> = (
-  props
-) => {
+const ActionsCategory: React.FunctionComponent<IActionsCategoryProps> = (props) => {
   const { category, onDeleteCategory, onUpdateCategory } = props;
 
   const handleClickUpdateCategory = () => onUpdateCategory(category);
@@ -27,23 +25,11 @@ const ActionsCategory: React.FunctionComponent<IActionsCategoryProps> = (
       >
         <FaEye />
       </Link>
-      <AuthorityCheck
-        validRoles={[
-          ValidRoles.ADMIN,
-          ValidRoles.SUPER_USER,
-          ValidRoles.SUPERVISOR,
-        ]}
-      >
-        <button
-          className="btn btn-primary btn-xs"
-          onClick={handleClickUpdateCategory}
-        >
+      <AuthorityCheck validRoles={[ValidRoles.ADMIN, ValidRoles.SUPER_USER, ValidRoles.SUPERVISOR]}>
+        <button className="btn btn-primary btn-xs" onClick={handleClickUpdateCategory}>
           <FaPen />
         </button>
-        <button
-          className="btn btn-danger btn-xs"
-          onClick={handleClickDeleteCategory}
-        >
+        <button className="btn btn-danger btn-xs" onClick={handleClickDeleteCategory}>
           <FaTrash />
         </button>
       </AuthorityCheck>

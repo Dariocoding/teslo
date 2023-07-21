@@ -171,6 +171,7 @@ const TableOrders: React.FunctionComponent<TableOrdersProps> = (props) => {
       placeholder={<TablePlaceholder />}
       buttons={
         <ButtonsTableOrders
+          orders={orders}
           setOrders={setOrders}
           buttons={buttons}
           refetch={refetch}

@@ -1,20 +1,24 @@
-import { Gender, StatusProduct } from '@teslo/interfaces';
-import { Pagination } from '../interfaces.api';
+import { Gender, StatusProduct } from "@teslo/interfaces";
+import { Pagination } from "../interfaces.api";
 
 export interface PaginationProductsDto extends Pagination {
-	gender?: Gender;
+  gender?: Gender;
 
-	categories?: string[];
+  categories?: string[];
 
-	sizes?: string[];
+  sizes?: string[];
 
-	status?: StatusProduct;
+  status?: StatusProduct;
 }
 
 export interface FiltersAllProductDto {
-	categoryID?: string;
+  categoryID?: string;
 
-	providerID?: string;
+  providerID?: string;
 
-	brandID?: string;
+  brandID?: string;
+}
+
+export interface OptimizeProductDto {
+  optimize?: boolean;
 }

@@ -33,7 +33,16 @@ const selectArrProducts: FindOptionsSelect<Product> = {
   customCode: true,
   gender: true,
   id: true,
+  brand: { idbrand: true, slug: true, title: true },
+  categories: { idcategory: true, slug: true, title: true },
 };
+
+const selectArrProductsWithProviders: FindOptionsSelect<Product> = {
+  providers: { idprovider: true, name: true },
+};
+
+const relationsProduct: FindOptionsRelations<Product> = { categories: true, brand: true };
+const relationsProductsWithProviders: FindOptionsRelations<Product> = { providers: true };
 
 @Injectable()
 export class ProductsService {
@@ -78,6 +87,8 @@ export class ProductsService {
         status,
       },
       order: { code: "DESC" },
+      select: selectArrProducts,
+      relations: relationsProduct,
     });
 
     return products.map((product) => ({
@@ -86,12 +97,15 @@ export class ProductsService {
     }));
   }
 
-  async findAll(where?: FindOptionsWhere<Product> | FindOptionsWhere<Product>[]) {
+  async findAll(
+    where?: FindOptionsWhere<Product> | FindOptionsWhere<Product>[],
+    optimize?: boolean
+  ) {
     const products = await this.productRepository.find({
       where,
       select: selectArrProducts,
       order: { code: "DESC" },
-      relations: { providers: true },
+      relations: !optimize && { ...relationsProduct, ...relationsProductsWithProviders },
     });
 
     return products.map((product) => ({
@@ -104,7 +118,7 @@ export class ProductsService {
     const products = await this.productRepository.find({
       where: { categories: { idcategory } },
       order: { dateCreated: "DESC" },
-      relations: { providers: true },
+      relations: { ...relationsProduct, ...relationsProductsWithProviders },
     });
 
     return products.map((product) => ({
@@ -117,7 +131,7 @@ export class ProductsService {
     const products = await this.productRepository.find({
       where: { brand: { idbrand } },
       order: { dateCreated: "DESC" },
-      relations: { providers: true },
+      relations: { ...relationsProduct, ...relationsProductsWithProviders },
     });
 
     return products.map((product) => ({
@@ -135,7 +149,7 @@ export class ProductsService {
         providers: providerID && { idprovider: providerID },
       },
       order: { dateCreated: "DESC" },
-      relations: { providers: true },
+      relations: { ...relationsProduct, ...relationsProductsWithProviders },
     });
 
     return products.map((product) => ({
@@ -148,7 +162,7 @@ export class ProductsService {
     const products = await this.productRepository.find({
       where: { providers: { idprovider } },
       order: { dateCreated: "DESC" },
-      relations: { providers: true },
+      relations: { ...relationsProduct, ...relationsProductsWithProviders },
     });
 
     return products.map((product) => ({
@@ -163,12 +177,12 @@ export class ProductsService {
     if (isUUID(term)) {
       product = await this.productRepository.findOne({
         where: { id: term },
-        relations: { providers: true },
+        relations: { ...relationsProduct, ...relationsProductsWithProviders },
       });
     } else {
       product = await this.productRepository.findOne({
         where: [{ title: term.toUpperCase() }, { slug: stringToSlug(term) }],
-        relations: { providers: true },
+        relations: { ...relationsProduct, ...relationsProductsWithProviders },
       });
     }
 

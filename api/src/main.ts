@@ -60,8 +60,9 @@ async function bootstrap() {
 }
 
 /* bootstrap(); */
+bootstrap();
 
-if (cluster.isMaster) {
+/* if (cluster.isMaster) {
   console.log(`Master server started on ${process.pid}`);
   for (let i = 0; i < numCPUs; i++) {
     cluster.fork();
@@ -72,5 +73,4 @@ if (cluster.isMaster) {
   });
 } else {
   console.log(`Cluster server started on ${process.pid}`);
-  bootstrap();
-}
+} */

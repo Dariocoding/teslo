@@ -9,7 +9,7 @@ import { Bill, GenerarExcelType, GenerarPdfType, Order } from "@teslo/interfaces
 import { billsService, ordersService } from "@teslo/services";
 import dayjs from "dayjs";
 import { hideLoader, showLoader } from "@/components/ui/Loader";
-import { capitalize, formatter } from "@/utils";
+import { capitalize, firstDayOfMonth, formatter } from "@/utils";
 
 interface IExportBillOrdersProps {}
 
@@ -18,9 +18,9 @@ const ExportBillOrders: React.FunctionComponent<IExportBillOrdersProps> = (props
   const [exportAllOrders, setExportAllOrders] = React.useState(false);
   const [exportAllBills, setExportAllBills] = React.useState(false);
   const [dateToOrders, setDateToOrders] = React.useState(new Date());
-  const [dateFromOrders, setDatFromOrders] = React.useState(new Date());
+  const [dateFromOrders, setDatFromOrders] = React.useState(firstDayOfMonth());
   const [dateToBills, setDateToBills] = React.useState(new Date());
-  const [dateFromBills, setDateFromBills] = React.useState(new Date());
+  const [dateFromBills, setDateFromBills] = React.useState(firstDayOfMonth());
 
   const actionsOrders: Actions = {
     onClickPdf: async () => {
@@ -55,10 +55,11 @@ const ExportBillOrders: React.FunctionComponent<IExportBillOrdersProps> = (props
       showLoader();
       const orders = await getOrders({ exportAllOrders, dateFromOrders, dateToOrders });
       try {
+        console.log({ orders: getOrdersMap(orders), orders2: orders });
         const data: GenerarExcelType = {
           name: "Orders",
           columns: columnsOrders,
-          data: getOrdersMap(orders).pop() as unknown as string[][],
+          data: getOrdersMap(orders) as unknown as string[][],
         };
 
         await baseFetchExcel(data, "Orders");
@@ -200,7 +201,7 @@ const ExportBillOrders: React.FunctionComponent<IExportBillOrdersProps> = (props
 
 export default ExportBillOrders;
 
-const columnsOrders: GenerarExcelType["columns"] = [
+export const columnsOrders: GenerarExcelType["columns"] = [
   { header: "Customer" },
   { header: "Payment Method" },
   { header: "Reference" },
@@ -209,27 +210,27 @@ const columnsOrders: GenerarExcelType["columns"] = [
   { header: "Total" },
 ];
 
-const getOrdersMap = (orders: Order[], calcTotal = true): GenerarExcelType["data"] =>
-  [
-    ...orders.map((o) => [
-      o.user.firstName + " " + o.user.lastName,
-      o.paymentMethod.title,
-      o.reference,
-      capitalize(o.status),
-      dayjs(o.dateCreated).format("DD/MM/YYYY HH:mm:ss"),
-      formatter.format(o.total),
-    ]),
-    calcTotal
-      ? [
-          "",
-          "",
-          "",
-          "",
-          "",
-          formatter.format(orders.reduce((prev: number, curr: Order) => prev + curr.total, 0)),
-        ]
-      : null,
-  ].filter((o) => o);
+export const getOrdersMap = (orders: Order[], calcTotal = true): GenerarExcelType["data"] => {
+  const returnArray = orders.map((o) => [
+    o.user.firstName + " " + o.user.lastName,
+    o.paymentMethod.title,
+    o.reference,
+    capitalize(o.status),
+    dayjs(o.dateCreated).format("DD/MM/YYYY HH:mm:ss"),
+    formatter.format(o.total),
+  ]);
+  if (calcTotal) {
+    returnArray.push([
+      "",
+      "",
+      "",
+      "",
+      "",
+      formatter.format(orders.reduce((prev: number, curr: Order) => prev + curr.total, 0)),
+    ]);
+  }
+  return returnArray;
+};
 
 interface GetOrders {
   exportAllOrders: boolean;
@@ -261,7 +262,7 @@ const getOrders = async (props: GetOrders) => {
   return [];
 };
 
-const columnsBills: GenerarExcelType["columns"] = [
+export const columnsBills: GenerarExcelType["columns"] = [
   { header: "Reference" },
   { header: "Status" },
   { header: "Provider Name" },
@@ -269,25 +270,27 @@ const columnsBills: GenerarExcelType["columns"] = [
   { header: "Total" },
 ];
 
-const getBillsMap = (bills: Bill[], calcTotal = true): GenerarExcelType["data"] =>
-  [
-    ...bills.map((b) => [
-      b.reference,
-      capitalize(b.status),
-      b.provider.name,
-      formatter.format(b.subtotal),
-      formatter.format(b.total),
-    ]),
-    calcTotal
-      ? [
-          "",
-          "",
-          "",
-          formatter.format(bills.reduce((prev: number, curr: Bill) => prev + curr.subtotal, 0)),
-          formatter.format(bills.reduce((prev: number, curr: Bill) => prev + curr.total, 0)),
-        ]
-      : null,
-  ].filter((b) => b);
+export const getBillsMap = (bills: Bill[], calcTotal = true): GenerarExcelType["data"] => {
+  const returnArray = bills.map((b) => [
+    b.reference,
+    capitalize(b.status),
+    b.provider.name,
+    formatter.format(b.subtotal),
+    formatter.format(b.total),
+  ]);
+
+  if (calcTotal) {
+    returnArray.push([
+      "",
+      "",
+      "",
+      formatter.format(bills.reduce((prev: number, curr: Bill) => prev + curr.subtotal, 0)),
+      formatter.format(bills.reduce((prev: number, curr: Bill) => prev + curr.total, 0)),
+    ]);
+  }
+
+  return returnArray;
+};
 
 interface GetBills {
   exportAllBills: boolean;

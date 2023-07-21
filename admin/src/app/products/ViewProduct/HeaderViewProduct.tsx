@@ -161,7 +161,7 @@ const HeaderViewProduct: React.FunctionComponent<IHeaderViewProductProps> = (pro
 };
 
 const Images = (image: string, idx: number) => (
-  <span key={idx} className={"m-2 cursor-pointer"}>
+  <span key={idx} className={"m-2 cursor-pointer hover:scale-105 transition duration-300"}>
     <img src={PF + `/product/${image}`} alt={""} className={"w-56 mx-auto"} />
   </span>
 );

@@ -36,7 +36,7 @@ const useDefaultHeadingProducts = (propsHook: UseDefaultHeadingProducts): Header
     },
     {
       title: translate("products.label.brand"),
-      field: "brand.title",
+      field: "brandFormatted",
       center: true,
     },
     {
@@ -97,7 +97,7 @@ const CheckBoxSelectAllProducts = (props: ICheckBoxSelectAllProductProps) => {
   };
 
   return (
-    <div className="flex items-center justify-center">
+    <div className="lg:flex hidden items-center justify-center">
       <Checkbox isChecked={isSelected} onChange={handleSelectAll} enableMarginRight={false} />
     </div>
   );

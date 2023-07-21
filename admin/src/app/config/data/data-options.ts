@@ -44,7 +44,7 @@ const dataOptions: DataOption[] = [
     className: "bg-red-600",
     btnLinkText: "Edit user prefixes",
     classNameButton: "btn-danger",
-    permission: [ValidRoles.ADMIN, ValidRoles.SELLER, ValidRoles.SUPER_USER, ValidRoles.SUPERVISOR],
+    permission: [ValidRoles.ADMIN, ValidRoles.SUPER_USER, ValidRoles.SUPERVISOR],
   },
   {
     id: "images-enterprise",

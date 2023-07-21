@@ -40,7 +40,7 @@ export class PdfController {
         .writeHead(200, {
           "Content-Length": Buffer.byteLength(pdfData),
           "Content-Type": "application/pdf",
-          "Content-disposition": "attachment;filename=test.pdf",
+          "Content-disposition": "attachment; filename=table.pdf",
         })
         .end(pdfData);
     });
