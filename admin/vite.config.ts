@@ -101,27 +101,12 @@ export default (props) => {
       include: [...externalPackages],
     },
     build: {
-      target: "esnext",
       commonjsOptions: {
         include: [...externalPackages],
       },
       rollupOptions: {
-        output: {
-          manualChunks: {
-            vendor: ["react", "react-router-dom", "react-dom"],
-            ...renderChunks(dependencies),
-          },
-        },
+        output: {},
       },
     },
   });
 };
-
-function renderChunks(deps: Record<string, string>) {
-  let chunks = {};
-  Object.keys(deps).forEach((key) => {
-    if (["react", "react-router-dom", "react-dom"].includes(key)) return;
-    chunks[key] = [key];
-  });
-  return chunks;
-}

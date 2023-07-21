@@ -106,10 +106,59 @@ const HeaderViewProduct: React.FunctionComponent<IHeaderViewProductProps> = (pro
           </p>
 
           <RenderIf isTrue={product.status}>
-            <p>
-              <span className="font-bold">{translate("products.label.status")}:</span>{" "}
-              {product.status}
-            </p>
+            <p>{product.status}</p>
+          </RenderIf>
+
+          <RenderIf isTrue={product.categories?.length}>
+            <span className="flex items-center gap-x-1">
+              <span className="font-bold">{translate("products.label.categories")}:</span>{" "}
+              <ul className="flex items-center gap-1 flex-wrap">
+                {product.categories?.map?.((category) => (
+                  <li key={category.idcategory}>
+                    <Link
+                      to={validPaths.viewCategory.fnPath(category.idcategory)}
+                      className="link-table"
+                    >
+                      {category.title}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </span>
+          </RenderIf>
+
+          <RenderIf isTrue={product.brand}>
+            <span className="flex items-center gap-x-1">
+              <span className="font-bold">{translate("products.label.brand")}:</span>{" "}
+              <ul>
+                <li>
+                  <Link
+                    to={validPaths.viewCategory.fnPath(product.brand?.idbrand)}
+                    className="link-table"
+                  >
+                    {product.brand?.title}
+                  </Link>
+                </li>
+              </ul>
+            </span>
+          </RenderIf>
+
+          <RenderIf isTrue={product.providers?.length}>
+            <span className="flex items-center gap-x-1">
+              <span className="font-bold">{translate("products.label.providers")}:</span>{" "}
+              <ul className="flex items-center gap-1 flex-wrap">
+                {product.providers?.map?.((provider) => (
+                  <li key={provider.idprovider}>
+                    <Link
+                      to={validPaths.viewProvider.fnPath(provider.idprovider)}
+                      className="link-table"
+                    >
+                      {provider.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </span>
           </RenderIf>
 
           <RenderIf isTrue={product.description}>

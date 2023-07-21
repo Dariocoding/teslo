@@ -2,7 +2,6 @@ import { translate } from "@/i18n";
 import { HeaderDataTable } from "@/components/ui/DataTable";
 
 export const useDefaultHeadingTableProviders = (): HeaderDataTable[] => [
-  { title: translate("providers.label.ID"), field: "idprovider" },
   { title: translate("providers.label.name"), field: "name" },
   { title: translate("providers.label.phone1"), field: "phone1" },
   { title: translate("providers.label.phone2"), field: "phone2" },
