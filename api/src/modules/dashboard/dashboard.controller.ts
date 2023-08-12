@@ -99,4 +99,11 @@ export class DashboardController {
   findBillsByYear(@Param("year") year: string, @Query() query: FindStatisticQueryDto) {
     return this.dashboardService.findBillsByAnio(+year, query);
   }
+
+  @Get("bestProductSellers")
+  @Auth(ValidRoles.ADMIN, ValidRoles.SUPER_USER, ValidRoles.SUPERVISOR)
+  @ApiResponse({ status: HttpStatus.OK })
+  bestProductSellers() {
+    return this.dashboardService.getBestProductSellers();
+  }
 }

@@ -13,16 +13,19 @@ export interface Order {
   iva?: number;
   subtotal?: number;
   userSell?: User;
+  discount?: number;
 }
 
 export interface OrderDto {
   total?: number;
+  customer?: User;
   reference?: string;
   status?: StatusOrder;
   detail?: DetailDto[];
   paymentMethod?: PaymentMethod | string;
   iva?: number;
   subtotal?: number;
+  discount?: number;
 }
 
 interface DetailDto {
@@ -31,6 +34,7 @@ interface DetailDto {
   quantity?: number;
   product?: Product;
   size?: Size;
+  title?: string;
 }
 
 export interface DetailOrder {
@@ -52,12 +56,9 @@ export interface PaymentMethod {
   phone?: string;
   dni?: string;
   email?: string;
+  visible?: boolean;
 }
 
-export interface PaymentMethodDto {
-  title?: string;
-  owner?: string;
-  phone?: string;
-  dni?: string;
-  email?: string;
-}
+export interface PaymentMethodDto extends Omit<PaymentMethod, "idpaymentmethod"> {}
+
+const dto: PaymentMethodDto = {};

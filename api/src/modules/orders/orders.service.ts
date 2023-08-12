@@ -45,7 +45,7 @@ export class OrdersService {
         detail: createOrderDto.detail.map((detail) => {
           return this.detailRepository.create({
             ...detail,
-            title: detail.product.title,
+            title: detail.title ?? detail?.product?.title,
           });
         }),
       });
@@ -98,12 +98,15 @@ export class OrdersService {
     });
   }
 
-  finAllByUserId(userId: string, userJWT: JwtPayload) {
+  finAllByUserId(userId: string, userJWT: JwtPayload, query: FindOrdersByDateDto) {
+    const { take } = query;
+    const whereDateCreated = this.getQueryByDate(query);
     const whereUser = this.getQueryUser(userJWT);
     return this.orderRepository.find({
-      where: { ...whereUser, user: { iduser: userId } },
+      where: { ...whereDateCreated, ...whereUser, user: { iduser: userId } },
       order: { idorder: "DESC" },
       relations: { user: true },
+      take,
     });
   }
 
@@ -120,13 +123,15 @@ export class OrdersService {
     }
 
     const newDetails = order.detail.map(async (detail) => {
-      const imagesProduct = await this.productImageRepository.find({
-        where: { product: { id: detail.product.id } },
-      });
-      detail.product = {
-        ...detail.product,
-        images: imagesProduct.map((image) => image.url),
-      };
+      if (detail.product) {
+        const imagesProduct = await this.productImageRepository.find({
+          where: { product: { id: detail.product.id } },
+        });
+        detail.product = {
+          ...detail.product,
+          images: imagesProduct.map((image) => image.url),
+        };
+      }
       return detail;
     });
     order.detail = await Promise.all(newDetails);
@@ -140,7 +145,7 @@ export class OrdersService {
     await queryRunner.startTransaction();
     try {
       const whereUserRoles = this.getQueryUser(userJWT);
-      const { detail, ...restUpdateOrderDto } = updateOrderDto;
+      const { detail, customer, ...restUpdateOrderDto } = updateOrderDto;
       const order = await queryRunner.manager.findOne(Order, {
         where: { idorder: id, ...whereUserRoles },
         relations: ["detail"],
@@ -182,7 +187,11 @@ export class OrdersService {
         );
       }
 
-      await queryRunner.manager.update(Order, { idorder: order.idorder }, restUpdateOrderDto);
+      await queryRunner.manager.update(
+        Order,
+        { idorder: order.idorder },
+        { ...restUpdateOrderDto, user: customer }
+      );
       await queryRunner.commitTransaction();
       await queryRunner.release();
     } catch (error) {
@@ -207,6 +216,7 @@ export class OrdersService {
     order: Order
   ) {
     const { status, isCreating, unique } = opts;
+
     if (unique) {
       if (status === "cancelled") {
         await Promise.all(order.detail.map((detail) => UniqueOrder(detail, "add")));
@@ -219,6 +229,7 @@ export class OrdersService {
     if (isCreating) {
       order.detail = order.detail.map((o) => {
         const newStock = order.detail.reduce((prev, curr) => {
+          if (!curr.product || !o.product) return prev;
           if (curr.product.id === o.product.id) {
             prev = prev + curr.quantity;
           }
@@ -231,6 +242,7 @@ export class OrdersService {
     }
 
     async function UniqueOrder(detail: DetailOrder, action: "minus" | "add") {
+      if (!detail.product) return;
       const product = await queryRunner.manager.findOne(Product, {
         where: { id: detail.product.id },
       });

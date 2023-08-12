@@ -12,6 +12,7 @@ interface IDropdownProps {
   className?: string;
   isRelativeContainer?: boolean;
   onClickTrigger?(): void;
+  disabledDisplayButton?: boolean;
 }
 
 const Dropdown: React.FunctionComponent<IDropdownProps> = (props) => {
@@ -23,6 +24,7 @@ const Dropdown: React.FunctionComponent<IDropdownProps> = (props) => {
     className,
     isRelativeContainer = true,
     onClickTrigger,
+    disabledDisplayButton = false,
   } = props;
   const sm = useMedia("(max-width: 640px)");
   const [refPanel, setRefPanel] = React.useState<HTMLDivElement>(null);
@@ -84,7 +86,11 @@ const Dropdown: React.FunctionComponent<IDropdownProps> = (props) => {
     >
       {(propss) => (
         <React.Fragment>
-          <Menu.Button ref={refButton} className={classNames("mb-0 mr-0", classNameButton)}>
+          <Menu.Button
+            ref={refButton}
+            disabled={disabledDisplayButton}
+            className={classNames("mb-0 mr-0", classNameButton)}
+          >
             {displayButton}
           </Menu.Button>
 

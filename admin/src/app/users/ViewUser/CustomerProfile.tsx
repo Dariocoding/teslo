@@ -5,7 +5,7 @@ import { User, ValidRoles } from "@teslo/interfaces";
 import * as React from "react";
 import { FaPencilAlt, FaTrashAlt } from "react-icons/fa";
 import FormUser from "../forms/FormUser";
-import { useAuthStore } from "@/store";
+import { useAuthStore, useConfigApp } from "@/store";
 import { RenderIf } from "react-rainbow-components";
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";
@@ -22,6 +22,7 @@ interface ICustomerProfileProps {
 const CustomerProfile: React.FunctionComponent<ICustomerProfileProps> = (props) => {
   const { user, setUser } = props;
   const navigate = useNavigate();
+  const { colors } = useConfigApp();
   const { formatMessage: t } = useIntl();
   const { user: authUser } = useAuthStore();
   const [showDrawerEdit, setShowDrawerEdit] = React.useState(false);
@@ -80,6 +81,16 @@ const CustomerProfile: React.FunctionComponent<ICustomerProfileProps> = (props) 
                 </h6>
               </div>
               <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-1 gap-y-2 gap-x-4 mt-8">
+                <CustomerInfoField title="ID" value={user?.iduser} />
+                <RenderIf isTrue={user?.dni}>
+                  <CustomerInfoField
+                    title="DNI"
+                    value={
+                      (user?.prefix && colors.enablePrefixesUser ? user?.prefix + " " : null) +
+                      user?.dni
+                    }
+                  />
+                </RenderIf>
                 <CustomerInfoField title="Email" value={user?.email} />
                 <CustomerInfoField title="Phone" value={user?.phone} />
               </div>
@@ -143,7 +154,7 @@ const CustomerInfoField: React.FunctionComponent<ICustomerInfoFieldProps> = (pro
   const { title, value } = props;
   return (
     <div>
-      <span>{title}</span>
+      <span className="font-bold">{title}</span>
       <p className="text-gray-700 dark:text-gray-200 font-semibold text-sm">{value}</p>
     </div>
   );

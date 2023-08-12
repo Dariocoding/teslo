@@ -12,7 +12,7 @@ interface IMapProductsProps extends Omit<IActionsProductsProps, "product"> {
   products: Product[];
   currentItemsSelected: string[];
   setCurrentItemsSelected: (items: string[]) => void;
-  setProductImageLightBox(product: string): void;
+  setProductImageLightBox(product: Product): void;
 }
 
 const validRolesToVisitProviders = [ValidRoles.ADMIN, ValidRoles.SUPER_USER, ValidRoles.SUPERVISOR];
@@ -46,7 +46,7 @@ const mapProducts = (props: IMapProductsProps): ProductTable[] => {
     sizesFormatted: product.sizes.join(", "),
     image: (
       <img
-        onClick={() => setProductImageLightBox(imageProduct(product))}
+        onClick={() => setProductImageLightBox(product)}
         src={imageProduct(product)}
         className={
           "lg:w-16 w-24 rounded-md mx-auto cursor-pointer transition hover:scale-110 duration-300"
@@ -85,7 +85,7 @@ const mapProducts = (props: IMapProductsProps): ProductTable[] => {
     titleFormatted: (
       <div className="flex flex-col max-w-[110px] whitespace-pre-wrap">
         <div className="text-sm mb-1">
-          <Link to={validPaths.viewProduct.fnPath(product.id)} className="link-table">
+          <Link to={validPaths.viewProduct.fnPath(product.slug)} className="link-table">
             {product.title}
           </Link>
         </div>

@@ -37,12 +37,16 @@ export class Order {
   })
   dateCreated?: Date;
 
+  @ApiProperty()
+  @Column("float", { default: 0 })
+  discount: number;
+
   @ApiProperty({ type: () => DetailOrder, isArray: true })
   @OneToMany(() => DetailOrder, (detail) => detail.order, { cascade: true })
   detail?: DetailOrder[];
 
   @ApiProperty({ type: () => User })
-  @ManyToOne(() => User, (user) => user.orders)
+  @ManyToOne(() => User, (user) => user.orders, { nullable: true })
   @JoinColumn({ name: "user_order" })
   user?: User;
 

@@ -12,20 +12,20 @@ import { PDFModule, PDFModuleOptions } from "@t00nday/nestjs-pdf";
 
 @Global()
 @Module({
-	controllers: [OrdersController, TempDetailController],
-	providers: [OrdersService, TempDetailService],
-	imports: [
-		TypeOrmModule.forFeature([DetailOrder, Order, DetailTempOrder]),
-		PDFModule.registerAsync({
-			useFactory: (): PDFModuleOptions => ({
-				view: {
-					root: process.cwd() + "/static/pdf/",
-					engine: "handlebars",
-					extension: "hbs",
-				},
-			}),
-		}),
-	],
-	exports: [TypeOrmModule],
+  controllers: [OrdersController, TempDetailController],
+  providers: [OrdersService, TempDetailService],
+  imports: [
+    TypeOrmModule.forFeature([DetailOrder, Order, DetailTempOrder]),
+    PDFModule.registerAsync({
+      useFactory: (): PDFModuleOptions => ({
+        view: {
+          root: process.cwd() + "/static/pdf/",
+          engine: "handlebars",
+          extension: "hbs",
+        },
+      }),
+    }),
+  ],
+  exports: [TypeOrmModule],
 })
 export class OrdersModule {}

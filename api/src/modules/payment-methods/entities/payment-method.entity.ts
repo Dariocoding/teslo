@@ -1,5 +1,5 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { Order } from 'src/modules/orders/entities/order.entity';
+import { ApiProperty } from "@nestjs/swagger";
+import { Order } from "src/modules/orders/entities/order.entity";
 import {
   BeforeInsert,
   BeforeUpdate,
@@ -9,9 +9,9 @@ import {
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
-} from 'typeorm';
+} from "typeorm";
 
-@Entity('payment-methods')
+@Entity("payment-methods")
 export class PaymentMethod {
   @ApiProperty()
   @PrimaryGeneratedColumn()
@@ -36,6 +36,10 @@ export class PaymentMethod {
   @ApiProperty()
   @Column()
   email: string;
+
+  @ApiProperty()
+  @Column({ type: "boolean", default: true })
+  visible: boolean;
 
   @ApiProperty()
   @OneToMany(() => Order, (order) => order.paymentMethod)

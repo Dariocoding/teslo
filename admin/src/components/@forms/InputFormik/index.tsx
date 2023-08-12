@@ -76,13 +76,9 @@ const InputFormik: React.FunctionComponent<IInputFormikProps> = (props) => {
           value={value}
           thousandSeparator={"."}
           decimalSeparator={","}
-          onValueChange={(values) => {
-            setFieldValue(name, values.floatValue);
-          }}
+          onValueChange={(values) => setFieldValue(name, values.floatValue)}
           prefix={decimalValues ? "$ " : ""}
-          onBlur={(e) => {
-            handleBlur(e);
-          }}
+          onBlur={(e) => handleBlur(e)}
           onFocus={onFocus}
           className={classNames("form-control", classNameInput)}
           disabled={disabled}

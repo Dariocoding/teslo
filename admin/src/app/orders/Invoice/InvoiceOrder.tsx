@@ -59,11 +59,11 @@ const InvoiceOrder: React.FunctionComponent<IInvoiceOrderProps> = (props) => {
             {translate("users.customer")}:
             <address className="mt-1">
               <strong>
-                {user.firstName} {user.lastName}
+                {user?.firstName} {user?.lastName}
               </strong>
               <br />
-              <b>{translate("users.label.phone")}:</b> {user.phone} <br />
-              <b>{translate("users.label.email")}:</b> {user.email} <br />
+              <b>{translate("users.label.phone")}:</b> {user?.phone} <br />
+              <b>{translate("users.label.email")}:</b> {user?.email} <br />
             </address>
           </div>
           <div>

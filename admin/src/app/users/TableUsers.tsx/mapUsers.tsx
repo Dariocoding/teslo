@@ -1,9 +1,8 @@
 import { getMaximiumRol } from "@/utils/getMaximiumRol";
-import { User, ValidRoles } from "@teslo/interfaces";
+import { ColorsAdmin, User, ValidRoles } from "@teslo/interfaces";
 import dayjs from "dayjs";
 import { UserTable } from "../config";
 import ActionsUser from "./ActionsUser";
-import BadgeIsActive from "./BadgeIsActive";
 import { Link } from "react-router-dom";
 import { validPaths } from "@/utils";
 
@@ -11,10 +10,12 @@ interface IMapUsersProps {
   users: User[];
   onDeleteUser: (user: User) => void;
   onUpdateUser: (user: User) => void;
+  config: Partial<ColorsAdmin>;
 }
 
 const mapUsers = (props: IMapUsersProps): UserTable[] => {
-  const { users } = props;
+  const { users, config } = props;
+  const { enablePrefixesUser } = config || {};
 
   return users.map((user) => ({
     ...user,
@@ -27,11 +28,10 @@ const mapUsers = (props: IMapUsersProps): UserTable[] => {
         {user.firstName + " " + user.lastName}
       </Link>
     ),
-    dniFormatted: user.roles.includes(ValidRoles.USER) ? user.prefix + " " + user.dni : "",
+    dniFormatted: user.roles.includes(ValidRoles.USER)
+      ? (user.prefix && enablePrefixesUser ? user.prefix + " " : "") + user.dni
+      : "",
   }));
 };
 
 export default mapUsers;
-{
-  /* <BadgeIsActive isActive={user.isActive} /> */
-}

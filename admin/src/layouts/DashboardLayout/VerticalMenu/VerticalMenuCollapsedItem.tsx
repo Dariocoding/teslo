@@ -44,7 +44,7 @@ const DefaultItem: React.FunctionComponent<IDefaultItemProps> = (props) => {
   const { desktop } = useResponsive();
   const isExpanded = expanded === title;
   const toggleExpand = () => {
-    !isExpanded && item.path && navigate(item.path);
+    desktop && !isExpanded && item.path && navigate(item.path);
     setExpanded(isExpanded ? null : title);
   };
   const { colors } = useConfigApp();
@@ -124,7 +124,7 @@ const CollapsedItem: React.FunctionComponent<ICollapsedItemProps> = (props) => {
         }
       >
         {item.subNav.map((subNavItem, idx) => (
-          <AuthorityCheck validRoles={subNavItem.permissions}>
+          <AuthorityCheck key={idx} validRoles={subNavItem.permissions}>
             <SubNavDropdownItem item={subNavItem} key={idx} />
           </AuthorityCheck>
         ))}

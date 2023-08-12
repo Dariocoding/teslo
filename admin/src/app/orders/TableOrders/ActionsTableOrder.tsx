@@ -14,15 +14,16 @@ import { useNavigate } from "react-router-dom";
 
 export interface IActionsTableOrderProps {
   order: Order;
-  onClickUpdateOrder: (order: Order) => void;
-  onClickViewUser(order: Order): void;
-  onCancelOrder: (order: Order) => void;
-  onCompleteOrder: (order: Order) => void;
+  onClickUpdateOrder?: (order: Order) => void;
+  onClickViewUser?(order: Order): void;
+  onCancelOrder?: (order: Order) => void;
+  onCompleteOrder?: (order: Order) => void;
 }
 
 const ActionsTableOrder: React.FunctionComponent<IActionsTableOrderProps> = (props) => {
   const { order, onClickUpdateOrder, onClickViewUser, onCancelOrder, onCompleteOrder } = props;
   const navigate = useNavigate();
+
   const handleQuickUpdateOrder = () => onClickUpdateOrder(order);
   const handleViewUser = () => onClickViewUser(order);
   const handleExportAsPdf = () => GenerarPdf(order.idorder);
@@ -43,13 +44,15 @@ const ActionsTableOrder: React.FunctionComponent<IActionsTableOrderProps> = (pro
           ValidRoles.SELLER,
         ]}
       >
-        <DropdownItem
-          className="flex items-center justify-start gap-1 text-sm"
-          onClick={handleQuickUpdateOrder}
-        >
-          <IoIosFlash className="text-orange-700 text-lg -ml-1" />
-          {translate("orders.action.quickEdit")}
-        </DropdownItem>
+        <RenderIf isTrue={onClickUpdateOrder}>
+          <DropdownItem
+            className="flex items-center justify-start gap-1 text-sm"
+            onClick={handleQuickUpdateOrder}
+          >
+            <IoIosFlash className="text-orange-700 text-lg -ml-1" />
+            {translate("orders.action.quickEdit")}
+          </DropdownItem>
+        </RenderIf>
 
         <AuthorityCheck
           validRoles={[ValidRoles.ADMIN, ValidRoles.SUPER_USER, ValidRoles.SUPERVISOR]}
@@ -61,7 +64,8 @@ const ActionsTableOrder: React.FunctionComponent<IActionsTableOrderProps> = (pro
             <FaPen className="text-teal-700 text-xs" />
             {translate("orders.action.editOrder")}
           </DropdownItem>
-          <RenderIf isTrue={order.status === "cancelled"}>
+
+          <RenderIf isTrue={order.status === "cancelled" && onCompleteOrder}>
             <DropdownItem
               className="flex items-center justify-start gap-1.5 text-sm"
               onClick={handleCompletedOrder}
@@ -79,7 +83,7 @@ const ActionsTableOrder: React.FunctionComponent<IActionsTableOrderProps> = (pro
             ValidRoles.SELLER,
           ]}
         >
-          <RenderIf isTrue={order.status !== "cancelled"}>
+          <RenderIf isTrue={order.status !== "cancelled" && onCancelOrder}>
             <DropdownItem
               className="flex items-center justify-start gap-1.5 text-sm"
               onClick={handleCancelOrder}
@@ -91,13 +95,15 @@ const ActionsTableOrder: React.FunctionComponent<IActionsTableOrderProps> = (pro
         </AuthorityCheck>
       </AuthorityCheck>
 
-      <DropdownItem
-        className="flex items-center justify-start gap-1.5 text-sm"
-        onClick={handleViewUser}
-      >
-        <FaUser className="text-xs text-blue-600" />
-        {translate("orders.action.viewUser")}
-      </DropdownItem>
+      <RenderIf isTrue={onClickViewUser && order.user}>
+        <DropdownItem
+          className="flex items-center justify-start gap-1.5 text-sm"
+          onClick={handleViewUser}
+        >
+          <FaUser className="text-xs text-blue-600" />
+          {translate("orders.action.viewUser")}
+        </DropdownItem>
+      </RenderIf>
 
       <DropdownItem
         className="flex items-center justify-start gap-1.5 text-sm"

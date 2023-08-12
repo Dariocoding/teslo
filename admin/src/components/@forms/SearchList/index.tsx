@@ -11,7 +11,7 @@ export interface ISearchResult {
 export interface ISearchListProps {
   results: ISearchResult[];
   classNameContainer?: string;
-  onClickResult: (value: string | number) => void;
+  onClickResult?: (value: string | number) => void;
   selected?: ISearchResult;
   setSelected?: React.Dispatch<ISearchResult>;
   children?: React.ReactNode;

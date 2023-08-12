@@ -479,8 +479,8 @@ export const baseFetchExcel = async (
 
 export const baseFetchCsv = async (data: GenerarExcelType, nameFile: string, toastID?: string) => {
   try {
-    const response = await filesService.excel(data, { responseType: "blob" }, { csv: true });
-    const downloadUrl = window.URL.createObjectURL(new Blob([response.data]));
+    const response = await filesService.excel(data, { responseType: "blob", }, { csv: true });
+    const downloadUrl = window.URL.createObjectURL(new Blob([response.data],{}));
     const link = document.createElement("a");
     document.body.appendChild(link);
     link.href = downloadUrl;

@@ -14,6 +14,7 @@ const dashboardTranslate = {
   "dashboard.totalOrdersBillsByMonth": "Total bills and orders by month",
   "dashboard.totalOrdersBillsByYear": "Total bills and orders by year",
   "dashboard.#totalOrdersBills": "Total Orders, Bills",
+  "dashboard.mostSelledProduct": "Most selled products of the month",
 };
 
 const LoginTranslate = {
@@ -80,7 +81,10 @@ const AppGeneralTranslate = {
   "app.print": "Print",
   "app.clean": "Clean",
   "app.remove": "Remove",
+  "app.pay": "Pay",
   "app.areYouSureToDoThis": "Are you sure to do this.",
+  "app.title": "Title",
+  "app.save.success": "Changes saved successfully",
 };
 
 const AppSidebarTranslate = {
@@ -140,6 +144,7 @@ const UsersTranslate = {
   "users.label.fullName": "Full name",
   "users.label.dateCreated": "Date created",
   "users.label.actions": "Actions",
+  "users.action.create.customer": "Create customer",
   "users.error.firstName.required": "Please input your first name!",
   "users.error.lastName.required": "Please input your last name!",
   "users.error.email.required": "Please input your email!",
@@ -287,6 +292,10 @@ const OrdersTranslate = {
   "orders.status.cancelled": "Cancelled",
   "orders.status.completed": "Completed",
   "orders.status.paid": "Paid",
+  "orders.label.price": "Price",
+  "orders.title.add.service": "Add service",
+  "orders.title.edit.service": "Edit service",
+  "orders.title.delete.service": "Delete service",
   "orders.label.ID": "ID",
   "orders.label.reference": "Reference",
   "orders.label.fullName": "Full Name",
@@ -296,15 +305,19 @@ const OrdersTranslate = {
   "orders.label.status": "Status",
   "orders.label.actions": "Actions",
   "orders.label.action": "Action",
+  "orders.label.clientData": "Customer data",
   "orders.form.delete.temporalProducts": "Confirm to delete temporal products",
+  "orders.form.delete.product": "Confirm to delete product",
   "orders.form.delete.temporalProduct": "Confirm to delete temporal product",
   "orders.label.subtotal": "Subtotal",
   "orders.label.purchase": "Purchase",
+  "orders.label.discount": "Discount",
   "orders.label.cancelPurchase": "Cancel Purchase",
   "orders.action.exportOrderAsPdf": "Export Order",
   "orders.action.viewOrder": "View Order",
   "orders.action.viewUser": "View Customer",
   "orders.action.editOrder": "Edit Order",
+  "orders.action.newOrder": "New Order",
   "orders.placeholder.reference": "Enter reference",
   "orders.error.customer.required": "Please enter a customer to set order",
   "orders.error.products.required": "Orders cannot be empty, please enter a product",

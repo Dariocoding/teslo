@@ -1,7 +1,7 @@
 import InputFormik from "@/components/@forms/InputFormik";
 import SearchList from "@/components/@forms/SearchList";
 import { formatter } from "@/utils";
-import { BillDto, DetailBillDto } from "@teslo/interfaces";
+import { BillDto, DetailBillDto, Product } from "@teslo/interfaces";
 import RenderIf from "@/components/ui/RenderIf";
 import classNames from "classnames";
 import { useFormikContext } from "formik";
@@ -11,6 +11,8 @@ import { MdCleaningServices } from "react-icons/md";
 import { ShowIf } from "react-rainbow-components";
 import { useGridDetail } from "./useGridDetail";
 import { translate } from "@/i18n";
+import { FaBox } from "react-icons/fa";
+import DrawerProducts from "@/app/orders-new/newForm/GridInsertClientProduct/DrawerProducts";
 
 interface IGridDetailProps {
   detail: DetailBillDto;
@@ -19,7 +21,8 @@ interface IGridDetailProps {
 
 const GridDetail: React.FunctionComponent<IGridDetailProps> = (props) => {
   const { detail, idx } = props;
-  const { values } = useFormikContext<BillDto>();
+  const { values, setValues } = useFormikContext<BillDto>();
+  const [showDrawerProducts, setShowDrawerProducts] = React.useState(false);
   const {
     onBlur,
     onFocus,
@@ -36,6 +39,16 @@ const GridDetail: React.FunctionComponent<IGridDetailProps> = (props) => {
     setSelected,
     onClickResult,
   } = useGridDetail(detail, idx);
+
+  const onClickProductDrawer = (product: Product) => {
+    setValues({
+      ...values,
+      details: [
+        ...values.details.map((d, indexSelf) => (idx === indexSelf ? { ...d, product } : d)),
+      ],
+    });
+    setShowDrawerProducts(false);
+  };
 
   return (
     <div className="grid xl:grid-cols-7 lg:col-span-8 gap-x-4 gap-y-2">
@@ -125,7 +138,18 @@ const GridDetail: React.FunctionComponent<IGridDetailProps> = (props) => {
           >
             <TbWashDrycleanOff />
           </button>
-          <ShowIf isTrue={detail.product?.title} className="inline-block">
+          <RenderIf isTrue={!detail.product?.title}>
+            <button
+              type="button"
+              className={classNames(
+                "btn btn-xs shadow-none cursor-pointer mb-0 btn-outline-warning"
+              )}
+              onClick={() => setShowDrawerProducts(true)}
+            >
+              <FaBox />
+            </button>
+          </RenderIf>
+          <RenderIf isTrue={detail.product?.title}>
             <button
               type="button"
               className={classNames(
@@ -135,9 +159,13 @@ const GridDetail: React.FunctionComponent<IGridDetailProps> = (props) => {
             >
               <MdCleaningServices />
             </button>
-          </ShowIf>
+          </RenderIf>
         </div>
       </div>
+      <DrawerProducts
+        showPriceTooltip={false}
+        {...{ showDrawerProducts, setShowDrawerProducts, onClickProductDrawer }}
+      />
     </div>
   );
 };

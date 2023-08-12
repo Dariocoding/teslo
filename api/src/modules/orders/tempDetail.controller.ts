@@ -10,33 +10,33 @@ import { UpdateTempOrderDto } from "./dto/update-temp-order.dto";
 @ApiTags("5.5 - Orders")
 @Auth()
 export class TempDetailController {
-	constructor(private readonly tempDetailService: TempDetailService) {}
+  constructor(private readonly tempDetailService: TempDetailService) {}
 
-	@Get()
-	getDetailsOrders(@GetUser() user: User) {
-		return this.tempDetailService.getByUser(user.iduser);
-	}
+  @Get()
+  getDetailsOrders(@GetUser() user: User) {
+    return this.tempDetailService.getByUser(user.iduser);
+  }
 
-	@Post()
-	createTempOrder(@Body() createTempOrderDto: CreateTempOrderDto, @GetUser() userOrder: User) {
-		return this.tempDetailService.create(createTempOrderDto, userOrder);
-	}
+  @Post()
+  createTempOrder(@Body() createTempOrderDto: CreateTempOrderDto, @GetUser() userOrder: User) {
+    return this.tempDetailService.create(createTempOrderDto, userOrder);
+  }
 
-	@Put("/:id")
-	updateTempOrder(
-		@Body() updateTempOrderDto: UpdateTempOrderDto,
-		@Param("id", ParseIntPipe) id: number
-	) {
-		return this.tempDetailService.update(id, updateTempOrderDto);
-	}
+  @Put("/:id")
+  updateTempOrder(
+    @Body() updateTempOrderDto: UpdateTempOrderDto,
+    @Param("id", ParseIntPipe) id: number
+  ) {
+    return this.tempDetailService.update(id, updateTempOrderDto);
+  }
 
-	@Delete()
-	deleteTempOrders(@GetUser() user: User) {
-		return this.tempDetailService.deleteAll(user.iduser);
-	}
+  @Delete()
+  deleteTempOrders(@GetUser() user: User) {
+    return this.tempDetailService.deleteAll(user.iduser);
+  }
 
-	@Delete("/:id")
-	deleteTempOrder(@GetUser() user: User, @Param("id", ParseIntPipe) id: number) {
-		return this.tempDetailService.deleteOne(id, user.iduser);
-	}
+  @Delete("/:id")
+  deleteTempOrder(@GetUser() user: User, @Param("id", ParseIntPipe) id: number) {
+    return this.tempDetailService.deleteOne(id, user.iduser);
+  }
 }

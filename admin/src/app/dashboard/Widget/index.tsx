@@ -28,10 +28,10 @@ const WidgetDashboard: React.FunctionComponent<IWidgetDashboardProps> = (props) 
           <Icon />
         </StatusIcon>
         <StatusCard
-          backgroundHoverColor={colouredIcon}
+          backgroundhovercolor={colouredIcon}
           className="rounded-r-[6px] px-4 py-6 w-full h-full toScale transform-gpu group-hover:text-white"
         >
-          <StatusInfo colorText={props.colouredIcon}>
+          <StatusInfo colortext={props.colouredIcon}>
             <RenderIf isTrue={title}>
               <span className="text-2xl group-hover:text-white">{value}</span>
             </RenderIf>
@@ -54,7 +54,7 @@ const SpanCard = styled.span`
   }
 `;
 
-const StatusCard = styled.div<{ backgroundHoverColor: string }>`
+const StatusCard = styled.div<{ backgroundhovercolor: string }>`
   display: flex;
   align-items: center;
   background-color: #fff;
@@ -72,7 +72,7 @@ const StatusCard = styled.div<{ backgroundHoverColor: string }>`
     background-image: linear-gradient(
       to top right,
       #ffffff,
-      ${(props) => props.backgroundHoverColor}
+      ${(props) => props.backgroundhovercolor}
     );
     position: absolute;
     left: -50%;
@@ -82,7 +82,7 @@ const StatusCard = styled.div<{ backgroundHoverColor: string }>`
   }
 
   svg {
-    color: ${(props) => props.backgroundHoverColor};
+    color: ${(props) => props.backgroundhovercolor};
   }
 `;
 
@@ -96,7 +96,7 @@ const StatusIcon = styled.div`
   box-shadow: rgba(0, 0, 0, 0.19) 0px 5px 10px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
 `;
 
-const StatusInfo = styled.div<{ colorText: string }>`
+const StatusInfo = styled.div<{ colortext: string }>`
   flex-grow: 1;
   text-align: center;
   z-index: 1;

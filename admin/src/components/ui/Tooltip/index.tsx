@@ -4,7 +4,7 @@ import classNames from "classnames";
 import "react-tooltip/dist/react-tooltip.css";
 import RenderIf from "../RenderIf";
 
-interface Props {
+interface Props extends React.HTMLProps<HTMLSpanElement> {
   children?: React.ReactNode;
   message?: string;
   placement?: PlacesType;
@@ -23,6 +23,7 @@ const ToolTip: React.FunctionComponent<Props> = (props) => {
     onClick,
     sm = false,
     classNameTooltip,
+    ...restProps
   } = props;
   const [tooltip, showTooltip] = React.useState(true);
   const id = useId();
@@ -38,6 +39,7 @@ const ToolTip: React.FunctionComponent<Props> = (props) => {
           showTooltip(false);
           setTimeout(() => showTooltip(true), 50);
         }}
+        {...restProps}
       >
         {children}
       </span>

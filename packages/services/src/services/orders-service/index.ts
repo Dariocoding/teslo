@@ -4,9 +4,11 @@ import { FindOrdersByDateDto } from "./interfaces";
 import { AxiosRequestConfig } from "axios";
 
 export const ordersService = {
-  getOrders: (params?: FindOrdersByDateDto) => axiosClient.get<Order[]>("/orders", { params }),
+  getOrders: (params?: FindOrdersByDateDto, config?: AxiosRequestConfig) =>
+    axiosClient.get<Order[]>("/orders", { ...(config || {}), params }),
   getOrderById: (orderId: string | number) => axiosClient.get<Order>(`/orders/${orderId}`),
-  getOrdersByIdUser: (userId: string) => axiosClient.get<Order[]>(`/orders/all/${userId}`),
+  getOrdersByIdUser: (userId: string, params?: FindOrdersByDateDto, config?: AxiosRequestConfig) =>
+    axiosClient.get<Order[]>(`/orders/all/${userId}`, { ...(config || {}), params }),
   getOrdersByPaymentMethod: (id: string | number, params?: FindOrdersByDateDto) =>
     axiosClient.get<Order[]>(`/orders/all-payment-method/${id}`, { params }),
   createOrder: (data: OrderDto, config?: AxiosRequestConfig) =>

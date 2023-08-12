@@ -34,7 +34,7 @@ export class Product {
   id?: string;
 
   @ApiProperty()
-  @Column({ nullable: true, unique: true, default: null })
+  @Column({ nullable: true, unique: true, default: null, name: "custom_code" })
   customCode: string;
 
   @ApiProperty()

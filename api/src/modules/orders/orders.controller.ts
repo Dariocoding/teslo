@@ -61,8 +61,12 @@ export class OrdersController {
   @Get("/all/:userid")
   @Auth(ValidRoles.ADMIN, ValidRoles.SELLER, ValidRoles.SUPERVISOR, ValidRoles.SUPER_USER)
   @ApiResponse({ type: () => Order, status: HttpStatus.OK, isArray: true })
-  findAllByUserId(@Param("userid") userid: string, @GetUser() userJWT: JwtPayload) {
-    return this.ordersService.finAllByUserId(userid, userJWT);
+  findAllByUserId(
+    @Param("userid") userid: string,
+    @GetUser() userJWT: JwtPayload,
+    @Query() query: FindOrdersByDateDto
+  ) {
+    return this.ordersService.finAllByUserId(userid, userJWT, query);
   }
 
   @Get("/all-payment-method/:id")
@@ -114,6 +118,7 @@ export class OrdersController {
           (detail.title || detail.product.title) + (detail.size ? ` (${detail.size})` : "");
         return detail;
       }),
+      total: pago.total.toFixed(2) as any,
     };
 
     const file = await firstValueFrom(

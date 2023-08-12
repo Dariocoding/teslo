@@ -1,6 +1,6 @@
 import DataTable, { HeaderDataTable } from "@/components/ui/DataTable";
 import RenderIf from "@/components/ui/RenderIf";
-import { useModalStore } from "@/store";
+import { useConfigApp, useModalStore } from "@/store";
 import { User, ValidRol } from "@teslo/interfaces";
 import { usersService } from "@teslo/services";
 import * as React from "react";
@@ -41,6 +41,7 @@ const TableUsers: React.FunctionComponent<ITableUsersProps> = (props) => {
     showSearch,
     showResponsive = true,
   } = props;
+  const { colors } = useConfigApp();
   const { formatMessage } = useIntl();
   const setModal = useModalStore((state) => state.setModal);
   const closeModal = useModalStore((state) => state.closeModal);
@@ -140,6 +141,7 @@ const TableUsers: React.FunctionComponent<ITableUsersProps> = (props) => {
             users,
             onDeleteUser,
             onUpdateUser,
+            config: colors,
           })
         }
       />

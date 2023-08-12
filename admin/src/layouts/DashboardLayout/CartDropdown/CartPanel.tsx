@@ -16,7 +16,10 @@ const CartPanel: React.FunctionComponent<ICartPanelProps> = React.forwardRef((pr
   const { close } = props;
   const { cart, clean } = useCartStore();
 
-  const subtotal = cart.reduce((acc, cart) => acc + cart.qty * cart.product.price, 0);
+  const subtotal = cart.reduce(
+    (acc, cart) => acc + cart.qty * (cart.product?.price ?? cart?.price),
+    0
+  );
 
   return (
     <Popover.Panel

@@ -169,8 +169,8 @@ export const MONTHS = [
 
 export const imageProduct = (product: Product) => {
   if (!product?.images) return "/img/others/box.png";
-  return product.images.length
-    ? PF + "/product/" + product.images[product.images.length - 1]
+  return product?.images?.length
+    ? PF + "/product/" + product?.images[product?.images?.length - 1]
     : "/img/others/box.png";
 };
 

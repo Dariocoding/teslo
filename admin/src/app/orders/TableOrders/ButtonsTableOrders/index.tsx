@@ -108,7 +108,7 @@ const ButtonsTableOrders: React.FunctionComponent<IButtonsTableOrdersProps> = (p
       </div>
 
       <RenderIf isTrue={orders.length}>
-        <div className="w-full flex items-center justify-start flex-wrap pb-2 sm:flex-row flex-col sm:mb-0 mb-2 mt-3">
+        <div className="w-full flex items-center justify-start flex-wrap pb-2 sm:mb-0 mb-2 mt-3">
           <button
             type="button"
             className="btn btn-xs mb-0 btn-danger mr-2 gap-1 shadow-none"

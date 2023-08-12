@@ -14,6 +14,7 @@ const DashboardTranslate = {
   "dashboard.totalOrdersBillsByMonth": "Total de facturas y pedidos por mes",
   "dashboard.totalOrdersBillsByYear": "Total de facturas y pedidos por año",
   "dashboard.#totalOrdersBills": "Total facturas y pedidos",
+  "dashboard.mostSelledProduct": "Productos más vendidos del mes",
 };
 
 const LoginTranslate = {
@@ -63,6 +64,7 @@ const AppGeneralTranslate = {
   "app.update": "Actualizar",
   "app.delete": "Eliminar",
   "app.save": "Guardar",
+  "app.pay": "Pagar",
   "app.exportPdf": "Exportar como PDF",
   "app.dropYourImageOr": "Suelta tu imagen aqui, o",
   "app.dropYourImage": "Suelta tu imagen aqui",
@@ -80,6 +82,8 @@ const AppGeneralTranslate = {
   "app.clean": "Limpiar",
   "app.areYouSureToDoThis": "¿Estás seguro de hacer esto?",
   "app.remove": "Eliminar",
+  "app.title": "Titulo",
+  "app.save.success": "Cambios guardados correctamente",
 };
 
 const AppSidebarTranslate = {
@@ -150,10 +154,12 @@ const UsersTranslate = {
   "users.supervisors": "Supervisores",
   "users.seller": "Vendedor",
   "users.sellers": "Vendedores",
+  "users.action.create.customer": "Crear cliente",
   "orders.label.buyer": "Comprador",
   "orders.label.seller": "Vendedor",
   "orders.action.cancelOrder": "Cancelar Pedido",
   "orders.action.completedOrder": "Pedido completado",
+  "orders.action.newOrder": "Nuevo pedido",
   "orders.stockMustBeGreaterThan": "Existencia debe ser mayor que o igual a (qty)={qty}",
   "orders.cancelled.success": "El pedido ha sido cancelado",
   "orders.cancelled.error": "Hubo un error cancelando el pedido",
@@ -276,6 +282,7 @@ const ProductsTranslate = {
   "products.error.brand.required": "¡Por favor ingrese el marca del producto!",
   "products.error.category.required": "¡Por favor ingrese la categoría del producto!",
   "products.error.price.required": "¡Por favor ingrese el precio del producto!",
+  "products.error.price.invalid": "El precio no es válido!",
   "products.error.quantity.required": "¡Por favor ingrese la cantidad del producto!",
   "products.error.description.required": "¡Por favor ingrese la descripción del producto!",
   "products.error.category.invalid": "¡La categoría del producto no es válida!",
@@ -290,6 +297,9 @@ const OrdersTranslate = {
   "orders.view.title": "Ver pedido",
   "orders.invoice.title": "Factura",
   "orders.label.qty": "Cantidad",
+  "orders.label.price": "Precio",
+  "orders.label.clientData": "Datos del cliente",
+  "orders.label.discount": "Descuento",
   "orders.edit.success": "¡Pedido actualizado correctamente!",
   "orders.add.success": "¡Pedido añadido correctamente!",
   "orders.view.order.user": "Ver pedido #{idorder} cliente",
@@ -299,6 +309,9 @@ const OrdersTranslate = {
   "orders.status.completed": "Completado",
   "orders.status.paid": "Pagado",
   "orders.label.ID": "ID",
+  "orders.title.add.service": "Añadir servicio",
+  "orders.title.edit.service": "Editar servicio",
+  "orders.title.delete.service": "Eliminar servicio",
   "orders.label.reference": "Referencia",
   "orders.label.fullName": "Nombre completo",
   "orders.label.dateCreated": "Fecha de creación",
@@ -308,6 +321,7 @@ const OrdersTranslate = {
   "orders.label.actions": "Acciones",
   "orders.label.action": "Acción",
   "orders.form.delete.temporalProducts": "Confirmar para eliminar productos temporales",
+  "orders.form.delete.product": "Confirmar para eliminar producto",
   "orders.form.delete.temporalProduct": "Confirmar para eliminar producto temporal",
   "orders.label.subtotal": "Subtotal",
   "orders.label.purchase": "Comprar",

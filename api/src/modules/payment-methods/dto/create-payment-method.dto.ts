@@ -1,5 +1,5 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { IsOptional, IsString } from 'class-validator';
+import { ApiProperty } from "@nestjs/swagger";
+import { IsBoolean, IsOptional, IsString } from "class-validator";
 
 export class CreatePaymentMethodDto {
   @ApiProperty()
@@ -25,4 +25,9 @@ export class CreatePaymentMethodDto {
   @IsString()
   @IsOptional()
   email: string;
+
+  @ApiProperty()
+  @IsBoolean()
+  @IsOptional()
+  visible: boolean;
 }

@@ -1,48 +1,36 @@
 import { QueryFunction, useQuery, UseQueryResult } from "@tanstack/react-query";
 import React from "react";
+const twentyFourHoursInMs = 1000 * 60 * 60 * 24;
 
 const useQueryState = <T = unknown>(
-	queryKey: string[],
-	queryFn: QueryFunction<T, any>,
-	initialData: any
+  queryKey: string[],
+  queryFn: QueryFunction<T, any>,
+  initialData: any
 ): UseQueryResult<T, unknown> & {
-	setData: React.Dispatch<React.SetStateAction<T>>;
-	isLoading: boolean;
+  setData: React.Dispatch<React.SetStateAction<T>>;
+  isLoading: boolean;
 } => {
-	const [firstLoad, setFirstLoad] = React.useState(false);
-	const [isFetched, setIsFetched] = React.useState(false);
-	const [data, setData] = React.useState(initialData);
+  const [data, setData] = React.useState(initialData);
 
-	const query = useQuery(queryKey, queryFn, {
-		initialData,
-		staleTime: Infinity,
-		enabled: false,
-	});
+  const query = useQuery(queryKey, queryFn, {
+    initialData,
+    refetchOnWindowFocus: false,
+  });
 
-	React.useEffect(() => {
-		query.refetch();
-	}, []);
+  React.useEffect(() => {
+    setData(query.data);
+  }, [query.data]);
 
-	React.useEffect(() => {
-		setData(query.data);
-		if (firstLoad) {
-			setIsFetched(true);
-		} else {
-			setFirstLoad(true);
-		}
-	}, [query.data, query.isFetching]);
+  const isLoading = query.isFetching || query.isRefetching || query.isLoading;
 
-	const isLoading =
-		query.isFetching || !isFetched || !firstLoad || query.isRefetching || query.isLoading;
-
-	//@ts-ignore
-	return {
-		...query,
-		data: data || query.data,
-		setData,
-		isFetching: isLoading,
-		isLoading,
-	};
+  //@ts-ignore
+  return {
+    ...query,
+    data: data || query.data,
+    setData,
+    isFetching: isLoading,
+    isLoading,
+  };
 };
 
 export default useQueryState;

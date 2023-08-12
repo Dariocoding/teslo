@@ -13,7 +13,7 @@ import useTimeOutMessage from "@/utils/hooks/useTimeOutMessage";
 import { AxiosResponse } from "axios";
 import { useIntl } from "react-intl";
 import { translate } from "@/i18n";
-import { useConfigEnterpriseStore } from "@/store";
+import { useConfigApp, useConfigEnterpriseStore } from "@/store";
 import { capitalize } from "@/utils";
 import Selects from "./Selects";
 import classNames from "classnames";
@@ -24,6 +24,7 @@ interface IFormUserProps {
   defaultValidRole?: ValidRol[];
   fullWidthDni?: boolean;
   renderRoles?: boolean;
+  dniValidate?: boolean;
 }
 
 const FormUser: React.FunctionComponent<IFormUserProps> = (props) => {
@@ -33,7 +34,9 @@ const FormUser: React.FunctionComponent<IFormUserProps> = (props) => {
     user: userToUpdate,
     fullWidthDni,
     renderRoles = true,
+    dniValidate = false,
   } = props;
+  const { colors } = useConfigApp();
   const status = userToUpdate ? "update" : "create";
   const { formatMessage } = useIntl();
   const { configEnterprise } = useConfigEnterpriseStore();
@@ -63,7 +66,7 @@ const FormUser: React.FunctionComponent<IFormUserProps> = (props) => {
         values.prefix = null;
         values.dni = null;
       } else {
-        if (!values.prefix.trim() || !values.dni.trim()) {
+        if (!values.dni.trim()) {
           toast.error(formatMessage({ id: "users.error.dni.empty" }));
           return;
         }
@@ -94,6 +97,7 @@ const FormUser: React.FunctionComponent<IFormUserProps> = (props) => {
       }
     }
   };
+  console.log({ dniValidate });
 
   const validationSchema = yup.object({
     firstName: yup.string().required(translate("users.error.firstName.required")),
@@ -111,6 +115,7 @@ const FormUser: React.FunctionComponent<IFormUserProps> = (props) => {
     ...(status === "update" && {
       password: yup.string().min(6, translate("users.error.password.invalidLength")),
     }),
+    ...(dniValidate && { dni: yup.string().required(translate("users.error.dni.empty")) }),
   });
 
   return (
@@ -131,23 +136,25 @@ const FormUser: React.FunctionComponent<IFormUserProps> = (props) => {
             <div className={classNames(!fullWidthDni && "grid lg:grid-cols-4 lg:gap-4")}>
               <div className="lg:col-span-3">
                 <div className="flex items-center">
-                  <SelectFormik
-                    options={configEnterprise.prefixes.map((value) => ({
-                      label: capitalize(value),
-                      value,
-                    }))}
-                    name="prefix"
-                    label={translate("users.label.prefix")}
-                    className="mr-1.5"
-                  />
+                  <RenderIf isTrue={colors.enablePrefixesUser}>
+                    <SelectFormik
+                      options={configEnterprise.prefixes.map((value) => ({
+                        label: capitalize(value),
+                        value,
+                      }))}
+                      name="prefix"
+                      label={translate("users.label.prefix")}
+                      className="mr-1.5"
+                    />
+                  </RenderIf>
                   <InputFormik
                     label={translate("users.label.dni")}
                     name={"dni"}
                     placeholder={translate("users.placeholder.dni")}
                     required
                     className="w-full"
-                    showError={false}
-                    showSuccess={false}
+                    showError={dniValidate}
+                    showSuccess={dniValidate}
                   />
                 </div>
               </div>

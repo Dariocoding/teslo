@@ -24,7 +24,6 @@ const formikShowMessages = {
 
 const ContentFormUser: React.FunctionComponent<IContentFormUserProps> = (props) => {
   const { toggleAdvanceConfig } = props;
-  const addingUser = React.useRef(false);
   const [loadingFormUser, setLoadingFormUser] = React.useState(false);
   const { formatMessage: t } = useIntl();
   const { configEnterprise } = useConfigEnterpriseStore();
@@ -68,7 +67,6 @@ const ContentFormUser: React.FunctionComponent<IContentFormUserProps> = (props) 
       });
 
       setStateNew(false);
-      addingUser.current = true;
       setValues({ ...values, user: req.data });
     } catch (error) {
       console.log(error);
@@ -85,7 +83,7 @@ const ContentFormUser: React.FunctionComponent<IContentFormUserProps> = (props) 
     }
   };
 
-  useSearchUserByDni({ onSuccess: () => setStateNew(false), addingUser });
+  useSearchUserByDni({ onSuccess: () => setStateNew(false) });
 
   return (
     <React.Fragment>

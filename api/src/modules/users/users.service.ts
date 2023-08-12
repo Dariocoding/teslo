@@ -58,12 +58,13 @@ export class UsersService {
 
   findAll(user: JwtPayload) {
     let whereUserRoles: FindOptionsWhere<User> = {};
+
     if (user.roles?.includes(ValidRoles.SELLER)) {
       whereUserRoles.roles = ArrayContains<ValidRol>([ValidRoles.USER]);
     }
 
     return this.userRepository.find({
-      where: { isDeleted: Not(true) as FindOperator<true>, ...whereUserRoles },
+      where: { ...whereUserRoles },
       order: { dateCreated: "DESC" },
     });
   }
@@ -74,15 +75,10 @@ export class UsersService {
     if (isUUID(term)) {
       user = await this.userRepository.findOneBy({
         iduser: term,
-        isDeleted: false,
       });
-    } else if (validateEmail(term)) {
+    } else {
       user = await this.userRepository.findOne({
-        where: { email: term.toLowerCase().trim(), isDeleted: false },
-      });
-    } else if (prefix) {
-      user = await this.userRepository.findOne({
-        where: { dni: term, isDeleted: false, prefix },
+        where: [{ email: term.toLowerCase().trim() }, { dni: term, ...(prefix ? { prefix } : {}) }],
       });
     }
 

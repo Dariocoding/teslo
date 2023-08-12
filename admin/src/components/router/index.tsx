@@ -17,7 +17,7 @@ const keysPublicRouters = Object.keys(publicRoutes);
 const AppRouter: React.FunctionComponent<IAppRouterProps> = (props) => {
   const {} = props;
   return (
-    <React.Suspense fallback={<Loader loading={true} />}>
+    <React.Suspense fallback={<Loader loading />}>
       <Routes>
         <Route element={<ProtectedRoute />}>
           {keysProtectRoutes.map(renderRouteDashboard)}

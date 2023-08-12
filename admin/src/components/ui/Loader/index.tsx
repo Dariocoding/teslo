@@ -7,14 +7,15 @@ import { useConfigApp } from "@/store";
 
 interface ILoaderProps {
   loading?: boolean;
+  className?: string;
 }
 
 const Loader: React.FunctionComponent<ILoaderProps> = (props) => {
-  const { loading } = props;
+  const { loading, className } = props;
   const { colors } = useConfigApp();
   if (!loading) return null;
   return (
-    <div className={classNames("fixed h-screen w-full bg-white z-50")}>
+    <div className={classNames(className || "fixed h-screen w-full bg-white z-50")}>
       <div className="flex items-center justify-center w-full h-full">
         <Spinner
           size={40}

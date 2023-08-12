@@ -8,6 +8,7 @@ import { AppModule } from "./app.module";
 import { NestFastifyApplication } from "@nestjs/platform-fastify"; */
 import * as compression from "compression";
 import * as os from "os";
+import * as dotenv from "dotenv";
 
 const cluster = require("node:cluster");
 const numCPUs = os.cpus().length;
@@ -53,10 +54,23 @@ async function bootstrap() {
 
   app.use(compression());
   app.enableCors();
-
   await app.listen(process.env.PORT);
   logger.log(`App running on port ${process.env.PORT}`);
   logger.log(`Server ready at ${await app.getUrl()}`);
+}
+
+function getIPAddress() {
+  const interfaces = require("os").networkInterfaces();
+  for (const devName in interfaces) {
+    const iface = interfaces[devName];
+
+    for (let i = 0; i < iface.length; i++) {
+      const alias = iface[i];
+      if (alias.family === "IPv4" && alias.address !== "127.0.0.1" && !alias.internal)
+        return alias.address;
+    }
+  }
+  return "0.0.0.0";
 }
 
 /* bootstrap(); */

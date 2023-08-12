@@ -4,10 +4,11 @@ import ToolTip from "@/components/ui/Tooltip";
 import useResponsive from "@/utils/hooks/useResponsive";
 import classNames from "classnames";
 import * as React from "react";
-import { Link } from "react-router-dom";
+import { Link, LinkProps, useNavigate } from "react-router-dom";
 import { IMenuItem } from "../data/data-menu";
 import { useDashboardStore } from "../store/dashboardStore";
 import { useConfigApp } from "@/store";
+import { flushSync } from "react-dom";
 
 interface ICollpasedItemProps {
   title: string;

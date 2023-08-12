@@ -75,7 +75,7 @@ const FormContainerOrder: React.FunctionComponent<IFormContainerOrderProps> = (p
     try {
       showLoader();
       const subtotalTempProducts = values.products.reduce((prev: number, curr: DetailOrderTemp) => {
-        return prev + curr.product.price * curr.qty;
+        return prev + (curr?.product?.price ?? curr.price) * curr.qty;
       }, 0);
       const subtotalOrderProducts = values.detailOrderProducts.reduce(
         (prev: number, curr: DetailOrder) => {
@@ -102,7 +102,7 @@ const FormContainerOrder: React.FunctionComponent<IFormContainerOrderProps> = (p
           ...values.products.map((p) => ({
             quantity: p.qty,
             product: p.product,
-            total: p.product.price,
+            total: p?.product?.price ?? p.price,
             size: p.size,
           })),
         ],
@@ -123,7 +123,7 @@ const FormContainerOrder: React.FunctionComponent<IFormContainerOrderProps> = (p
     try {
       showLoader();
       const subtotal = values.products.reduce((prev: number, curr: DetailOrderTemp) => {
-        return prev + curr.product.price * curr.qty;
+        return prev + (curr?.product?.price ?? curr.price) * curr.qty;
       }, 0);
       const IVA = ((subtotal * configEnterprise.iva) / 100).toFixed(2);
       const total = subtotal + parseFloat(IVA);
@@ -137,7 +137,7 @@ const FormContainerOrder: React.FunctionComponent<IFormContainerOrderProps> = (p
         detail: values.products.map((p) => ({
           quantity: p.qty,
           product: p.product,
-          total: p.product.price,
+          total: p?.product?.price ?? p.price,
           size: p.size,
         })),
         total,
@@ -210,22 +210,10 @@ export const useOrdersFormContext = () => useFormikContext<NewOrderValues>();
 const useValidateForm = () => {
   const { formatMessage: t } = useIntl();
   return (values: NewOrderValues) => {
-    const cells = document.querySelectorAll("#tableProducts tbody td");
-    let isEditing = false;
-    for (let i = 0; i < cells.length; i++) {
-      const cell = cells[i];
-      isEditing = cell.contains(cell.querySelector("input"));
-      if (isEditing) break;
-    }
-    if (isEditing) {
-      toast.error(t({ id: "orders.isEditing" }));
-      return false;
-    }
-
-    if (!values.user.iduser) {
+    /*     if (!values.user.iduser) {
       toast.error(t({ id: "orders.error.customer.required" }));
       return false;
-    }
+    } */
 
     if (!values.products?.length && !values.detailOrderProducts?.length) {
       toast.error(t({ id: "orders.error.products.required" }));

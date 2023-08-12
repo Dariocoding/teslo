@@ -13,8 +13,6 @@ import { queryClient } from "./utils";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { ErrorBoundary } from "react-error-boundary";
 
-React;
-
 function fallbackRender({ error }) {
   // Call resetErrorBoundary() to reset the error boundary and retry the render.
 

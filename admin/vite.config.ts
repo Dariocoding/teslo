@@ -1,14 +1,12 @@
 import { defineConfig, loadEnv } from "vite";
-import { dependencies } from "./package.json";
 import react from "@vitejs/plugin-react-swc";
 import checker from "vite-plugin-checker";
 import path from "path";
 import dotenv from "dotenv";
-import replace from "@rollup/plugin-replace";
 import commonjs from "@rollup/plugin-commonjs";
 import Unfonts from "unplugin-fonts";
-import preload from "vite-plugin-preload";
 import { VitePWA, VitePWAOptions } from "vite-plugin-pwa";
+import million from "million/compiler";
 
 const topEnvFileLocation = path.join(__dirname, "..", ".env");
 dotenv.config({ path: topEnvFileLocation });
@@ -67,11 +65,11 @@ export default (props) => {
   console.log({ VITE_API_URL: process.env.VITE_API_URL });
 
   return defineConfig({
+    server: {},
     plugins: [
+      million.vite({ optimize: true }),
       react(),
       checker({ typescript: true }),
-      /*       replace({ preventAssignment: true }),
-       */
       //@ts-ignore
       commonjs({
         include: [/node_modules/, /packages/],

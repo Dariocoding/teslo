@@ -9,6 +9,7 @@ import ButtonsTableProduct from "./ButtonsTable";
 import { useActionsTableProducts } from "./useActionsTableProducts";
 import ModalDeleteProduct from "./ModalDeleteProduct";
 import { Lightbox } from "react-modal-image";
+import { imageProduct } from "@/utils";
 
 export interface ITableProductsProps {
   products: Product[];
@@ -31,7 +32,7 @@ const TableProducts: React.FunctionComponent<ITableProductsProps> = (props) => {
   const [isLoadingTable, setIsLoadingTable] = React.useState(false);
   const [showModalBarCodes, setShowModalBarCodes] = React.useState(false);
   const [currentItemsSelected, setCurrentItemsSelected] = React.useState<string[]>([]);
-  const [productImageLightBox, setProductImageLightBox] = React.useState<string>(null);
+  const [productImageLightBox, setProductImageLightBox] = React.useState<Product>(null);
 
   const {
     products,
@@ -128,12 +129,12 @@ const TableProducts: React.FunctionComponent<ITableProductsProps> = (props) => {
 
       <RenderIf isTrue={productImageLightBox}>
         <Lightbox
-          medium={productImageLightBox}
-          large={productImageLightBox}
-          small={productImageLightBox}
+          medium={imageProduct(productImageLightBox)}
+          large={imageProduct(productImageLightBox)}
+          small={imageProduct(productImageLightBox)}
           //@ts-ignore
           onClose={() => setProductImageLightBox(null)}
-          alt={productImageLightBox}
+          alt={productImageLightBox?.title}
         />
       </RenderIf>
     </React.Fragment>

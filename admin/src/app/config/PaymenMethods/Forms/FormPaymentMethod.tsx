@@ -1,5 +1,6 @@
 import ButtonFormik from "@/components/@forms/ButtonFormik";
 import InputFormik from "@/components/@forms/InputFormik";
+import SwitchFormik from "@/components/@forms/SwitchFormik";
 import { translate } from "@/i18n";
 import { PaymentMethod, PaymentMethodDto } from "@teslo/interfaces";
 import { paymentMethodService } from "@teslo/services";
@@ -22,12 +23,13 @@ const validationSchema = yup.object({ title: yup.string().required("Name is requ
 const FormPaymentMethod: React.FunctionComponent<IFormPaymentMethodProps> = (props) => {
   const { state, paymentMethod, onSuccess } = props;
   const { formatMessage } = useIntl();
-  const initialValues: PaymentMethodDto = {
+  const initialValues: Required<PaymentMethodDto> = {
     title: paymentMethod?.title || "",
     owner: paymentMethod?.owner || "",
     phone: paymentMethod?.phone || "",
     email: paymentMethod?.email || "",
     dni: paymentMethod?.dni || "",
+    visible: paymentMethod?.visible ?? true,
   };
 
   async function onSubmit(data: PaymentMethodDto, actions: FormikHelpers<PaymentMethodDto>) {
@@ -89,6 +91,8 @@ const FormPaymentMethod: React.FunctionComponent<IFormPaymentMethodProps> = (pro
           name={"dni"}
           placeholder={translate("paymentMethods.placeholder.DNI")}
         />
+
+        <SwitchFormik name="visible" label={"Visible"} className="font-bold" />
 
         <ButtonFormik
           className={classNames(

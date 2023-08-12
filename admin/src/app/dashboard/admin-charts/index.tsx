@@ -1,10 +1,16 @@
 import { TablePlaceholder } from "@/components/placeholders";
-import { FindBillsByYearAndMonthDto, FindBillsByYearDto, dashboardService } from "@teslo/services";
+import {
+  BestProductSell,
+  FindBillsByYearAndMonthDto,
+  FindBillsByYearDto,
+  dashboardService,
+} from "@teslo/services";
 import * as React from "react";
 import LineChartBills from "./LineChartBills";
 import BarChartYearBills from "./BarChartYearBills";
 import PieChart from "./PieChart";
 import { translate } from "@/i18n";
+import TableBestProducts from "./TableBestProducts";
 
 interface IAdminCartsProps {}
 
@@ -16,6 +22,7 @@ const AdminCarts: React.FunctionComponent<IAdminCartsProps> = (props) => {
   const {} = props;
   const [loading, setLoading] = React.useState(true);
   const [error, setError] = React.useState(null);
+  const [bestProducts, setBestProducts] = React.useState<BestProductSell[]>([]);
   const [billsByYearMonth, setBillsByYearMonth] = React.useState<FindBillsByYearAndMonthDto>({
     year: yearCurrent,
     month: "",
@@ -32,14 +39,17 @@ const AdminCarts: React.FunctionComponent<IAdminCartsProps> = (props) => {
     async function init() {
       try {
         setLoading(true);
-        const [billsByYearMonth, billsByYear] = await Promise.all([
+        const [billsByYearMonth, billsByYear, bestProductsSell] = await Promise.all([
           dashboardService.findBillsByMonthAndYear(yearCurrent, monthCurrent, null, {
             status: "completed",
           }),
           dashboardService.findAllBillsByYear(yearCurrent, null, {
             status: "completed",
           }),
+          dashboardService.getProductsBestSeller(),
         ]);
+
+        setBestProducts(bestProductsSell.data);
         setBillsByYearMonth(billsByYearMonth.data);
         setBillsByYear(billsByYear.data);
       } catch (error) {
@@ -76,6 +86,9 @@ const AdminCarts: React.FunctionComponent<IAdminCartsProps> = (props) => {
             )}
           </div>
         </div>
+      </div>
+      <div className="tile">
+        <TableBestProducts {...{ bestProducts }} />
       </div>
       <div className="lg:grid grid-cols-2 gap-4">
         <div>

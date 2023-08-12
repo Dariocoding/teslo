@@ -11,4 +11,5 @@ export interface ProductTable extends Product {
 	providersFormatted: React.ReactNode;
 	titleFormatted: React.ReactNode;
 	checkSelected: React.ReactNode;
+	brandFormatted:React.ReactNode
 }

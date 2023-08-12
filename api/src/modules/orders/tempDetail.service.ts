@@ -11,6 +11,8 @@ const selectArrTempDetail: FindOptionsSelect<DetailTempOrder> = {
   id: true,
   qty: true,
   size: true,
+  price: true,
+  title: true,
   product: {
     id: true,
     code: true,
@@ -45,15 +47,17 @@ export class TempDetailService {
   }
 
   async create(createTempOrderDto: CreateTempOrderDto, userOrder: User) {
-    const exist = await this.detailTempRepository.findOne({
-      where: {
-        product: { id: createTempOrderDto.product.id },
-        userOrder: { iduser: userOrder.iduser },
-        ...(createTempOrderDto.size ? { size: createTempOrderDto.size } : {}),
-      },
-      select: selectArrTempDetail,
-      relations,
-    });
+    const exist = createTempOrderDto?.product?.id
+      ? await this.detailTempRepository.findOne({
+          where: {
+            product: { id: createTempOrderDto.product.id },
+            userOrder: { iduser: userOrder.iduser },
+            ...(createTempOrderDto.size ? { size: createTempOrderDto.size } : {}),
+          },
+          select: selectArrTempDetail,
+          relations,
+        })
+      : null;
 
     if (exist) {
       const qty = exist.qty + createTempOrderDto.qty;
@@ -103,11 +107,15 @@ export class TempDetailService {
   private mapProducts(detail: DetailTempOrder): DetailTempOrder {
     return {
       ...detail,
-      product: {
-        ...detail.product,
-        //@ts-ignore
-        images: detail.product.images.map((image: ProductImage) => image.url),
-      },
+      ...(detail.product
+        ? {
+            product: {
+              ...detail.product,
+              //@ts-ignore
+              images: detail.product?.images?.map?.((image: ProductImage) => image.url),
+            },
+          }
+        : {}),
     };
   }
 }

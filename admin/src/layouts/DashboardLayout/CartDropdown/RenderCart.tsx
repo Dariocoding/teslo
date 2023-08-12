@@ -1,3 +1,5 @@
+import { RenderIf } from "@/components/ui";
+import { hideLoader, showLoader } from "@/components/ui/Loader";
 import Prices from "@/components/ui/Prices";
 import { translate } from "@/i18n";
 import { Cart, useCartStore } from "@/store";
@@ -14,7 +16,17 @@ const RenderCart: React.FunctionComponent<IRenderCartProps> = (props) => {
   const { close, cart } = props;
   const { removeCart } = useCartStore();
   const { size, qty, product } = cart;
-  const { title, slug, price } = product;
+  const { title, slug, price } = product || {};
+
+  const onRemoveCart = async () => {
+    try {
+      showLoader();
+    } catch (error) {
+      console.log(error);
+    } finally {
+      hideLoader();
+    }
+  };
 
   return (
     <div className="flex py-5 last:pb-0">
@@ -24,11 +36,13 @@ const RenderCart: React.FunctionComponent<IRenderCartProps> = (props) => {
           alt={title}
           className="h-full w-full object-contain object-center"
         />
-        <Link
-          onClick={close}
-          className="absolute inset-0"
-          to={validPaths.viewProduct.fnPath(slug)}
-        />
+        <RenderIf isTrue={product}>
+          <Link
+            onClick={close}
+            className="absolute inset-0"
+            to={validPaths.viewProduct.fnPath(slug)}
+          />
+        </RenderIf>
       </div>
 
       <div className="ml-4 flex flex-1 flex-col">
@@ -37,14 +51,14 @@ const RenderCart: React.FunctionComponent<IRenderCartProps> = (props) => {
             <div>
               <h3 className="text-base font-medium text-black">
                 <Link onClick={close} to={validPaths.viewProduct.fnPath(slug)}>
-                  {title}
+                  {title ?? cart.title}
                 </Link>
               </h3>
               <p className="mt-1 text-sm text-slate-500">
                 <span>{size}</span>
               </p>
             </div>
-            <Prices price={price * qty} className="mt-0.5" />
+            <Prices price={(price ?? cart.price) * qty} className="mt-0.5" />
           </div>
         </div>
         <div className="flex flex-1 items-end justify-between text-sm">

@@ -10,6 +10,7 @@ const defaultHeadingOrders = (): HeaderDataTable[] => [
   { title: translate("orders.label.paymentMethod"), field: "paymentMethod.title" },
   { title: translate("orders.label.subtotal"), field: "subtotalFormatted", center: true },
   { title: "I.V.A", field: "ivaFormatted", center: true },
+  { title: translate("orders.label.discount"), field: "discountFormatted", center: true },
   { title: translate("orders.label.total"), field: "totalFormatted", center: true },
   { title: translate("orders.label.status"), field: "badgeStatus", center: true },
   { title: translate("orders.label.actions"), field: "actions", center: true },

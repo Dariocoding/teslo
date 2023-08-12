@@ -12,13 +12,13 @@ const Selects: React.FunctionComponent<ISelectsProps> = (props) => {
   const { renderRoles } = props;
   return (
     <React.Fragment>
-      <SelectFormik
+      {/*       <SelectFormik
         name="isActive"
         options={[
           { value: true, label: translate("users.label.status.active") },
           { value: false, label: translate("users.label.status.inactive") },
         ]}
-      />
+      /> */}
 
       <RenderIf isTrue={renderRoles}>
         <SelectFormik

@@ -22,7 +22,7 @@ const OrdersPage: React.FunctionComponent<IOrdersPageProps> = (props) => {
 
   return (
     <HeaderDashboard
-      title={"Orders"}
+      title={translate("orders.title")}
       icon={<RiMoneyDollarCircleFill />}
       to={protectedRoutes.dashboard.path}
       breadcrumbs={[

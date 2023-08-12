@@ -4,27 +4,32 @@ import { IsInt, IsNumber, IsObject, IsOptional, IsPositive, IsString, Min } from
 import { Product } from "src/modules/products/entities";
 
 export class CreateDetailDto {
-	@ApiPropertyOptional()
-	@IsNumber()
-	@IsPositive()
-	@IsOptional()
-	id?: number;
+  @ApiPropertyOptional()
+  @IsNumber()
+  @IsPositive()
+  @IsOptional()
+  id?: number;
 
-	@ApiProperty()
-	@IsNumber()
-	@Min(0)
-	total: number;
+  @ApiProperty()
+  @IsNumber()
+  @Min(0)
+  total: number;
 
-	@ApiProperty()
-	@IsInt()
-	quantity: number;
+  @ApiProperty()
+  @IsInt()
+  quantity: number;
 
-	@ApiProperty()
-	@IsString()
-	@IsOptional()
-	size?: ValidSizes;
+  @ApiProperty()
+  @IsString()
+  @IsOptional()
+  size?: ValidSizes;
 
-	@ApiProperty()
-	@IsObject()
-	product: Product;
+  @ApiProperty()
+  @IsObject()
+  product: Product;
+
+  @ApiProperty()
+  @IsString()
+  @IsOptional()
+  title: string;
 }

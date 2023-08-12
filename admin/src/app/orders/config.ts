@@ -11,4 +11,5 @@ export interface OrderTable extends Order {
   sellerFullName: string;
   subtotalFormatted: string;
   ivaFormatted: string;
+  discountFormatted: string;
 }

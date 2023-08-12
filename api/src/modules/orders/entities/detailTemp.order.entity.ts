@@ -15,7 +15,7 @@ export class DetailTempOrder {
   userOrder?: User;
 
   @ApiProperty({ type: () => Product })
-  @ManyToOne(() => Product, (product) => product.detailTempOrders)
+  @ManyToOne(() => Product, (product) => product.detailTempOrders, { nullable: true })
   product?: Product;
 
   @ApiProperty()
@@ -25,4 +25,12 @@ export class DetailTempOrder {
   @ApiProperty()
   @Column({ nullable: true })
   size: Size;
+
+  @ApiProperty()
+  @Column({ nullable: true })
+  title: string;
+
+  @ApiProperty()
+  @Column({ nullable: true, type: "float" })
+  price: number;
 }

@@ -32,6 +32,7 @@ const mapOrders = (props: IMapOrdersProps): OrderTable[] => {
       sellerFullName: order.userSell
         ? order.userSell.firstName + " " + order.userSell.lastName
         : "",
+      discountFormatted: order.discount + " %",
     };
   });
 };

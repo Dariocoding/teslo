@@ -5,10 +5,10 @@ import dataOptions, { DataOption } from "./data/data-options";
 import { validPaths } from "@/utils";
 import { FaCogs } from "react-icons/fa";
 import EnterpriseForm from "./forms/EnterpriseForm";
-import { useModalStore } from "@/store";
-import { useIntl } from "react-intl";
+import { useConfigApp, useModalStore } from "@/store";
 import { translate } from "@/i18n";
 import AuthorityCheck from "@/components/AuthorityCheck";
+import { RenderIf } from "@/components/ui";
 
 const UserPrefixesForm = React.lazy(() => import("./forms/UserPrefixesForm"));
 const DeveloperOptionsModal = React.lazy(() => import("./forms/DeveloperOptions"));
@@ -70,9 +70,9 @@ const ConfigPage: React.FC<IConfigPageProps> = (props) => {
         <div className="lg:col-span-2">
           <div className="grid lg:grid-cols-2 gap-4">
             {dataOptions.map((option, idx) => (
-              <AuthorityCheck validRoles={option.permission}>
+              <CheckRenderCard key={idx} {...{ option }}>
                 <Card {...option} key={idx} onClick={(() => onClickOption(option.id))()} />
-              </AuthorityCheck>
+              </CheckRenderCard>
             ))}
           </div>
         </div>
@@ -82,3 +82,24 @@ const ConfigPage: React.FC<IConfigPageProps> = (props) => {
 };
 
 export default ConfigPage;
+
+interface ICheckRenderCardProps {
+  children?: React.ReactNode;
+  option: DataOption;
+}
+
+const CheckRenderCard: React.FunctionComponent<ICheckRenderCardProps> = (props) => {
+  const { option } = props;
+  const { colors } = useConfigApp();
+
+  let render = true;
+  if (option.id === "user-prefixes") {
+    render = colors.enablePrefixesUser;
+  }
+
+  return (
+    <RenderIf isTrue={render}>
+      <AuthorityCheck validRoles={option.permission}>{props.children}</AuthorityCheck>
+    </RenderIf>
+  );
+};

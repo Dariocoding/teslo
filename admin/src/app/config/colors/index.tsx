@@ -7,6 +7,8 @@ import FormColors from "./FormColors";
 import RecomendedColors from "./RecommendedColors";
 import { useConfigApp } from "@/store";
 import { translate } from "@/i18n";
+import OptionsApp from "./OptionsApp";
+import ActionsForm from "./ActionsForm";
 
 interface IColorsPageProps {}
 
@@ -36,8 +38,14 @@ const ColorsPage: React.FunctionComponent<IColorsPageProps> = (props) => {
     >
       <div className="grid lg:grid-cols-7 gap-4">
         <div className="lg:col-span-3">
-          <div className="tile">
-            <FormColors onSuccess={() => {}} />
+          <div className="tile p-3.5 mb-2">
+            <FormColors />
+          </div>
+          <div className="tile p-3.5 mb-2">
+            <OptionsApp />
+          </div>
+          <div className="tile p-3.5 mb-2">
+            <ActionsForm />
           </div>
           <RecomendedColors />
         </div>

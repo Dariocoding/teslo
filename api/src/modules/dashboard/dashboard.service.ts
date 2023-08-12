@@ -52,7 +52,7 @@ export class DashboardService {
     }
 
     return this.userRepository.count({
-      where: { isDeleted: Not(true) as FindOperator<true>, ...whereUserRoles },
+      where: { ...whereUserRoles },
     });
   }
 
@@ -85,7 +85,7 @@ export class DashboardService {
 
     return this.userRepository.find({
       take: 10,
-      where: { isDeleted: Not(true) as FindOperator<true>, ...whereUser },
+      where: { ...whereUser },
       order: { dateCreated: "DESC" },
     });
   }
@@ -242,6 +242,25 @@ export class DashboardService {
       arrMOrders.push(arrData);
     }
     return { year, bills: arrMOrders };
+  }
+
+  async getBestProductSellers() {
+    const today = new Date();
+    const start = new Date(today.getFullYear(), today.getMonth(), 1);
+
+    const SQL = `SELECT product.id, product.title, product.slug, product.stock, product.custom_code,
+    SUM(dtorder.total * dtorder.quantity) as total, product.code, pr_images.url
+    FROM products product
+    INNER JOIN product_images as pr_images ON pr_images.productid = product.id
+    INNER JOIN public."detail-order" dtorder ON product.id = dtorder.productid
+    INNER JOIN orders o ON o.idorder = dtorder.orderid
+    WHERE o.date_created BETWEEN '${start.toISOString()}' AND '${today.toISOString()}'
+    GROUP BY product.id, pr_images.url
+    ORDER BY total DESC
+    LIMIT 5`;
+
+    const products = await this.connection.query(SQL);
+    return products;
   }
 
   private getQueryUser(userJWT: JwtPayload) {

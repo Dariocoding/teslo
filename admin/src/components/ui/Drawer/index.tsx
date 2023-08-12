@@ -4,7 +4,6 @@ import Modal from "react-modal";
 import CloseButton from "../CloseButton";
 import { motion } from "framer-motion";
 import useOutsideClick from "../hooks/useOutsideClick";
-//@ts-ignore
 import styles from "./_drawer.module.css";
 import RenderIf from "../RenderIf";
 
@@ -30,6 +29,7 @@ interface IDrawerProps {
   headerClass?: string;
   footerClass?: string;
   bodyClass?: string;
+  shouldCloseOnOverlayClick?: boolean;
 }
 
 const Drawer: React.FunctionComponent<IDrawerProps> = (props) => {
@@ -53,11 +53,11 @@ const Drawer: React.FunctionComponent<IDrawerProps> = (props) => {
     bodyClass,
     showBackdrop = true,
     lockScroll = true,
+    shouldCloseOnOverlayClick = true,
   } = props;
 
-  const onCloseClick = () => onClose();
   const ref = useOutsideClick<HTMLDivElement>(onClose);
-  const renderCloseButton = <CloseButton onClick={onCloseClick} />;
+  const renderCloseButton = <CloseButton onClick={onClose} />;
 
   const getStyle = () => {
     if (placement === "left" || placement === "right") {
@@ -83,8 +83,24 @@ const Drawer: React.FunctionComponent<IDrawerProps> = (props) => {
 
   const { dimensionClass, contentStyle, motionStyle } = getStyle();
 
+  React.useEffect(() => {
+    const openDrawerShortcut = (e: KeyboardEvent) => {
+      if (e?.key === "Escape") {
+        onClose();
+      }
+    };
+
+    document.addEventListener("keydown", openDrawerShortcut);
+
+    return () => {
+      document.removeEventListener("keydown", openDrawerShortcut);
+    };
+  }, [isOpen]);
+
   return (
     <Modal
+      shouldCloseOnEsc={false}
+      shouldCloseOnOverlayClick={shouldCloseOnOverlayClick}
       className={{
         base: classNames("drawer-dario", className),
         afterOpen: "drawer-after-open",
