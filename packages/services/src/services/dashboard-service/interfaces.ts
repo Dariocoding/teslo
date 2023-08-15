@@ -24,6 +24,7 @@ export interface BestProductSell {
   slug: string;
   total: number;
   code: number;
+  custom_code: string;
   url: string | null;
 }
 

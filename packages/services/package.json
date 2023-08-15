@@ -7,8 +7,8 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
-    "compile:dev": "tsc -p tsconfig.json --watch",
-    "compile": "tsc -p tsconfig.json"
+    "dev": "tsc -p tsconfig.json --watch",
+    "build": "tsc -p tsconfig.json"
   },
   "devDependencies": {
     "@teslo/interfaces": "1.0.0",

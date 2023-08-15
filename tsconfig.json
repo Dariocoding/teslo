@@ -1,8 +1,7 @@
 {
-	"extends": "./tsconfig.build.json",
-	"compilerOptions": {
-		"baseUrl": "."
-	},
-	"include": ["./packages/*/**.ts", "./packages/*/**.tsx"],
-	"references": [{ "path": "admin" }, { "path": "api" }, { "path": "packages/interfaces" }]
+  "extends": "./tsconfig.build.json",
+  "compilerOptions": {
+    "baseUrl": "."
+  },
+  "include": ["./packages/*/**.ts"]
 }

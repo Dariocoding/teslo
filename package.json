@@ -4,40 +4,19 @@
   "private": true,
   "description": "Teslo Shop Project",
   "workspaces": [
-    "api",
-    "admin",
+    "apps/*",
     "packages/*"
   ],
   "scripts": {
-    "start": "yarn --cwd apps/site start",
-    "next": "yarn --cwd apps/admin dev",
-    "dev:admin": "npm run dev --workspace=admin",
-    "build:admin": "npm run build --workspace=admin",
-    "build:site": "npm run build --workspace=site",
-    "preview:admin": "npm run preview --workspace=admin",
-    "dev:api": "npm run start:dev --workspace=api",
-    "build:api": "npm run build --workspace=api",
-    "start:api": "npm run start --workspace=api",
-    "start:site": "npm run start --workspace=site",
-    "build:database": "cd api && docker-compose up -d",
-    "dev:site": "npm run dev --workspace=site",
-    "all:dev": "npm-run-all --parallel compile:packages dev:admin dev:api dev:site",
-    "all:dev:admin:api": "npm-run-all --parallel compile:packages:dev dev:admin dev:api",
-    "all:dev:site": "npm-run-all --parallel compile:packages dev:site",
-    "all:dev:site:api": "npm-run-all --parallel compile:packages:dev dev:site dev:api",
-    "compile:packages": "npm run compile --workspace=packages/interfaces && npm run compile --workspace=packages/services",
-    "vercel:admin": "npm run compile:packages && npm run build:admin",
-    "vercel:site": "npm run compile:packages && npm run build:site",
-    "all:dev:apps": "npm-run-all --parallel compile:packages dev:site dev:admin",
-    "package:dev:interfaces": "npm run compile:dev --workspace=packages/interfaces",
-    "package:dev:services": "npm run compile:dev --workspace=packages/services",
-    "compile:packages:dev": "npm-run-all --parallel package:dev:interfaces package:dev:services"
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "start": "node ./apps/api/dist/main.js"
   },
   "devDependencies": {
-    "@types/node": "^20.4.2",
-    "@typescript-eslint/eslint-plugin": "^6.0.0",
-    "@typescript-eslint/parser": "^6.0.0",
-    "eslint": "^8.45.0",
+    "@types/node": "^20.4.10",
+    "@typescript-eslint/eslint-plugin": "^6.3.0",
+    "@typescript-eslint/parser": "^6.3.0",
+    "eslint": "^8.47.0",
     "npm-run-all": "^4.1.5",
     "ts-node": "^10.9.1",
     "typescript": "5.1.6"
@@ -45,6 +24,8 @@
   "author": "DarioCoding <darioflores170@gmail.com>",
   "license": "ISC",
   "dependencies": {
-    "concurrently": "^8.0.1"
-  }
+    "concurrently": "^8.2.0",
+    "turbo": "^1.10.12"
+  },
+  "packageManager": "yarn@1.22.17"
 }

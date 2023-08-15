@@ -40,3 +40,4 @@ yarn-error.log
 build/config\.gypi
 # Local Netlify folder
 .netlify
+.vercel
