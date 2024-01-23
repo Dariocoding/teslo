@@ -8,18 +8,18 @@ const publicRoutesStr = Object.keys(publicRoutes).map((key) => {
   return route.path;
 });
 
-const ProtectedRoute = () => {
+const ProtectedRoute = (props: { children: React.ReactNode }) => {
   const { authenticated, loading } = useAuthStore();
   const location = useLocation();
 
   if (loading) return <Loader loading={true} />;
 
   if (!authenticated && !loading) {
-    if (publicRoutesStr.includes(location.pathname)) return <Outlet />;
+    if (publicRoutesStr.includes(location.pathname)) return props.children;
     return <Navigate to={validPaths.home.path} replace />;
   }
 
-  return <Outlet />;
+  return props.children;
 };
 
 export default ProtectedRoute;

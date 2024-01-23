@@ -1,15 +1,18 @@
 import * as React from "react";
 import { IRenderProductProps } from ".";
 import { FaMinus, FaPlus } from "react-icons/fa";
-import { useConfigApp } from "@/store";
+import { useCartStore, useConfigApp } from "@/store";
 import { RenderIf } from "@/components/ui";
 import { useOrderFormContext } from "../..";
 import { Size } from "@teslo/interfaces";
+import { detailTempOrdersService } from "@teslo/services";
+import toast from "react-hot-toast";
 
 interface IActionsRenderProductProps extends IRenderProductProps {}
 
 const ActionsRenderProduct: React.FunctionComponent<IActionsRenderProductProps> = (props) => {
   const { product, productOrder } = props;
+  const { setCart, cart } = useCartStore();
   const { values, setValues } = useOrderFormContext();
   const { colors } = useConfigApp();
 
@@ -25,6 +28,33 @@ const ActionsRenderProduct: React.FunctionComponent<IActionsRenderProductProps> 
           }
           return p;
         }),
+      });
+      setCart(
+        cart.map((p) => ({
+          ...p,
+          qty:
+            p.id === product.id && p.size === product.size
+              ? p.qty - 1 <= 0
+                ? 1
+                : p.qty - 1
+              : p.qty,
+          sameQty:
+            p.id === product.id && p.size === product.size
+              ? p.qty - 1 <= 0
+                ? 1
+                : p.qty - 1
+              : p.qty,
+          size: p.id === product.id && p.size === product.size ? p.size : p.size,
+        }))
+      );
+
+      if (product.qty - 1 === 0) {
+        return;
+      }
+
+      detailTempOrdersService.updateOne(product.id, {
+        qty: product.qty - 1,
+        ...(product.size && { size: product.size }),
       });
     }
 
@@ -44,6 +74,10 @@ const ActionsRenderProduct: React.FunctionComponent<IActionsRenderProductProps> 
 
   const onPlus = () => {
     if (product) {
+      if (product.qty + 1 > product.product.stock) {
+        return toast.error("No hay suficiente stock");
+      }
+
       setValues({
         ...values,
         products: values.products.map((p) => {
@@ -54,6 +88,20 @@ const ActionsRenderProduct: React.FunctionComponent<IActionsRenderProductProps> 
           }
           return p;
         }),
+      });
+
+      setCart(
+        cart.map((p) => ({
+          ...p,
+          qty: p.id === product.id && p.size === product.size ? p.qty + 1 : p.qty,
+          sameQty: p.id === product.id && p.size === product.size ? p.qty + 1 : p.qty,
+          size: p.id === product.id && p.size === product.size ? p.size : p.size,
+        }))
+      );
+
+      detailTempOrdersService.updateOne(product.id, {
+        qty: product.qty + 1,
+        ...(product.size && { size: product.size }),
       });
     }
 

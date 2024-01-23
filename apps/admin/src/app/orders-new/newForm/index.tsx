@@ -45,12 +45,6 @@ export interface NewOrderValues {
   discount: number;
 }
 
-/* function onKeyDown(keyEvent) {
-  if ((keyEvent.charCode || keyEvent.keyCode) === 13) {
-    keyEvent.preventDefault();
-  }
-} */
-
 const NewFormOrder: React.FunctionComponent<INewFormOrderProps> = (props) => {
   const { cart, order } = props;
   const navigate = useNavigate();

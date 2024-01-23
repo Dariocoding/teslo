@@ -1,5 +1,6 @@
 import { RenderIf } from "@/components/ui";
 import { translate } from "@/i18n";
+import { useConfigApp } from "@/store";
 import { formatter, validPaths } from "@/utils";
 import { Product } from "@teslo/interfaces";
 import * as React from "react";
@@ -12,6 +13,7 @@ interface IDetailInfoProductProps {
 
 const DetailInfoProduct: React.FunctionComponent<IDetailInfoProductProps> = (props) => {
   const { product, className } = props;
+  const { colors } = useConfigApp();
   return (
     <div className={className}>
       <h6 className="text-xl">
@@ -25,10 +27,20 @@ const DetailInfoProduct: React.FunctionComponent<IDetailInfoProductProps> = (pro
           <strong>{translate("products.label.stock")}: </strong> {product?.stock}
         </span>
 
-        <p>
-          <span className="font-bold">{translate("products.label.sizes")}:</span>{" "}
-          {product?.sizes?.join?.(", ")}
-        </p>
+        <span>
+          <strong>{translate("products.label.code")}: </strong> {product?.code}
+        </span>
+
+        <span>
+          <strong>Custom Code: </strong> {product?.customCode}
+        </span>
+
+        <RenderIf isTrue={colors.enableClothesShopping}>
+          <p>
+            <span className="font-bold">{translate("products.label.sizes")}:</span>{" "}
+            {product?.sizes?.join?.(", ")}
+          </p>
+        </RenderIf>
 
         <RenderIf isTrue={product?.categories?.length}>
           <span className="flex items-center gap-x-1">

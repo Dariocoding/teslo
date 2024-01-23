@@ -30,14 +30,14 @@ const LoadedSetBill: React.FunctionComponent<ILoadedSetBillProps> = (props) => {
                   <div className="mb-3">
                     <img src="/img/others/error.png" alt="Error" className="mx-auto w-28" />
                   </div>
-                  <p className="text-center font-semibold text-lg">No providers found</p>
+                  <p className="text-center font-semibold text-lg">Proveedores no encontrados</p>
 
                   <div className="flex items-center justify-center mt-2">
                     <Link
                       to={validPaths.providers.path}
                       className="btn btn-primary btn-sm px-8 mb-0"
                     >
-                      Add new Provider
+                      Añadir nuevo proveedor
                     </Link>
                   </div>
                 </div>

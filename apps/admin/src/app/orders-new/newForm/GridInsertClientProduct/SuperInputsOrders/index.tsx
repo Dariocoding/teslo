@@ -41,7 +41,7 @@ const SuperInputsOrders: React.FunctionComponent<ISuperInputsOrdersProps> = (pro
         {...searchProduct}
         classNameContainer="min-w-[300px] search-list-products"
         results={listProducts.map((product) => ({
-          label: product.title,
+          label: `${product.title} - (${product.code})`,
           value: product.id,
         }))}
       >

@@ -16,8 +16,8 @@ export interface IDrawerProductsProps
 const DrawerProducts: React.FunctionComponent<IDrawerProductsProps> = (props) => {
   const { showDrawerProducts, setShowDrawerProducts, onClickProductDrawer, showPriceTooltip } =
     props;
-  const sm = useMedia("(max-width: 600px)");
-  const width = sm ? 290 : 600;
+  const sm = useMedia("(max-width: 700px)");
+  const width = sm ? 290 : 700;
 
   React.useEffect(() => {
     const openDrawerShortcut = (e: KeyboardEvent) => {

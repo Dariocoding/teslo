@@ -1,18 +1,18 @@
 import { defineConfig, loadEnv } from "vite";
 import react from "@vitejs/plugin-react-swc";
-import checker from "vite-plugin-checker";
 import path from "path";
 import dotenv from "dotenv";
+import checker from "vite-plugin-checker";
 import commonjs from "@rollup/plugin-commonjs";
 import Unfonts from "unplugin-fonts";
-import { VitePWA, VitePWAOptions } from "vite-plugin-pwa";
 import million from "million/compiler";
+import { VitePWA, VitePWAOptions } from "vite-plugin-pwa";
 
 const topEnvFileLocation = path.join(__dirname, "..", "..", ".env");
 dotenv.config({ path: topEnvFileLocation });
 
 const manifestForPlugin: Partial<VitePWAOptions> = {
-  registerType: "prompt",
+  registerType: "autoUpdate",
   includeAssets: ["favicon.ico", "apple-touch-icon.png", "masked-icon.svg"],
   manifest: {
     name: "Teslo's Shop",

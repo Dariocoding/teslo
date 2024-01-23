@@ -1,22 +1,22 @@
 export const SIDE_NAV_WIDTH = 250;
 export const SIDE_NAV_COLLAPSED_WIDTH = 80;
-export const SIDE_NAV_CONTENT_GUTTER = 'px-4';
-export const LOGO_X_GUTTER = 'px-6';
+export const SIDE_NAV_CONTENT_GUTTER = "px-4";
+export const LOGO_X_GUTTER = "px-6";
 export const IS_THEMED = true;
 
 /* THEME WITH SLATE */
 
 export const THEMED_SIDEBAR_CLASSNAMES = {
-	topLogoContainer: 'bg-slate-900 border-slate-800 border-t-0',
-	headerTop: 'bg-slate-800',
-	textColor: 'text-[#fbfbfb]',
-	textSubtitleSidebar: 'text-gray-50',
-	hoverNavToggle: 'hover:bg-slate-700',
-	sidebarContainer: 'bg-slate-800 border-0',
-	sidebarItemHover: 'hover:bg-slate-700',
-	sidebarItemDropdown: 'hover:bg-slate-500',
-	sidebarDropdownCollapsedContainer: 'bg-slate-700',
-	loaderColor: 'text-slate-700',
+  topLogoContainer: "bg-slate-900 border-slate-800 border-t-0",
+  headerTop: "bg-slate-800",
+  textColor: "text-[#fbfbfb]",
+  textSubtitleSidebar: "text-gray-50",
+  hoverNavToggle: "hover:bg-slate-700",
+  sidebarContainer: "bg-slate-800 border-0",
+  sidebarItemHover: "hover:bg-slate-700",
+  sidebarItemDropdown: "hover:bg-slate-500",
+  sidebarDropdownCollapsedContainer: "bg-slate-700",
+  loaderColor: "text-slate-700",
 };
 
 /* THEME WITH INDIGO */
@@ -80,60 +80,54 @@ export const THEMED_SIDEBAR_CLASSNAMES = {
 }; */
 
 export const colorsCromatics = [
-	'slate',
-	'gray',
-	'zinc',
-	'neutral',
-	'stone',
-	'red',
-	'orange',
-	'amber',
-	'yellow',
-	'lime',
-	'green',
-	'emerald',
-	'teal',
-	'cyan',
-	'sky',
-	'blue',
-	'indigo',
-	'violet',
-	'purple',
-	'fuchsia',
-	'pink',
-	'rose',
+  "slate",
+  "gray",
+  "zinc",
+  "neutral",
+  "stone",
+  "red",
+  "orange",
+  "amber",
+  "yellow",
+  "lime",
+  "green",
+  "emerald",
+  "teal",
+  "cyan",
+  "sky",
+  "blue",
+  "indigo",
+  "violet",
+  "purple",
+  "fuchsia",
+  "pink",
+  "rose",
 ];
 
-const colorsNumbers = ['50', '100', '200', '300', '400', '500', '600', '700', '800', '900'];
+const colorsNumbers = ["50", "100", "200", "300", "400", "500", "600", "700", "800", "900"];
 
 export const tailwindColors = [
-	...colorsNumbers
-		.map(number => {
-			const colorsNormal = colorsCromatics.map(color => {
-				return `bg-${color}-${number}`;
-			});
+  ...colorsNumbers
+    .map((number) => {
+      const colorsNormal = colorsCromatics.map((color) => {
+        return `bg-${color}-${number}`;
+      });
 
-			const colorsHover = colorsCromatics.map(color => {
-				return `hover:${color}-${number}`;
-			});
+      const colorsHover = colorsCromatics.map((color) => {
+        return `hover:${color}-${number}`;
+      });
 
-			const borderColors = colorsCromatics.map(color => {
-				return `border-${color}-${number}`;
-			});
+      const borderColors = colorsCromatics.map((color) => {
+        return `border-${color}-${number}`;
+      });
 
-			const textColors = colorsCromatics.map(color => {
-				return `text-${color}-${number}`;
-			});
+      const textColors = colorsCromatics.map((color) => {
+        return `text-${color}-${number}`;
+      });
 
-			const borders = ['border', 'border-t', 'border-r', 'border-b', 'border-l'];
+      const borders = ["border", "border-t", "border-r", "border-b", "border-l"];
 
-			return [
-				...colorsNormal,
-				...colorsHover,
-				...borderColors,
-				...borders,
-				...textColors,
-			];
-		})
-		.flat(),
+      return [...colorsNormal, ...colorsHover, ...borderColors, ...borders, ...textColors];
+    })
+    .flat(),
 ];

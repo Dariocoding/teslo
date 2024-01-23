@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Routes, Route, Navigate, useLocation } from "react-router-dom";
+import { Routes, Route, Navigate, useLocation, Outlet } from "react-router-dom";
 import ProtectedRoute from "./ProtectedRoute";
 import { PageProps, protectedRoutes, validPaths, publicRoutes } from "@/utils";
 import Loader from "../ui/Loader";
@@ -24,13 +24,24 @@ const AppRouter: React.FunctionComponent<IAppRouterProps> = (props) => {
   return (
     <React.Suspense fallback={<Loader loading />}>
       <Routes>
-        <Route element={<ProtectedRoute />}>
-          {keysProtectRoutes.map(renderRouteDashboard)}
-
-          <Route path="*" element={<Navigate to="/" replace />} />
+        <Route element={<PublicProtectedRoute />}>
+          {keysPublicRouters.map(renderRouteApp)}
+          <Route path="*" element={<Navigate to={validPaths.home.path} replace />} />
         </Route>
 
-        <Route element={<PublicProtectedRoute />}>{keysPublicRouters.map(renderRouteApp)}</Route>
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute>
+              <DashboardLayout>
+                <Outlet />
+              </DashboardLayout>
+            </ProtectedRoute>
+          }
+        >
+          {keysProtectRoutes.map(renderRouteDashboard)}
+          <Route path="*" element={<Navigate to={validPaths.dashboard.path} replace />} />
+        </Route>
       </Routes>
     </React.Suspense>
   );
@@ -54,14 +65,14 @@ const renderRouteDashboard = (key: string, idx: number) => {
       key={key + idx}
       path={route.path}
       element={
-        <AuthorityCheck
-          validRoles={route.authoritys}
-          redirectOnNotValidRol={validPaths.dashboard.path}
-        >
-          <DashboardLayout>
+        <React.Suspense fallback={<Loader loading />}>
+          <AuthorityCheck
+            validRoles={route.authoritys}
+            redirectOnNotValidRol={validPaths.dashboard.path}
+          >
             <AppRoute component={route.component} />
-          </DashboardLayout>
-        </AuthorityCheck>
+          </AuthorityCheck>
+        </React.Suspense>
       }
     />
   );

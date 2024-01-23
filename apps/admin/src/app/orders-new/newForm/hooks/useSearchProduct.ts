@@ -52,7 +52,27 @@ export const useSearchProduct = (props: IUsearchProductProps) => {
         const hayProductos = products.length > 0;
         if (hayProductos) setSelected(null);
 
-        if (hayProductos && +values.searchProduct > 0) {
+        if (hayProductos) {
+          if (+termProduct > 0) {
+            const newProducts = req.data.sort((a, b) => {
+              if (a.code === +termProduct) return -1;
+              return 1;
+            });
+
+            setSelected({ value: newProducts[0].id, label: newProducts[0].title });
+            setListProducts(newProducts);
+            /*   const product = products.find((p) => +p.code === +termProduct);
+            if (product) setSelected({ value: product.id, label: product.title });
+            else {
+              setSelected({ value: products[0].id, label: products[0].title });
+            } */
+          }
+          if (+termProduct === 0) {
+            setSelected({ value: products[0].id, label: products[0].title });
+          }
+        }
+
+        /*        if (hayProductos && +values.searchProduct > 0) {
           const product = products.find((p) => +p.code === +values.searchProduct);
           if (product) setSelected({ value: product.id, label: product.title });
           else {
@@ -60,7 +80,7 @@ export const useSearchProduct = (props: IUsearchProductProps) => {
           }
         } else if (hayProductos && !+values.searchProduct) {
           setSelected({ value: products[0].id, label: products[0].title });
-        }
+        } */
         setListProducts(req.data);
       } catch (error) {
         console.log(error);

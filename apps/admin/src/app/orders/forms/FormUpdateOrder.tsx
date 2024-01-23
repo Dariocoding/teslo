@@ -24,7 +24,7 @@ const FormUpdateOrder: React.FunctionComponent<IFormUpdateOrderProps> = (props) 
   const initialValues: OrderDto = {
     reference: order.reference,
     status: order.status,
-    paymentMethod: order.paymentMethod.idpaymentmethod as unknown as string,
+    paymentMethod: order?.paymentMethod?.idpaymentmethod as unknown as string,
   };
 
   const optionsPayment: OptionReactSelect[] = paymentMethods.map((paymentMethod) => ({
@@ -62,14 +62,14 @@ const FormUpdateOrder: React.FunctionComponent<IFormUpdateOrderProps> = (props) 
               <tr>
                 <td>{translate("users.single")}:</td>
                 <td>
-                  <RenderIf isTrue={order.user}>
+                  <RenderIf isTrue={order?.user}>
                     <strong>
-                      {order.user?.firstName} {order.user?.lastName}
+                      {order?.user?.firstName} {order?.user?.lastName}
                     </strong>{" "}
                     <br />
-                    {order.user?.email}
+                    {order?.user?.email}
                   </RenderIf>
-                  <RenderIf isTrue={!order.user}>
+                  <RenderIf isTrue={!order?.user}>
                     <strong>-</strong>
                   </RenderIf>
                 </td>
@@ -81,7 +81,7 @@ const FormUpdateOrder: React.FunctionComponent<IFormUpdateOrderProps> = (props) 
                   <InputFormik
                     className="mb-0"
                     name="reference"
-                    placeholder="Type the reference of the transaction"
+                    placeholder="Escribe la referencia de la transacción"
                   />
                 </td>
               </tr>
@@ -94,7 +94,7 @@ const FormUpdateOrder: React.FunctionComponent<IFormUpdateOrderProps> = (props) 
                     className="my-2"
                     name="status"
                     options={optionsStatus}
-                    disabled={order.status === "cancelled"}
+                    disabled={order?.status === "cancelled"}
                     placeholder="Select status"
                   />
                 </td>
@@ -108,7 +108,7 @@ const FormUpdateOrder: React.FunctionComponent<IFormUpdateOrderProps> = (props) 
                     className="my-2"
                     name="paymentMethod"
                     options={optionsPayment}
-                    disabled={order.status === "cancelled"}
+                    disabled={order?.status === "cancelled"}
                   />
                 </td>
               </tr>

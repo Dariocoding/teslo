@@ -18,6 +18,7 @@ export const useInsertProduct = (tempProduct: Product) => {
     const validate = validateAddProduct();
     if (validate && !values.order) await addProductToBackend();
     if (validate && values.order) addProductToOrder();
+    if (!validate) return;
     onSuccess?.();
   };
 

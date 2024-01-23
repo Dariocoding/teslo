@@ -10,8 +10,7 @@ import { useConfigEnterpriseStore } from "./store";
 import { IntlProvider } from "react-intl";
 import { useI18Store } from "./store/i18Store";
 import { ValidLocales, i18nTranslate } from "./i18n";
-
-const Modal = React.lazy(() => import("@/components/ui/Modal"));
+import Modal from "@/components/ui/Modal";
 
 interface IAppProps {}
 
@@ -49,12 +48,10 @@ const App: React.FunctionComponent<IAppProps> = (props) => {
           configAppService.find(["colors"]),
           configEnterpriseService.find(),
         ]);
-
         setColors(configApp.data.colorsAdmin);
         setConfigEnterprise(configEnterprise.data);
-
-        await initAuthenticate();
       } catch (error) {
+        console.log(error);
       } finally {
         hideLoader();
         setLoading(false);

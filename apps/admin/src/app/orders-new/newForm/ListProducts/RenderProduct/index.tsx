@@ -78,12 +78,22 @@ const RenderProduct: React.FunctionComponent<IRenderProductProps> = (props) => {
 
   return (
     <div className="flex items-center justify-between gap-3 w-full border p-3 border-gray-200 relative">
+      <div>
+        <span className="text-xs"></span>
+      </div>
       <div className="sm:block hidden">
-        <img
-          src={product ? imageProduct(product?.product) : imageProduct(productOrder?.product)}
-          className="sm:w-12 w-8 rounded-lg"
-          alt=""
-        />
+        <div className="flex flex-col">
+          <span className="block mx-auto w-full text-xs mb-2 font-medium">
+            ({product?.product?.code || productOrder?.product?.code})
+          </span>
+          <span>
+            <img
+              src={product ? imageProduct(product?.product) : imageProduct(productOrder?.product)}
+              className="sm:w-12 w-8 rounded-lg"
+              alt=""
+            />
+          </span>
+        </div>
       </div>
       <div>
         <h6 className="text-sm">

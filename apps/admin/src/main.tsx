@@ -9,9 +9,9 @@ import "./styles/table.styles.css";
 import "./styles/_card.css";
 import "unfonts.css";
 import { queryClient } from "./utils";
+import setAxiosBaseURL, { tokenAuth } from "@teslo/services";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { ErrorBoundary } from "react-error-boundary";
-import setAxiosBaseURL, { tokenAuth } from "@teslo/services";
 
 const at = localStorage.getItem("at");
 setAxiosBaseURL("/api");
