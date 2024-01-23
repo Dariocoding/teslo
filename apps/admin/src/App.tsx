@@ -21,6 +21,7 @@ const defaultToastOptions: DefaultToastOptions = {
     background: "#079992",
     color: "#fff",
   },
+
   error: {
     style: {
       background: "#ff0000",
