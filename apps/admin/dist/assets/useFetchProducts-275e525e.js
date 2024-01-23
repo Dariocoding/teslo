@@ -1,1 +1,0 @@
-import{u as r}from"./useQueryState-40058bbe.js";import{f as u}from"./index-3ba1a706.js";async function o(){const{data:t}=await u.productsService.getAllProducts();return t}function e(){return r(["products"],o,[])}export{e as u};

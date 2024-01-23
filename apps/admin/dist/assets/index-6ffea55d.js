@@ -1,1 +1,0 @@
-import{j as o}from"./index-3ba1a706.js";import{l as n}from"./index.esm-431b757e.js";const i=s=>{const{className:t,onClick:r}=s;return o.jsx("span",{onClick:r,className:t,role:"button",children:o.jsx(n,{})})};export{i as C};

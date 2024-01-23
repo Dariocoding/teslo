@@ -16,6 +16,7 @@ import { translate } from "@/i18n";
 import useResponsive from "@/utils/hooks/useResponsive";
 import RenderIf from "@/components/ui/RenderIf";
 import Logo from "../Logo";
+import { validPaths } from "@/utils";
 
 interface IHeaderDashboardProps {}
 
@@ -64,7 +65,7 @@ const HeaderDashboard: React.FC<IHeaderDashboardProps> = (props) => {
             }
           >
             <DropdownItem>
-              <Link to={"/profile"} className="flex flex-row">
+              <Link to={validPaths.profile.path} className="flex flex-row">
                 <span>
                   <HiOutlineUser className="h-auto text-xl avatar avatar-squared avatar-bordered place-content-center rounded-full p-1 border-2" />
                 </span>

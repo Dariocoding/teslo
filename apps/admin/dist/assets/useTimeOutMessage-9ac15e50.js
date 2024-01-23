@@ -1,1 +1,0 @@
-import{r as s}from"./index-3ba1a706.js";function a(r=5e3){const[e,t]=s.useState("");return s.useEffect(()=>{if(e){let u=setTimeout(()=>t(""),r);return()=>{clearTimeout(u)}}},[e]),[e,t]}export{a as u};
