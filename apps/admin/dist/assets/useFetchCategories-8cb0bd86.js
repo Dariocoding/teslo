@@ -1,0 +1,1 @@
+import{u as t}from"./useQueryState-744f060d.js";import{f as r}from"./index-5d060a31.js";async function a(){const{data:e}=await r.categoriesService.getCategories();return e}function i(){return t(["categories"],a,[])}export{i as u};

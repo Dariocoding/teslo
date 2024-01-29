@@ -1,0 +1,1 @@
+import{u as e}from"./useQueryState-744f060d.js";import{f as r}from"./index-5d060a31.js";async function l(t){const{data:i}=await r.billsService.findBill(t.queryKey[1]);return i}function a(t){return e(["bill",t.toString()],l,{})}export{a as u};

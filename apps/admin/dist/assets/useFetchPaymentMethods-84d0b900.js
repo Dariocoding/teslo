@@ -1,1 +1,0 @@
-import{u as e}from"./useQueryState-c63bf4c4.js";import{f as a}from"./index-2a44fdcc.js";async function n(){const{data:t}=await a.paymentMethodService.getAll();return t}function s(){return e(["payment-methods"],n,[])}export{s as u};

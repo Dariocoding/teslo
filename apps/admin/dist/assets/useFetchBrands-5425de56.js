@@ -1,1 +1,0 @@
-import{u as r}from"./useQueryState-c63bf4c4.js";import{f as a}from"./index-2a44fdcc.js";async function e(){const{data:t}=await a.brandsService.getAll();return t}function u(){return r(["brands-all"],e,[])}export{u};

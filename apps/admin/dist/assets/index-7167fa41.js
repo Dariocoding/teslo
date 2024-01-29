@@ -1,0 +1,1 @@
+import{a as n}from"./index-5d060a31.js";import{P as e}from"./index-bb9c84f2.js";function i(r){var o=r.isTrue,a=r.children;return o?n.createElement(n.Fragment,null,a):null}i.propTypes={isTrue:e.any,children:e.oneOfType([e.arrayOf(e.node),e.object,e.node])};i.defaultProps={isTrue:!1,children:[]};export{i as R};

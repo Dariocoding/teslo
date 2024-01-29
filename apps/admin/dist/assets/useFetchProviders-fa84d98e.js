@@ -1,0 +1,1 @@
+import{u as e}from"./useQueryState-744f060d.js";import{f as t}from"./index-5d060a31.js";async function o(){const{data:r}=await t.providersService.getAll();return r}function a(){return e(["providers-all"],o,[])}export{a as u};

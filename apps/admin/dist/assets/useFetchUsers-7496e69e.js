@@ -1,0 +1,1 @@
+import{u as s}from"./useQueryState-744f060d.js";import{f as r}from"./index-5d060a31.js";async function t(){const{data:e}=await r.usersService.getUsers();return e}function n(){return s(["user-all"],t,[])}export{n as u};

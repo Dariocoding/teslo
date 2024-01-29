@@ -1,1 +1,0 @@
-import{j as a,c as e}from"./index-2a44fdcc.js";const l=Array(5).fill(""),n=r=>{const{classNameEachRow:c,className:m}=r;return a.jsx("div",{className:e("animate-pulse",m),children:l.map((o,s)=>a.jsx("div",{className:e(s!==l.length&&"mb-4",c||"h-4 bg-gray-200 rounded")},s))})};export{n as T};
