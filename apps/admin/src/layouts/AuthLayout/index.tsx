@@ -32,7 +32,12 @@ const AuthLayout: React.FunctionComponent<IAuthLayoutProps> = (props) => {
           >
             <RenderIf isTrue={showLogo}>
               <div className="text-center">
-                <Logo type="streamline" imgClass="mx-auto mb-1" />
+                <Logo
+                  type="full"
+                  mode={colors.isThemed ? (colors.isThemeDarkLogin ? "dark" : "light") : "light"}
+                  imgClass="mx-auto mb-1"
+                  logoHeight={"34px"}
+                />
               </div>
             </RenderIf>
             <div>{props.children}</div>
